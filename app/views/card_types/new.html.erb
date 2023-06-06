@@ -1,0 +1,25 @@
+<h1>Novo tipo de cartão</h1>
+<% if @card_type.errors.present? %>
+  <p><%= @card_type.errors.full_messages %></p>
+<% end %>
+
+<%= form_with model: @card_type do |f| %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :icon %>
+    <%= f.text_field :icon %>
+  </div>
+
+  <div>
+    <%= f.label :start_points %>
+    <%= f.number_field :start_points %>
+  </div>
+
+  <%= f.submit 'Criar' %>
+
+<% end %>

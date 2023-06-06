@@ -1,0 +1,8 @@
+<section>
+  <h1>Cartão <%= @card_type.name %></h1>
+  <%= image_tag @card_type.icon, alt: "Ícone cartão #{@card_type.name}"%>
+  <div>
+    <span>Pontos iniciais:</span>
+    <span><%= @card_type.start_points %></span>
+  </div>
+</section>
