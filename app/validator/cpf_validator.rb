@@ -30,7 +30,7 @@ class CpfValidator < ActiveModel::EachValidator
 
   def cpf_valid?(value)
     return false if DENY_LIST.include?(value)
-
+    
     valid = []
     cpf = value.delete('.-')
     cpf_splitted = value.split('')
