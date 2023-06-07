@@ -11,11 +11,20 @@
   </head>
 
   <body>
-    <nav>
-      <%= link_to 'Novo tipo de cartão', new_card_type_path %>
-    </nav>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <header>
+      <nav class='nav'>
+        <%= link_to 'Tipos de cartão', card_types_path, :class => 'nav-link active' %>
+        <%= link_to 'Novo tipo de cartão', new_card_type_path, :class => 'nav-link active' %>
+      </nav>
+    <main>
+      <% if notice%>
+        <p class="alert alert-primary w-75 mx-auto"><%= notice %></p>
+      <%end%> 
+      <% if alert %>
+        <p class="alert alert-warning w-75 mx-auto"><%= alert %></p>
+      <% end %>
+    </header>
+      <%= yield %>
+    </main>
   </body>
 </html>

@@ -1,8 +1,10 @@
-<section>
-  <h1>Cartão <%= @card_type.name %></h1>
-  <%= image_tag @card_type.icon, alt: "Ícone cartão #{@card_type.name}"%>
-  <div>
-    <span>Pontos iniciais:</span>
-    <span><%= @card_type.start_points %></span>
+<section class='card w-25 mx-auto'>
+  <h1 class='card-header'>Cartão <%= @card_type.name %></h1>
+  <%= image_tag @card_type.icon, alt: "Ícone cartão #{@card_type.name}", :class => 'card-img-top px-5'%>
+  <div class='card-body'>
+    <span class='card-text'>Pontos iniciais: <%= @card_type.start_points %></span>
+  </div>
+  <div class='card-footer'>
+    <%=link_to 'Editar', edit_card_type_path(@card_type), :class => 'btn btn-secondary'%>
   </div>
 </section>
