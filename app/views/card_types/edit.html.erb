@@ -1,12 +1,5 @@
 <section id='card-type-form'>
   <h1>Editar tipo de cartão</h1>
-  <% if @card_type.errors.present? %>
-      <h4>Verifique os erros abaixo:</h4>
-      <div class='errors-div'>
-      <% @card_type.errors.full_messages.each do |message| %>
-          <span><%= message %></span>
-      <% end %>
-      </div>
-  <% end %>
+  <%= render 'errors_full_messages', locals: {card_type: @card_type} %>
   <%= render 'form'%>
 </section>
