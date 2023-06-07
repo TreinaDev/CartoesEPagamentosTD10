@@ -4,7 +4,7 @@ describe 'Usuário tenta editar um tipo de cartão' do
   it 'com sucesso' do
     card = FactoryBot.create(:card_type, name: 'Cartão Premium')
     visit root_path
-    
+
     click_on 'Tipos de cartão'
     click_on 'Cartão Premium'
     click_on 'Editar'
@@ -15,9 +15,9 @@ describe 'Usuário tenta editar um tipo de cartão' do
   end
 
   it 'e falha pois todos os campos não foram preenchidos' do
-    card = FactoryBot.create(:card_type, name: 'Cartão Premium')
+    FactoryBot.create(:card_type, name: 'Cartão Premium')
     visit root_path
-    
+
     click_on 'Tipos de cartão'
     click_on 'Cartão Premium'
     click_on 'Editar'

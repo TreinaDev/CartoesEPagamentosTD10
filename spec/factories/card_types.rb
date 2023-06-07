@@ -3,6 +3,6 @@ FactoryBot.define do
     name { 'Premium' }
     icon { 'https://i.imgur.com/YmQ9jRN.png' }
     start_points { 100 }
-    emission {true}
+    emission { true }
   end
 end
