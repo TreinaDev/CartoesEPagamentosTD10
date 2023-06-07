@@ -9,5 +9,4 @@ class CardType < ApplicationRecord
   def self.disabled
     CardType.where(emission: false)
   end
-
 end

@@ -37,18 +37,17 @@ class CardTypesController < ApplicationController
     @card_type = CardType.find(params[:id])
     @card_type.emission = false
     @card_type.save!
-    
-    return redirect_to @card_type, notice: 'Emissão do cartão desabilitada com sucesso'
+
+    redirect_to @card_type, notice: I18n.t('notices.card_type_disabled')
   end
 
   def enable
     @card_type = CardType.find(params[:id])
     @card_type.emission = true
     @card_type.save!
-    
-    return redirect_to @card_type, notice: 'Emissão do cartão habilitada com sucesso'
-  end
 
+    redirect_to @card_type, notice: I18n.t('notices.card_type_enabled')
+  end
 
   private
 

@@ -7,7 +7,7 @@ describe 'Usuário tenta ver os tipos de cartão' do
 
     visit root_path
     click_on 'Tipos de cartão'
-    
+
     within 'div#emission-enabled-card-types' do
       expect(page).to have_content('Black')
       expect(page).to have_css("img[src*='black.svg']")

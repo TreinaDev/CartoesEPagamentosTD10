@@ -11,11 +11,9 @@ describe 'Usuário tenta mudar status do cartão' do
 
     expect(page).to have_button 'Desabilitar emissão'
     expect(page).not_to have_button 'Hablitar emissão'
-
   end
 
   it 'e desabilita com sucesso' do
-
     FactoryBot.create(:card_type, emission: true, name: 'Platinum')
 
     visit root_path
@@ -25,6 +23,5 @@ describe 'Usuário tenta mudar status do cartão' do
 
     expect(page).to have_button 'Habilitar emissão'
     expect(page).not_to have_button 'Desabilitar emissão'
-
   end
 end
