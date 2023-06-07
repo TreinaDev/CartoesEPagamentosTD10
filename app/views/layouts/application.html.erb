@@ -11,6 +11,16 @@
   </head>
 
   <body>
+    <header>
+    
+    </header>
+    <nav class="admin">
+    <% if admin_signed_in? %>
+      <%= current_admin.email  %>
+      <%= button_to 'Sair', destroy_admin_session_path, method: :delete, class: "sair" %>
+    <% else %>
+      <%= link_to 'Entrar', admin_session_path %>  
+    <% end %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>

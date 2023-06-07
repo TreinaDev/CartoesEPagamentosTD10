@@ -1,0 +1,20 @@
+pt:
+  activerecord:
+    models:
+      admin: 'Administrador'
+    attributes:
+      admin:
+        name: 'Nome'
+        email: 'E-mail'
+        password: 'Senha'
+        cpf: 'CPF'
+        password_confirmation: 'Confirmação de senha'
+  errors:
+        models:
+          admin:
+            attributes:
+              cpf:
+                taken: 'CPF já está em uso'
+                format: 'CPF precisa ter 11 dígitos'
+              email:
+                format: 'E-mail precisa pertencer ao domínio @punti.com'
