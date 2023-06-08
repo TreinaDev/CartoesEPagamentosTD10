@@ -1,0 +1,16 @@
+<h1><%= t('.provide_card_types') %></h1>
+
+<section>
+  <% if @companies.present? %>
+    <% @companies.each do |company| %>
+      <%= link_to company_path(company.id), id: company.id, class: 'company-card' do %>
+        <div>
+          <span><%= company.brand_name %></span>
+          <span><%= t('.registration_number') %>: <%= company.registration_number %></span>
+        </div>
+      <% end %>
+    <% end %> 
+  <% else %>
+      <p><%= t('.not_found_message') %></p>
+  <% end %>
+</section>

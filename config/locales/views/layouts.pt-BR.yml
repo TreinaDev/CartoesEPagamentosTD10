@@ -1,0 +1,4 @@
+pt-BR:
+  layouts:
+    application:
+      provide_card_types: 'Disponibilizar Tipos de Cartões'
