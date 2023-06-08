@@ -1,0 +1,9 @@
+<section>
+    <%if @card_types.empty?%>
+        <span>Nenhum tipo de cartão criado</span>
+    <%else%>
+        <%@card_types.each do |type|%>
+            <%= link_to type.name, type%>
+        <%end%>
+    <%end%>
+</section>

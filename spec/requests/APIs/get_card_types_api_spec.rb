@@ -28,7 +28,7 @@ describe 'API do tipo de cartão' do
 
     it 'com sucesso' do
       card_type = CardType.create!(name: 'Black', icon: 'icone', start_points: 210)
-      other_card_type = CardType.create!(name: 'Premium', icon: 'icone', start_points: 170)
+      other_card_type = CardType.create!(name: 'Premium', icon: 'icone3', start_points: 170)
       card_type2 = CardType.create!(name: 'Starter', icon: 'icone2', start_points: 150)
       company_card_type = CompanyCardType.create!(
         status: :active,

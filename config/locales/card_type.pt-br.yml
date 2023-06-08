@@ -1,0 +1,9 @@
+pt-BR:
+  activerecord:
+    models:
+      card_type: Tipo de cartão
+    attributes:
+        card_type:
+          name: Nome
+          icon: Ícone
+          start_points: Pontos iniciais

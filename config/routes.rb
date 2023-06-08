@@ -7,4 +7,5 @@ Rails.application.routes.draw do
       resources :company_card_types, only: [:index]
     end
   end
+  resources :card_types, only: [:index, :new, :create, :show, :edit, :update]
 end
