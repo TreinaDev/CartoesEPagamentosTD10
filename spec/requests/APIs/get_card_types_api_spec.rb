@@ -68,7 +68,7 @@ describe 'API do tipo de cartão' do
       expect(json_response[0]['conversion_tax']).to eq 20.00
       expect(json_response[1]['name']).to eq 'Starter'
       expect(json_response[1]['icon']).to eq 'icone2'
-      expect(json_response[1]['id']).to eq 3
+      expect(json_response[1]['id']).to eq 4
       expect(json_response[1]['start_points']).to eq 150
       expect(json_response[1]['conversion_tax']).to eq 12.00
     end
