@@ -9,12 +9,12 @@ pt:
         password: 'Senha'
         cpf: 'CPF'
         password_confirmation: 'Confirmação de senha'
-  errors:
-        models:
-          admin:
-            attributes:
-              cpf:
-                taken: 'CPF já está em uso'
-                format: 'CPF precisa ter 11 dígitos'
-              email:
-                format: 'E-mail precisa pertencer ao domínio @punti.com'
+    errors:
+      models:
+        admin:
+          attributes:
+            cpf:
+              cpf_invalid: 'CPF inválido'
+              cpf_minimum_character: 'precisa ter 11 dígitos'
+              email_domain: 'precisa pertencer ao domínio @punti.com'
+

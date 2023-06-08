@@ -30,37 +30,24 @@ class CpfValidator < ActiveModel::EachValidator
 
   def cpf_valid?(value)
     return false if DENY_LIST.include?(value)
-    
+
     valid = []
-    cpf = value.delete('.-')
-    cpf_splitted = value.split('')
+    value.delete('.-')
+    cpf_splitted = value.chars
     valid << validation_first_number(cpf_splitted)
     valid << validation_second_number(cpf_splitted)
-    validation = valid.count(true) == 2
+    valid.count(true) == 2
   end
 
   def validation_first_number(cpf_splitted)
-    validation_first_number = 2.upto(10).to_a.reverse
-    sum = 0
-    i = 0
-    while i <= (cpf_splitted.size - 3)
-      sum += cpf_splitted[i].to_i * validation_first_number[i]
-      i += 1
-    end
-    validation = sum % 11
-    valid = 11 - validation
-    verification = valid > 9 ? 0 : valid
+    sum = cpf_splitted[0..8].each_with_index.sum { |digit, i| digit.to_i * (10 - i) }
+    verification = (11 - (sum % 11)) % 10
     verification == cpf_splitted[9].to_i
   end
 
   def validation_second_number(cpf_splitted)
     validation_second_number = 2.upto(11).to_a.reverse
-    sum = 0
-    i = 0
-    while i <= validation_second_number.size - 1
-      sum += cpf_splitted[i].to_i * validation_second_number[i]
-      i += 1
-    end
+    sum = validation_second_number.each_with_index.sum { |num, i| cpf_splitted[i].to_i * num }
     validation = sum % 11
     valid = 11 - validation
     verification = valid > 9 ? 0 : valid

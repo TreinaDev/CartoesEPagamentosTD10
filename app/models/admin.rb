@@ -5,9 +5,14 @@ class Admin < ApplicationRecord
          :recoverable, :rememberable, :validatable
   validates :name, presence: true
   validates :name, length: { minimum: 10 }
-  validates :cpf, cpf: { message: 'CPF inválido' }
+  validates :cpf, cpf: { message: I18n.t('activerecord.errors.models.admin.attributes.cpf.cpf_invalid') }
   validates :cpf, presence: true
-  validates :cpf, uniqueness: true
-  validates :cpf, format: { with: /[0-9]{11}/, message: 'precisa ter 11 dígitos' }
-  validates :email, format: { with: /[\w+.]+@punti.com\z/, message: 'precisa pertencer ao domínio @punti.com' }
+  validates :cpf, format: {
+    with: /[0-9]{11}/,
+    message: I18n.t('activerecord.errors.models.admin.attributes.cpf.cpf_minimum_character')
+  }
+  validates :email, format: {
+    with: /[\w+.]+@punti.com\z/,
+    message: I18n.t('activerecord.errors.models.admin.attributes.cpf.email_domain')
+  }
 end
