@@ -6,7 +6,7 @@ class Admin < ApplicationRecord
   validates :name, presence: true
   validates :name, length: { minimum: 10 }
   validates :cpf, cpf: { message: I18n.t('activerecord.errors.models.admin.attributes.cpf.cpf_invalid') }
-  validates :cpf, presence: true
+  validates :cpf, presence: true, uniqueness: true
   validates :cpf, format: {
     with: /[0-9]{11}/,
     message: I18n.t('activerecord.errors.models.admin.attributes.cpf.cpf_minimum_character')

@@ -1,4 +1,4 @@
-pt:
+pt-BR:
   activerecord:
     models:
       admin: 'Administrador'
@@ -14,7 +14,7 @@ pt:
         admin:
           attributes:
             cpf:
-              cpf_invalid: 'CPF inválido'
+              cpf_invalid: 'inválido'
               cpf_minimum_character: 'precisa ter 11 dígitos'
               email_domain: 'precisa pertencer ao domínio @punti.com'
 
