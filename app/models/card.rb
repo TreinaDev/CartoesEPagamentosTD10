@@ -4,8 +4,8 @@ class Card < ApplicationRecord
   attribute :status, default: :active
   validates :cpf, :number, :points, presence: true
 
-  before_validation :generate_number
-  before_validation :set_initial_points
+  before_validation :generate_number, on: :create
+  before_validation :set_initial_points, on: :create
 
   private
 

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :company_card_types, only: [:index]
-      resources :cards, only: [:create]
+      resources :cards, only: [:create, :destroy]
     end
   end
   resources :card_types, only: [:index, :new, :create, :show, :edit, :update]

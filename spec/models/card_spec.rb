@@ -41,6 +41,16 @@ RSpec.describe Card, type: :model do
 
       expect(second_card.number).not_to eq first_card.number
     end
+
+    it 'e não deve ser modificado' do
+      company_card_type = FactoryBot.create(:company_card_type)
+      card = Card.create!(cpf: '78956470081', company_card_type:)
+      original_number = card.number
+
+      card.update!(status: :inactive)
+
+      expect(card.number).to eq original_number
+    end
   end
 
   describe 'gera a quantidade de pontos iniciais' do
