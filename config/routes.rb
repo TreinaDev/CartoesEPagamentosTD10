@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :companies, only: [:show, :index]
-  resources :card_types, only: [:index, :new, :create, :show, :edit, :update]
   resources :company_card_types, only: [:create, :update]
+  resources :card_types, only: [:index, :new, :create, :show, :edit, :update] do
+    patch 'enable', on: :member
+    patch 'disable', on: :member
+  end
 end
