@@ -8,5 +8,8 @@ Rails.application.routes.draw do
       resources :cards, only: [:create, :destroy]
     end
   end
-  resources :card_types, only: [:index, :new, :create, :show, :edit, :update]
+  resources :card_types, only: [:index, :new, :create, :show, :edit, :update] do
+    patch 'enable', on: :member
+    patch 'disable', on: :member
+  end
 end

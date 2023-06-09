@@ -1,11 +1,16 @@
-#errors-div {
+.errors-div {
     display: flex;
     flex-direction: column;
     text-align: center;
 }
 
-#card-type-form {
+.card-type-form {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.card-footer{
+    display: flex;
+    gap: 1em;
 }

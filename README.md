@@ -1,24 +1,24 @@
-# README
+# Gestão de Cartões e Pagamentos
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Sumário
+* [Funcionalidades](#funcionalidades)
+* [Configurações](#configurações)
 
-Things you may want to cover:
+## Funcionalidades
+### Controle de Usuários
+### Gestão de Tipos de Cartão
+### Emissão de cartões
+### Controle de pontos
+### Pagamentos
+### Cashback
 
-* Ruby version
 
-* System dependencies
+## Configurações
+### Como Rodar a Aplicação
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Para os ícones do tipo de cartão use as urls aboixo como exemplo
+    ```
+     https://raw.githubusercontent.com/GA9BR1/card_type_images/main/black.svg
+     https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg
+     https://raw.githubusercontent.com/GA9BR1/card_type_images/main/platinum.svg   
+    ```
