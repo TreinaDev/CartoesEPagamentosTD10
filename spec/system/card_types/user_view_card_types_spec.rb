@@ -17,4 +17,16 @@ describe 'Usuário tenta ver os tipos de cartão' do
       expect(page).to have_css("img[src*='platinum.svg']")
     end
   end
+
+  it 'e não existe nenhum tipo cadastrado' do
+    visit root_path
+    click_on 'Tipos de cartão'
+
+    within 'div#emission-enabled-card-types' do
+      expect(page).to have_content('Nenhum tipo de cartão com emissão habilitada')
+    end
+    within 'div#emission-disabled-card-types' do
+      expect(page).to have_content('Nenhum tipo de cartão com emissão desabilitada')
+    end
+  end
 end
