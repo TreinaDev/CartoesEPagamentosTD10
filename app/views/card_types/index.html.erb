@@ -1,0 +1,29 @@
+<section class='d-md-flex p-2'>
+    <div id='emission-enabled-card-types' class='container'>
+        <h4>Tipos habilitados para emissão:</h4>
+        <% if @cards_emission_enabled.empty? %>
+            <span>Nenhum tipo de cartão com emissão habilitada</span>
+        <% else %>
+            <%@cards_emission_enabled.each do |type|%>
+                <div class='row align-items-center my-2'>
+                    <%= link_to type.name, type, :class => 'col'%>
+                    <%= image_tag type.icon, alt: "Ícone cartão #{type.name}", :class => 'col', width: 25, height: 25%>
+                </div>
+             <%end%>
+         <% end %>
+  </div>
+
+  <div id='emission-disabled-card-types' class='container'>
+        <h4>Tipos desabilitados para emissão:</h4>
+        <% if @cards_emission_disabled.empty? %>
+            <span>Nenhum tipo de cartão com emissão desabilitada</span>
+        <% else %>
+            <%@cards_emission_disabled.each do |type|%>
+                <div class='row align-items-center'>
+                    <%= link_to type.name, type , :class => 'col'%>
+                    <%= image_tag type.icon, alt: "Ícone cartão #{type.name}", :class => 'col', width: 25, height: 25%>
+                </div>
+            <%end%>
+        <% end %>
+    </div>
+</section>

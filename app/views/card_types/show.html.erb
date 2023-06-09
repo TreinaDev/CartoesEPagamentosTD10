@@ -1,0 +1,15 @@
+<section class='card w-25 mx-auto'>
+  <h1 class='card-header'>Cartão <%= @card_type.name %></h1>
+  <%= image_tag @card_type.icon, alt: "Ícone cartão #{@card_type.name}", :class => 'card-img-top p-3'%>
+  <div class='card-body'>
+    <span class='card-text'>Pontos iniciais: <%= @card_type.start_points %></span>
+  </div>
+  <div class='card-footer'>
+    <%=link_to 'Editar', edit_card_type_path(@card_type), :class => 'btn btn-secondary'%>
+    <% if @card_type.emission %>
+      <%= button_to 'Desabilitar emissão', disable_card_type_path(@card_type), :class => 'btn btn-danger', method: :patch %>
+    <% else %>
+      <%= button_to 'Habilitar emissão', enable_card_type_path(@card_type), :class => 'btn btn-success', method: :patch %>
+    <% end %>
+  </div>
+</section>
