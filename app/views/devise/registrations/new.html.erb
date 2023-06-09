@@ -4,22 +4,22 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.label :name, 'Nome Completo' %><br />
+    <%= f.label :name %><br />
     <%= f.text_field :name, autofocus: true, placeholder: 'Digite seu nome completo' %>
   </div>
 
     <div class="field">
     <%= f.label :cpf, 'CPF' %><br />
-    <%= f.text_field :cpf, autofocus: true, placeholder: 'Digite seu cpf' %>
+    <%= f.text_field :cpf, autofocus: true, placeholder: 'Digite seu cpf. Apenas números.' %>
   </div>
 
   <div class="field">
-    <%= f.label :email, 'E-mail' %><br />
+    <%= f.label :email%><br />
     <%= f.email_field :email, autofocus: true, autocomplete: 'email', placeholder: 'Digite um email' %>
   </div>
 
   <div class="field">
-    <%= f.label :password, 'Senha' %>
+    <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>: mínimo de (<%= @minimum_password_length %>) caracteres</em>
     <% end %><br />
@@ -27,7 +27,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation, 'Confirmação de senha' %><br />
+    <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: 'Confirme a senha' %>
   </div>
 

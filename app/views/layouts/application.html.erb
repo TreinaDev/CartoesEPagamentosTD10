@@ -16,7 +16,7 @@
     </header>
     <nav class="admin">
     <% if admin_signed_in? %>
-      <%= current_admin.email  %>
+      <%= current_admin.name %>
       <%= button_to 'Sair', destroy_admin_session_path, method: :delete, class: "sair" %>
     <% else %>
       <%= link_to 'Entrar', admin_session_path %>  
