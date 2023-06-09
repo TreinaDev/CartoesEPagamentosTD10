@@ -18,6 +18,16 @@ RSpec.describe Card, type: :model do
 
       expect(result).to eq false
     end
+
+    it 'falso quando já existe um cartão atico com mesmo CPF' do
+      company_card_type = FactoryBot.create(:company_card_type)
+      Card.create!(cpf: '78956470081', company_card_type:)
+      card = Card.new(cpf: '78956470081', company_card_type:)
+
+      result = card.valid?
+
+      expect(result).to eq false
+    end
   end
 
   describe 'gera um número aleatório' do

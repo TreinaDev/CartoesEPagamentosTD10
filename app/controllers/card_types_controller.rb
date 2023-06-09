@@ -1,6 +1,8 @@
 class CardTypesController < ApplicationController
   def index
     @card_types = CardType.all
+    @cards_emission_enabled = CardType.enabled
+    @cards_emission_disabled = CardType.disabled
   end
 
   def show
@@ -29,6 +31,22 @@ class CardTypesController < ApplicationController
 
     flash.now.alert = 'Não foi possível salvar as alterações'
     render :edit, status: :unprocessable_entity
+  end
+
+  def disable
+    @card_type = CardType.find(params[:id])
+    @card_type.emission = false
+    @card_type.save!
+
+    redirect_to @card_type, notice: I18n.t('notices.card_type_disabled')
+  end
+
+  def enable
+    @card_type = CardType.find(params[:id])
+    @card_type.emission = true
+    @card_type.save!
+
+    redirect_to @card_type, notice: I18n.t('notices.card_type_enabled')
   end
 
   private

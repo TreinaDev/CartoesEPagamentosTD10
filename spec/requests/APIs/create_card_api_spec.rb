@@ -22,6 +22,19 @@ describe 'API para emissão de cartão' do
       expect(response.status).to eq 500
     end
 
+    it 'falha caso o CPF já possua um cartão ativo' do
+      FactoryBot.create(:company_card_type)
+
+      Card.create!(cpf: '67855872043', company_card_type_id: 1)
+
+      card = { card: { cpf: '67855872043', company_card_type_id: 1 } }
+
+      post '/api/v1/cards', params: card
+
+      expect(response.status).to eq 412
+      expect(response.body).to include 'CPF já possui um cartão ativo.'
+    end
+
     it 'com sucesso' do
       FactoryBot.create(:company_card_type)
 
