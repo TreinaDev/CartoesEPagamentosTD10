@@ -14,9 +14,10 @@
 
     <header>
       <nav class='nav'>
-        <%= link_to 'Tipos de cartão', card_types_path, :class => 'nav-link active' %>
-        <%= link_to 'Novo tipo de cartão', new_card_type_path, :class => 'nav-link active' %>
-        <%= link_to t('.provide_card_types'), companies_path %>
+        <%= link_to t('.home'), root_path, class: 'nav-link active' %>
+        <%= link_to t('.card_types'), card_types_path, class: 'nav-link active' %>
+        <%= link_to t('.new_card_types'), new_card_type_path, class: 'nav-link active' %>
+        <%= link_to t('.provide_card_types'), companies_path, class: 'nav-link active' %>
       </nav>
     <main>
       <% if notice %>

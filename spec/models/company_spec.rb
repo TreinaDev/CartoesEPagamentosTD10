@@ -26,4 +26,18 @@ describe Company do
       expect(result).to be_empty
     end
   end
+
+  context '.find' do
+    it 'Deve retornar uma empresa' do
+      json_data = Rails.root.join('spec/support/json/company.json').read
+      fake_response = double('faraday_response', status: 200, body: json_data)
+      allow(Faraday).to receive(:get).with('link_da_outra_aplicação').and_return(fake_response)
+      data = fake_response.body
+      
+      result = Company.find(data['id'])
+
+      expect(result.brand_name).to eq 'Samsung'
+      expect(result.registration_number).to eq '71.223.406/0001-81'
+    end
+  end
 end

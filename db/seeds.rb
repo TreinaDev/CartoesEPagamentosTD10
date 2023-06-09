@@ -1,7 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+CardType.create!(name: 'Gold', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg', start_points: 100)
+CardType.create!(name: 'Platinum', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/platinum.svg', start_points: 200)
+CardType.create!(name: 'Black', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/black.svg', start_points: 300)

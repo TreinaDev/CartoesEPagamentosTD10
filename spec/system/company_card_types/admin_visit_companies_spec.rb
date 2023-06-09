@@ -11,7 +11,7 @@ describe 'Admin visita tela de empresas' do
     allow(Company).to receive(:all).and_return(companies)
 
     visit root_path
-    click_on 'Disponibilizar Tipos de Cartões'
+    click_on 'Disponibilizar tipos de cartões'
 
     expect(page).to have_content 'Disponibilizar tipos de cartões'
     within('a#1.company-card') do
@@ -29,7 +29,7 @@ describe 'Admin visita tela de empresas' do
     allow(Company).to receive(:all).and_return(companies)
 
     visit root_path
-    click_on 'Disponibilizar Tipos de Cartões'
+    click_on 'Disponibilizar tipos de cartões'
 
     expect(page).to have_content 'Disponibilizar tipos de cartões'
     expect(page).to have_content 'Não existem empresas disponíveis'

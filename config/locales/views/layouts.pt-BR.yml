@@ -1,4 +1,7 @@
 pt-BR:
   layouts:
     application:
-      provide_card_types: 'Disponibilizar Tipos de Cartões'
+      provide_card_types: 'Disponibilizar tipos de cartões'
+      home: 'Início'
+      card_types: 'Tipos de cartão'
+      new_card_types: 'Novo tipo de cartão'

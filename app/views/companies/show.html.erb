@@ -1,0 +1,24 @@
+<h1><%= @company.brand_name %></h1>
+<h2><%= t('.registration_number') %>: <%= @company.registration_number %></h2>
+
+
+<section>
+  <% @card_types.each.with_index do |card_type, index| %>
+    <div>
+      <%= image_tag card_type.icon, alt: "Ícone cartão #{card_type.name}", class: 'card-img-top px-5', size: '100x100' %>
+      <span><%= card_type.name %></span>
+    </div>
+
+    <% if @company_card_types[index].blank? || @company_card_types[index].unavailable? %>
+      <%= button_to 'Disponibilizar', company_card_types_path,
+          id: dom_id(card_type),
+          params: { company_id: @company.id, card_type_id: card_type.id,
+                    company_registration_number: @company.registration_number } %>
+    <% else %>
+        <%= button_to 'Indisponibilizar', company_card_type_path, method: :patch,
+          id: dom_id(card_type),
+          params: { company_id: @company.id, card_type_id: card_type.id,
+                    company_registration_number: @company.registration_number } %>
+    <% end %>
+  <% end %>
+</section>
