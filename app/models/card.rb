@@ -3,7 +3,7 @@ class Card < ApplicationRecord
   enum status: { active: 0, inactive: 5 }
   attribute :status, default: :active
   validates :cpf, :number, :points, presence: true
-  validate :unique_cpf_active_card
+  validate :unique_cpf_active_card, on: :create
 
   before_validation :generate_number, on: :create
   before_validation :set_initial_points, on: :create
