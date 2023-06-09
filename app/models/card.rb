@@ -4,11 +4,19 @@ class Card < ApplicationRecord
   attribute :status, default: :active
   validates :cpf, :number, :points, presence: true
   validate :unique_cpf_active_card, on: :create
+  validate :valid_available_card_type, on: :create
 
   before_validation :generate_number, on: :create
   before_validation :set_initial_points, on: :create
 
   private
+
+  def valid_available_card_type
+    return unless company_card_type_id
+
+    company_card_type = CompanyCardType.find(company_card_type_id)
+    errors.add(:company_card_type, 'não está disponível.') unless company_card_type.status == 'active'
+  end
 
   def unique_cpf_active_card
     cards = Card.where(cpf:)

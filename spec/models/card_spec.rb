@@ -19,9 +19,18 @@ RSpec.describe Card, type: :model do
       expect(result).to eq false
     end
 
-    it 'falso quando já existe um cartão atico com mesmo CPF' do
+    it 'falso quando já existe um cartão ativo com mesmo CPF' do
       company_card_type = FactoryBot.create(:company_card_type)
       Card.create!(cpf: '78956470081', company_card_type:)
+      card = Card.new(cpf: '78956470081', company_card_type:)
+
+      result = card.valid?
+
+      expect(result).to eq false
+    end
+
+    it 'falso quando o tipo de cartão não está disponível' do
+      company_card_type = FactoryBot.create(:company_card_type, status: :pending)
       card = Card.new(cpf: '78956470081', company_card_type:)
 
       result = card.valid?
