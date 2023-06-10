@@ -1,5 +1,5 @@
 pt-BR:
   activerecord:
     attributes:
-        company_card_type:
-          card_type: Tipo de cartão
+      company_card_type:
+        card_type: Tipo de cartão

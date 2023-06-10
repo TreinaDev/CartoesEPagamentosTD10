@@ -9,28 +9,26 @@ class Company
 
   def self.all
     companies = []
-    # response = Faraday.get('link_da_outra_aplicação')
+    response = Faraday.get('link_da_outra_aplicacao')
 
-    # if response.status == 200
-      # data = JSON.parse(response.body)
-      data = JSON.parse(Rails.root.join('spec/support/json/companies.json').read)
+    if response.status == 200
+      data = JSON.parse(response.body)
       data.each do |d|
         companies << Company.new(id: d['id'], brand_name: d['brand_name'],
                                  registration_number: d['registration_number'])
       end
-    # end
-    #TODO Pedir API para o time de empresas
+    end
+    # TODO: Pedir API para o time de empresas
     companies
   end
 
   def self.find(id)
-    # response = Faraday.get('link_da_outra_aplicação')
+    response = Faraday.get("link_da_outra_aplicacao/#{id}")
 
-    # if response.status == 200
-      # data = JSON.parse(response.body)
-      data = JSON.parse(Rails.root.join('spec/support/json/company.json').read)
-      Company.new(id: data['id'], brand_name: data['brand_name'],
-                  registration_number: data['registration_number'])
-    # end
+    return unless response.status == 200
+
+    data = JSON.parse(response.body)
+    Company.new(id: data['id'], brand_name: data['brand_name'],
+                registration_number: data['registration_number'])
   end
 end

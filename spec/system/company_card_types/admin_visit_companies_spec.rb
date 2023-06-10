@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe 'Admin visita tela de empresas' do
-  include ActionView::RecordIdentifier
-
   it 'e vê todas as empresas' do
     companies = []
     companies << Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')

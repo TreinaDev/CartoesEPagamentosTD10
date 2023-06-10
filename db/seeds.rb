@@ -1,3 +1,6 @@
-CardType.create!(name: 'Gold', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg', start_points: 100)
-CardType.create!(name: 'Platinum', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/platinum.svg', start_points: 200)
-CardType.create!(name: 'Black', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/black.svg', start_points: 300)
+CardType.create!(name: 'Gold', start_points: 100,
+                 icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg')
+CardType.create!(name: 'Platinum', start_points: 200,
+                 icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/platinum.svg')
+CardType.create!(name: 'Black', start_points: 300,
+                 icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/black.svg')
