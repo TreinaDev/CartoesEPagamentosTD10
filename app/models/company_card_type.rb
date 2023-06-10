@@ -4,5 +4,5 @@ class CompanyCardType < ApplicationRecord
   validates :cnpj, :status, presence: true
   validates :card_type, uniqueness: { scope: :cnpj }
 
-  enum status: { available: 1, unavailable: 3 }
+  enum status: { active: 1, inactive: 3 }
 end

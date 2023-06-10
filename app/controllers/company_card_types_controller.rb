@@ -12,13 +12,13 @@ class CompanyCardTypesController < ApplicationController
   end
 
   def enable
-    @company_card_type.available!
+    @company_card_type.active!
 
     redirect_to company_path(params[:company_id]), notice: I18n.t('.notices.company_card_type_enabled')
   end
 
   def disable
-    @company_card_type.unavailable!
+    @company_card_type.inactive!
 
     redirect_to company_path(params[:company_id]), notice: I18n.t('.notices.company_card_type_disabled')
   end

@@ -6,3 +6,6 @@ pt-BR:
       not_found_message: 'Não existem empresas disponíveis'
     show:
       registration_number: 'CNPJ'
+      link_card_type: 'Vincular a empresa'
+      activate_card_type: 'Ativar disponibilidade'
+      inactivate_card_type: 'Desativar disponibilidade'
