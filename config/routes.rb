@@ -11,4 +11,5 @@ Rails.application.routes.draw do
     patch 'enable', on: :member
     patch 'disable', on: :member
   end
+  resources :cards, only: %i[index show]
 end
