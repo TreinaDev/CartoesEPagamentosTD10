@@ -1,6 +1,6 @@
 <h2>Todos os cartões</h2>
 
 <% @cards.each do |card| %>
-  <strong>Número do cartão: </strong><%= card.number %>
+  <%= t('activerecord.attributes.card.number') %>: <%= card.number %>
   <%= link_to 'Ver Datalhes', card_path(card.id) %>
 <% end %>

@@ -1,16 +1,16 @@
 <h2>Detalhes do Cartão</h2>
 <div>
-<strong>Número do cartão:</strong> <%= @card.number %>
+<%= t('activerecord.attributes.card.number') %>: <%= @card.number %>
 </div>
 <div>
-<strong>CPF:</strong> <%= @card.cpf %>
+<%= t('activerecord.attributes.card.cpf') %>: <%= @card.cpf %>
 </div>
 <div>
-<strong>Pontos:</strong > <%= @card.points %>
+<%= t('activerecord.attributes.card.points') %>: <%= @card.points %>
 </div>
 <div>
-<strong>Status:</strong> <%= @card.status %>
+<%= t('activerecord.attributes.card.status') %>:  <%= @card.status %>
 </div>
 <div>
-<strong>Tipo de cartão:</strong> <%= @card.card_type_id %>
+<%= t('activerecord.attributes.card.card_type_id') %>: <%= @card.card_type.name %>
 </div>
