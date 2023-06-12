@@ -3,7 +3,7 @@ Admin.create!(
   email: 'luizs@punti.com',
   password: '123456',
   password_confirmation: '123456',
-  cpf: '2357899871'
+  cpf: '60756961050'
 )
 
 Admin.create!(
@@ -11,5 +11,5 @@ Admin.create!(
   email: 'luana@punti.com',
   password: '123456',
   password_confirmation: '123456',
-  cpf: '93rubo143377402'
+  cpf: '41115338684'
 )
