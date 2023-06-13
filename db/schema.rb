@@ -42,10 +42,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_150804) do
     t.string "cpf"
     t.integer "points"
     t.integer "status"
-    t.integer "card_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["card_type_id"], name: "index_cards_on_card_type_id"
+    t.integer "company_card_type_id", null: false
+    t.index ["company_card_type_id"], name: "index_cards_on_company_card_type_id"
   end
 
   create_table "company_card_types", force: :cascade do |t|
@@ -86,6 +86,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_150804) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "cards", "card_types"
+  add_foreign_key "cards", "company_card_types"
   add_foreign_key "company_card_types", "card_types"
 end
