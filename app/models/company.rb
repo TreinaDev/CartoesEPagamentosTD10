@@ -9,7 +9,7 @@ class Company
 
   def self.all
     companies = []
-    response = Faraday.get('link_da_outra_aplicacao')
+    response = Faraday.get('https://temporary-companies-api-treinadev-10.onrender.com/api/v1/companies')
 
     if response.status == 200
       data = JSON.parse(response.body)
@@ -20,7 +20,7 @@ class Company
   end
 
   def self.find(id)
-    response = Faraday.get("link_da_outra_aplicacao/#{id}")
+    response = Faraday.get("https://temporary-companies-api-treinadev-10.onrender.com/api/v1/companies/#{id}")
 
     return unless response.status == 200
 

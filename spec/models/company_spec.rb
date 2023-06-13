@@ -5,7 +5,7 @@ describe Company do
     it 'deve listar todas as empresas' do
       json_data = Rails.root.join('spec/support/json/companies.json').read
       fake_response = double('faraday_response', status: 200, body: json_data)
-      allow(Faraday).to receive(:get).with('link_da_outra_aplicacao').and_return(fake_response)
+      allow(Faraday).to receive(:get).with('https://temporary-companies-api-treinadev-10.onrender.com/api/v1/companies').and_return(fake_response)
 
       result = Company.all
 
@@ -23,7 +23,7 @@ describe Company do
       it 'e retornar uma empresa' do
         json_data = Rails.root.join('spec/support/json/company.json').read
         fake_response = double('faraday_response', status: 200, body: json_data)
-        allow(Faraday).to receive(:get).with('link_da_outra_aplicacao/1').and_return(fake_response)
+        allow(Faraday).to receive(:get).with('https://temporary-companies-api-treinadev-10.onrender.com/api/v1/companies/1').and_return(fake_response)
 
         result = Company.find(1)
 

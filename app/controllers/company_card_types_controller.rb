@@ -4,11 +4,9 @@ class CompanyCardTypesController < ApplicationController
   def create
     company_card_type = CompanyCardType.new(company_card_type_params)
 
-    if company_card_type.save
-      redirect_to company_path(params[:company_id]), notice: I18n.t('.notices.company_card_type_created')
-    else
-      redirect_to company_path(params[:company_id]), notice: company_card_type.errors.full_messages[0]
-    end
+    return unless company_card_type.save
+
+    redirect_to company_path(params[:company_id]), notice: I18n.t('.notices.company_card_type_created')
   end
 
   def enable
