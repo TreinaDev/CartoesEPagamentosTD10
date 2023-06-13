@@ -12,6 +12,16 @@
 
   <body>
     <header>
+    
+    </header>
+    <nav class="admin">
+    <% if admin_signed_in? %>
+      <%= current_admin.name %>
+      <%= button_to 'Sair', destroy_admin_session_path, method: :delete, class: "sair" %>
+    <% else %>
+      <%= link_to 'Entrar', admin_session_path %>  
+    <% end %>
+    <header>
       <nav class='nav'>
         <%= link_to 'Tipos de cartão', card_types_path, :class => 'nav-link active' %>
         <%= link_to 'Novo tipo de cartão', new_card_type_path, :class => 'nav-link active' %>
