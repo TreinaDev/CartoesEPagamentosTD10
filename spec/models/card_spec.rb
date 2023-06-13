@@ -9,6 +9,7 @@ RSpec.describe Card, type: :model do
       result = card.valid?
 
       expect(result).to eq false
+      expect(card.errors.full_messages).to include 'CPF não pode ficar em branco'
     end
 
     it 'falso quando o tipo do cartão é vazio' do
@@ -17,6 +18,7 @@ RSpec.describe Card, type: :model do
       result = card.valid?
 
       expect(result).to eq false
+      expect(card.errors.full_messages).to include 'Tipo de cartão da empresa é obrigatório(a)'
     end
 
     it 'falso quando já existe um cartão ativo com mesmo CPF' do
@@ -27,6 +29,7 @@ RSpec.describe Card, type: :model do
       result = card.valid?
 
       expect(result).to eq false
+      expect(card.errors.full_messages).to include 'CPF já possui um cartão ativo'
     end
 
     it 'falso quando o tipo de cartão não está disponível' do
@@ -36,6 +39,7 @@ RSpec.describe Card, type: :model do
       result = card.valid?
 
       expect(result).to eq false
+      expect(card.errors.full_messages).to include 'Tipo de cartão da empresa não está disponível'
     end
   end
 

@@ -15,13 +15,13 @@ class Card < ApplicationRecord
     return unless company_card_type_id
 
     company_card_type = CompanyCardType.find(company_card_type_id)
-    errors.add(:company_card_type, 'não está disponível.') unless company_card_type.status == 'active'
+    errors.add(:company_card_type, 'não está disponível') unless company_card_type.status == 'active'
   end
 
   def unique_cpf_active_card
     cards = Card.where(cpf:)
     active_card = cards.where(status: :active)
-    errors.add(:cpf, 'já possui um cartão ativo.') unless active_card.empty?
+    errors.add(:cpf, 'já possui um cartão ativo') unless active_card.empty?
   end
 
   def generate_number
