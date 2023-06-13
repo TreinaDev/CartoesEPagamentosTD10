@@ -1,9 +1,13 @@
 class Api::V1::CardsController < Api::V1::ApiController
   def show
-    card = Card.find_by(cpf: params[:cpf])
-    render status: :ok, json: format_created_card(card)
+    card = Card.find_by(cpf: params[:id])
+    if card.nil?
+      render status: :not_found, json: { errors: 'Cartão não encontrado' }
+    else
+      render status: :ok, json: format_created_card(card)
+    end
   end
-  
+
   def create
     card_params = params.require(:card).permit(:cpf, :company_card_type_id)
     card = Card.new(card_params)
@@ -34,4 +38,3 @@ class Api::V1::CardsController < Api::V1::ApiController
     }
   end
 end
-
