@@ -32,7 +32,7 @@ describe 'API para emissão de cartão' do
       post '/api/v1/cards', params: card
 
       expect(response.status).to eq 412
-      expect(response.body).to include 'CPF já possui um cartão ativo.'
+      expect(response.body).to include 'CPF já possui um cartão ativo'
     end
 
     it 'com sucesso' do
