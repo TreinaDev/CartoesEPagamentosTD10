@@ -12,7 +12,7 @@
 
   <body class='bg-secondary'>
     <header>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary admin">
         <div class="container-fluid">
           <%= link_to t('.brand_name'), root_path, class: 'navbar-brand' %>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,9 +35,15 @@
               </li>
             </ul>
           </div>
+          <% if admin_signed_in? %>
+            <%= current_admin.name %>
+            <%= button_to 'Sair', destroy_admin_session_path, method: :delete, class: "sair" %>
+          <% else %>
+            <%= link_to 'Entrar', admin_session_path %>  
+          <% end %>
         </div>
-      </nav>
     </header>
+    
     
     <main class='container'>
       <% if notice %>

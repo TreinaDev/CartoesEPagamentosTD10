@@ -20,6 +20,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "cpf"
+    t.index ["cpf"], name: "index_admins_on_cpf", unique: true
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
@@ -40,10 +42,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
     t.string "cpf"
     t.integer "points"
     t.integer "status"
-    t.integer "card_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["card_type_id"], name: "index_cards_on_card_type_id"
+    t.integer "company_card_type_id", null: false
+    t.index ["company_card_type_id"], name: "index_cards_on_company_card_type_id"
   end
 
   create_table "company_card_types", force: :cascade do |t|
@@ -85,6 +87,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "cards", "card_types"
+  add_foreign_key "cards", "company_card_types"
   add_foreign_key "company_card_types", "card_types"
 end
