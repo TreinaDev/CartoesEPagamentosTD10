@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :company_card_types, only: [:index]
       resources :cards, only: [:create, :destroy]
+      resources :payments, only: [:create]
     end
   end
 end
