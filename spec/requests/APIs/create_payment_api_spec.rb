@@ -28,6 +28,16 @@ describe 'API para criação de payment' do
       expect(json_response['payment_date']).to eq Date.current.strftime('%Y-%m-%d')
     end
 
+    it 'com falha' do
+      payment = { payment: {} }
+
+      post '/api/v1/payments', params: payment
+
+      expect(response.status).to eq 400
+      expect(response.body).to include 'Erro nos parâmetros enviados'
+      expect(response.content_type).to include 'application/json'
+    end
+
     it 'retorna erro em caso de falha interna' do
       FactoryBot.create(:card)
 
