@@ -19,6 +19,17 @@ describe 'API para desativação de cartão' do
       expect(response.status).to eq 500
     end
 
+    it 'retorna erro em caso de cartão já bloqueado' do
+      FactoryBot.create(:company_card_type)
+
+      card = Card.create!(cpf: '12193448000158', company_card_type_id: 1, status: :blocked)
+
+      patch "/api/v1/cards/#{card.id}"
+
+      expect(response.status).to eq 412
+      expect(response.body).to include 'Status bloqueado não permite alterações no cartão'
+    end
+
     it 'com sucesso' do
       allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
       FactoryBot.create(:company_card_type)

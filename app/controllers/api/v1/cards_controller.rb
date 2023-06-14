@@ -12,14 +12,20 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   def update
     card = Card.find(params[:id])
-    card.update!(status: :inactive)
-    render status: :ok, json: format_created_card(card)
+    if card.update(status: :inactive)
+      render status: :ok, json: format_created_card(card)
+    else
+      render status: :precondition_failed, json: { errors: card.errors.full_messages }
+    end
   end
 
-  def destroy
+  def block
     card = Card.find(params[:id])
-    card.update!(status: :blocked)
-    render status: :ok, json: format_created_card(card)
+    if card.update(status: :blocked)
+      render status: :ok, json: format_created_card(card)
+    else
+      render status: :precondition_failed, json: { errors: card.errors.full_messages }
+    end
   end
 
   private
