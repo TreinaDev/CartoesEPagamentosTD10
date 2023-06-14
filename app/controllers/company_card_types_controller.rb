@@ -1,5 +1,5 @@
 class CompanyCardTypesController < ApplicationController
-  before_action :fetch_company_card_type, only: %i[enable disable]
+  before_action :set_company_card_type, only: %i[enable disable]
 
   def create
     company_card_type = CompanyCardType.new(company_card_type_params)
@@ -27,7 +27,7 @@ class CompanyCardTypesController < ApplicationController
     params.require(:company_card_type).permit(:cnpj, :card_type_id)
   end
 
-  def fetch_company_card_type
+  def set_company_card_type
     @company_card_type = CompanyCardType.find_by(company_card_type_params)
   end
 end
