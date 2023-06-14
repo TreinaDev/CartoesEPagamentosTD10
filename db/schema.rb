@@ -49,12 +49,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_14_201031) do
   end
 
   create_table "company_card_types", force: :cascade do |t|
-    t.integer "status"
+    t.integer "status", default: 1
     t.string "cnpj"
     t.integer "card_type_id", null: false
     t.decimal "conversion_tax", precision: 4, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["card_type_id", "cnpj"], name: "index_company_card_types_on_card_type_id_and_cnpj", unique: true
     t.index ["card_type_id"], name: "index_company_card_types_on_card_type_id"
   end
 

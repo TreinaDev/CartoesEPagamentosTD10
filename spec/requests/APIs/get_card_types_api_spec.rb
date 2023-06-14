@@ -29,7 +29,7 @@ describe 'API do tipo de cartão' do
         conversion_tax: 20.00
       )
       CompanyCardType.create!(
-        status: :pending,
+        status: :inactive,
         cnpj: '02423374000145',
         card_type: other_card_type,
         conversion_tax: 10.00

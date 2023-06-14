@@ -1,0 +1,35 @@
+<div class='my-4 d-flex justify-content-between align-items-center'>
+  <h1 class='m-0 fs-2'><%= @company.brand_name %></h1>
+  <h2 class='m-0 fs-3 fst-italic'><%= t('.registration_number') %>: <%= @company.registration_number %></h2>
+</div>
+
+<section class='d-flex flex-column gap-3'>
+  <% @card_types.each do |card_type| %>
+    <div class='py-3 px-4 card d-flex flex-row justify-content-between align-items-center bg-black text-white fw-semibold'>
+      <div class='d-flex align-items-center gap-3'>
+        <%= image_tag card_type.icon, alt: "Ícone cartão #{card_type.name}", size: '162x100' %>
+        <span><%= card_type.name %></span>
+      </div>
+
+      <% params = { company_id: @company.id, company_card_type: {
+                    card_type_id: card_type.id, cnpj: @company.registration_number } } %>
+
+      <% if @linked_card_types.include? card_type %>
+        <% item = @company_card_types.find { |item| item.card_type == card_type } %>
+
+        <% if item.active? %>
+          <%= button_to t('.inactivate_card_type'), disable_company_card_type_path,
+              method: :patch, id: dom_id(card_type), class: 'btn btn-danger',
+              params: params %>
+        <% else %>
+          <%= button_to t('.activate_card_type'), enable_company_card_type_path,
+              method: :patch, id: dom_id(card_type), class: 'btn btn-success',
+              params: params %>
+        <% end %>
+      <% else %>
+        <%= button_to t('.link_card_type'), company_card_types_path, id: dom_id(card_type), class: 'btn btn-success',
+            params: params %>
+      <% end %>
+    </div>
+  <% end %> 
+</section>
