@@ -33,7 +33,7 @@ RSpec.describe Card, type: :model do
     end
 
     it 'falso quando o tipo de cartão não está disponível' do
-      company_card_type = FactoryBot.create(:company_card_type, status: :pending)
+      company_card_type = FactoryBot.create(:company_card_type, status: :inactive)
       card = Card.new(cpf: '78956470081', company_card_type:)
 
       result = card.valid?

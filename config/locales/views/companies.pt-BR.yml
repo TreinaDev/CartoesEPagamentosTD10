@@ -1,0 +1,11 @@
+pt-BR:
+  companies:
+    index:
+      provide_card_types: 'Disponibilizar tipos de cartões'
+      registration_number: 'CNPJ'
+      not_found_message: 'Não existem empresas disponíveis'
+    show:
+      registration_number: 'CNPJ'
+      link_card_type: 'Vincular a empresa'
+      activate_card_type: 'Ativar disponibilidade'
+      inactivate_card_type: 'Desativar disponibilidade'

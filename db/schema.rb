@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_150804) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -49,12 +49,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_150804) do
   end
 
   create_table "company_card_types", force: :cascade do |t|
-    t.integer "status"
+    t.integer "status", default: 1
     t.string "cnpj"
     t.integer "card_type_id", null: false
     t.decimal "conversion_tax", precision: 4, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["card_type_id", "cnpj"], name: "index_company_card_types_on_card_type_id_and_cnpj", unique: true
     t.index ["card_type_id"], name: "index_company_card_types_on_card_type_id"
   end
 

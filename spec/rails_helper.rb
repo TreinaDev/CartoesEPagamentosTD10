@@ -40,6 +40,7 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Warden::Test::Helpers
+  config.include ActionView::RecordIdentifier
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
