@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "brand_name": "Samsung",
+    "registration_number": "71.223.406/0001-81"
+  },
+  {
+    "id": 2,
+    "brand_name": "LG Electronics",
+    "registration_number": "25.325.922/0001-08"
+  },
+  {
+    "id": 3,
+    "brand_name": "Sony",
+    "registration_number": "63.979.911/0001-22"
+  }
+]

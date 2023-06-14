@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Admin, type: :model do
-  describe 'Admin do register' do
+  describe 'Admin se registra' do
     context '#invalid' do
-      it 'when cpf is already in use' do
+      it 'e o cpf já está em uso' do
         Admin.create!(name: 'Jose da Silva', email: 'jose@punti.com', password: '123456',
                       password_confirmation: '123456', cpf: '56677883140')
         luiz = Admin.new(name: 'Luiz da Silva', email: 'luizs@punti.com', password: '123456',
@@ -14,7 +14,7 @@ RSpec.describe Admin, type: :model do
         expect(result).to eq false
       end
 
-      it 'when cpf is invalid' do
+      it 'e o cpf é inválido' do
         luiz = Admin.new(name: 'Luiz da Silva', email: 'luizs@punti.com', password: '123456',
                          password_confirmation: '123456', cpf: '23578998710')
 
@@ -23,7 +23,7 @@ RSpec.describe Admin, type: :model do
         expect(result).to eq false
       end
 
-      it 'when name is empty' do
+      it 'e o nome está vazio' do
         luiz = Admin.new(name: '', email: 'luizs@punti.com', password: '123456',
                          password_confirmation: '123456', cpf: '23578998710')
 
@@ -32,7 +32,7 @@ RSpec.describe Admin, type: :model do
         expect(result).to eq false
       end
 
-      it 'when name is less than 10 characters' do
+      it 'e o nome tem menos de 10 caracteres' do
         luiz = Admin.new(name: 'luiz', email: 'luizs@punti.com', password: '123456',
                          password_confirmation: '123456', cpf: '23578998710')
 

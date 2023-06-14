@@ -42,10 +42,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_13_160705) do
     t.string "cpf"
     t.integer "points"
     t.integer "status"
-    t.integer "card_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["card_type_id"], name: "index_cards_on_card_type_id"
+    t.integer "company_card_type_id", null: false
+    t.index ["company_card_type_id"], name: "index_cards_on_company_card_type_id"
+  end
+
+  create_table "cashback_rules", force: :cascade do |t|
+    t.integer "minimum_amount_points"
+    t.decimal "cashback_percentage", precision: 4, scale: 2
+    t.integer "days_to_use"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "cashback_rules", force: :cascade do |t|
@@ -57,12 +65,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_13_160705) do
   end
 
   create_table "company_card_types", force: :cascade do |t|
-    t.integer "status"
+    t.integer "status", default: 1
     t.string "cnpj"
     t.integer "card_type_id", null: false
     t.decimal "conversion_tax", precision: 4, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["card_type_id", "cnpj"], name: "index_company_card_types_on_card_type_id_and_cnpj", unique: true
     t.index ["card_type_id"], name: "index_company_card_types_on_card_type_id"
   end
 
@@ -94,6 +103,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_13_160705) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "cards", "card_types"
+  add_foreign_key "cards", "company_card_types"
   add_foreign_key "company_card_types", "card_types"
 end

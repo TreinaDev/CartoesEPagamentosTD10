@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Barcode+128+Text&display=swap" rel="stylesheet">
   </head>
 
-  <body>
+  <body class='bg-secondary'>
     <header>
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
@@ -67,7 +67,7 @@
     <main class="container my-5">
       <% if notice%>
         <p class="alert alert-primary w-75 mx-auto"><%= notice %></p>
-      <%end%> 
+      <% end %>
       <% if alert %>
         <p class="alert alert-warning w-75 mx-auto"><%= alert %></p>
       <% end %>
