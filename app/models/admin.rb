@@ -4,7 +4,7 @@ class Admin < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   validates :name, presence: true
-  validates :name, length: { minimum: 10 }
+  validates :name, length: { minimum: 5 }
   validates :cpf, cpf: { message: I18n.t('activerecord.errors.models.admin.attributes.cpf.cpf_invalid') }
   validates :cpf, presence: true, uniqueness: true
   validates :cpf, format: {

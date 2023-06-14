@@ -1,0 +1,10 @@
+pt-BR:
+  activerecord:
+    models:
+      cashback_rule: Regra de cashback
+    attributes:
+      cashback_rule:
+        minimum_amount_points: Valor mínimo
+        cashback_percentage: Porcentagem de retorno 
+        days_to_use: Deve ser válido por quantos dias?
+  

@@ -1,0 +1,29 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to 'Inicio', root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page">Regras de Cashback</li>
+  </ol>
+</nav>
+
+<h1 class="title-style">Regras de cashback</h1>
+
+<% if @cashback_rules.present? %>
+  <div class="d-flex flex-column gap-3">
+    <% @cashback_rules.each do |rule| %>
+      <div class="cashback-card text-white">
+        <div class="cashback-attribute">
+          <span>Valor mínimo</span>
+          <span class="attribute-value"><%= rule.minimum_amount_points %> Pontos</span>
+        </div>
+        <div class="cashback-attribute">
+          <span>Porcentagem de retorno</span>
+          <span class="attribute-value"><%= rule.cashback_percentage %>%</span>
+        </div>
+        <div class="cashback-attribute">
+          <span>Válido por</span>
+          <span class="attribute-value"><%= rule.days_to_use %> dias</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
