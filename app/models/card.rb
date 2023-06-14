@@ -1,5 +1,6 @@
 class Card < ApplicationRecord
   belongs_to :company_card_type
+  # has_many :payments
   enum status: { active: 0, inactive: 5 }
   attribute :status, default: :active
   validates :cpf, :number, :points, presence: true
