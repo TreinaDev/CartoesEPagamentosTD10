@@ -35,6 +35,7 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     click_on 'Criar regra'
 
     expect(page).to have_content 'A regra de cashback já existe'
+    expect(CashbackRule.count).to eq 1
   end
 
   it 'com falha, pois tentou criar com um ou mais dados inválidos' do
@@ -52,5 +53,23 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     click_on 'Criar regra'
 
     expect(page).to have_content 'deve ser maior que 0'
+    expect(CashbackRule.count).to eq 0
+  end
+
+  it 'com falha, pois tentou criar com campos em branco' do
+    admin = FactoryBot.create(:admin)
+
+    login_as admin
+    visit root_path
+    within '#cashback' do
+      click_on 'Criar regra de cashback'
+    end
+    fill_in 'Valor mínimo', with: ''
+    fill_in 'Porcentagem de retorno', with: ''
+    fill_in 'Deve ser válido por quantos dias?', with: ''
+    click_on 'Criar regra'
+
+    expect(page).to have_content 'não é um número'
+    expect(CashbackRule.count).to eq 0
   end
 end
