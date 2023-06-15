@@ -40,7 +40,6 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
 
   it 'com falha, pois tentou criar com um ou mais dados inválidos' do
     admin = FactoryBot.create(:admin)
-    CashbackRule.create!(minimum_amount_points: 300, cashback_percentage: 10, days_to_use: 10)
 
     login_as admin
     visit root_path
