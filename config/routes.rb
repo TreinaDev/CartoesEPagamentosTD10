@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :company_card_types, only: [:index]
-      resources :cards, only: [:create, :destroy]
+      resources :cards, only: [:create, :destroy] do
+        post 'upgrade', on: :collection
+      end
     end
   end
   resources :card_types, only: [:index, :new, :create, :show, :edit, :update] do

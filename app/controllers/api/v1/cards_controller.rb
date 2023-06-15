@@ -1,12 +1,11 @@
 class Api::V1::CardsController < Api::V1::ApiController
-  def create
-    card_params = params.require(:card).permit(:cpf, :company_card_type_id)
-    card = Card.new(card_params)
+  before_action :prepare_new_card, only: %i[create upgrade]
 
-    if card.save
-      render status: :created, json: format_created_card(card)
+  def create
+    if @card.save
+      render status: :created, json: format_created_card(@card)
     else
-      render status: :precondition_failed, json: { errors: card.errors.full_messages }
+      render status: :precondition_failed, json: { errors: @card.errors.full_messages }
     end
   end
 
@@ -16,7 +15,23 @@ class Api::V1::CardsController < Api::V1::ApiController
     render status: :ok, json: format_created_card(card)
   end
 
+  def upgrade
+    old_card = Card.find_by!(cpf: @card_params[:cpf], status: :active)
+    Card.transaction do
+      old_card.update!(status: :blocked)
+      @card.save!
+    end
+    render status: :ok, json: format_created_card(@card)
+  rescue ActiveRecord::RecordInvalid
+    render status: :precondition_failed, json: { errors: @card.errors.full_messages }
+  end
+
   private
+
+  def prepare_new_card
+    @card_params = params.require(:card).permit(:cpf, :company_card_type_id)
+    @card = Card.new(@card_params)
+  end
 
   def format_created_card(card)
     {
