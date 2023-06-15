@@ -21,22 +21,23 @@ describe 'API de consulta do extrato de um cartão' do
       expect(json_response[1]['value']).to eq deposit.amount
       expect(json_response[1]['description']).to eq deposit.description
     end
-    it 'e retorna erro 404 quando não encontra nenhum registro' do
+
+    it 'e retorna erro 404 quando não encontra nenhum registro do cartão' do
       get '/api/v1/extracts?card_number=123456789'
 
       expect(response.status).to eq 404
       expect(response.content_type).to include 'application/json'
     end
 
-    it 'e retorna erro quando não possúi extrato disponível' do
+    it 'e retorna mensagem informando que não existem transações realizadas' do
       card = FactoryBot.create(:card)
 
       get "/api/v1/extracts?card_number=#{card.number}"
 
-      expect(response.status).to eq 404
+      expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
       json_response = response.parsed_body
-      expect(json_response['errors']).to eq('Extrado não disponível para o cartão')
+      expect(json_response['message']).to eq('Nenhuma transação registrada')
     end
   end
 end
