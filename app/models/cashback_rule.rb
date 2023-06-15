@@ -4,5 +4,6 @@ class CashbackRule < ApplicationRecord
                                                                                         greater_than: 0 }
   validates :cashback_percentage, uniqueness: {
     scope: %i[minimum_amount_points days_to_use],
-    message: I18n.t('.activerecord.errors.models.cashback_rule.attributes.cashback_percentage.uniqueness') }
+    message: I18n.t('.activerecord.errors.models.cashback_rule.attributes.cashback_percentage.uniqueness')
+  }
 end
