@@ -27,5 +27,16 @@ describe 'API de consulta do extrato de um cartão' do
       expect(response.status).to eq 404
       expect(response.content_type).to include 'application/json'
     end
+
+    it 'e retorna erro quando não possúi extrato disponível' do
+      card = FactoryBot.create(:card)
+
+      get "/api/v1/extracts?card_number=#{card.number}"
+
+      expect(response.status).to eq 404
+      expect(response.content_type).to include 'application/json'
+      json_response = response.parsed_body
+      expect(json_response['errors']).to eq('Extrado não disponível para o cartão')
+    end
   end
 end

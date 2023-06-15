@@ -18,6 +18,9 @@ Rails.application.routes.draw do
       resources :company_card_types, only: [:index]
       resources :cards, only: [:create, :destroy, :show]
       resources :extracts, only: [:index]
+      resources :cards, only: [:create, :update] do
+        delete 'block', on: :member
+      end
     end
   end
 end

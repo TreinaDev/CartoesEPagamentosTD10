@@ -1,11 +1,11 @@
 class Card < ApplicationRecord
   belongs_to :company_card_type
-  # has_many :payments
-  enum status: { active: 0, inactive: 5 }
+  enum status: { active: 0, inactive: 5, blocked: 10 }
   attribute :status, default: :active
   validates :cpf, :number, :points, presence: true
   validate :unique_cpf_active_card, on: :create
   validate :valid_available_card_type, on: :create
+  validate :check_block, on: :update
 
   before_validation :generate_number, on: :create
   before_validation :set_initial_points, on: :create
@@ -23,6 +23,11 @@ class Card < ApplicationRecord
     cards = Card.where(cpf:)
     active_card = cards.where(status: :active)
     errors.add(:cpf, 'já possui um cartão ativo') unless active_card.empty?
+  end
+
+  def check_block
+    card = Card.find(id)
+    errors.add(:status, 'bloqueado não permite alterações no cartão') if card.status == 'blocked'
   end
 
   def generate_number

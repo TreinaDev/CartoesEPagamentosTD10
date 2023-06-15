@@ -8,6 +8,5 @@ FactoryBot.define do
     status { 1 }
     cpf { '66268563670' }
     card_number { '12345678912345678912' }
-    # association :card
   end
 end

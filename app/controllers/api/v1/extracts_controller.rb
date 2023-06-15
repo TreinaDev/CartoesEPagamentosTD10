@@ -2,7 +2,7 @@ class Api::V1::ExtractsController < Api::V1::ApiController
   def index
     extract = Extract.where(card_number: params[:card_number])
     if extract.empty?
-      render status: :not_found, json: { errors: 'Erro de entidade não encontrada' }
+      render status: :not_found, json: { errors: 'Extrado não disponível para o cartão' }
     else
       render status: :ok, json: format_extract(extract)
     end
