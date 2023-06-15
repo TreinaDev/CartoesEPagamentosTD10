@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :payment do
     order_number { '123456' }
-    code { 'MyString' }
     total_value { 1 }
     descount_amount { 1 }
     final_value { 1 }

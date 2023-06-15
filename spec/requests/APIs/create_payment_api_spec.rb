@@ -55,8 +55,6 @@ describe 'API para criação de payment' do
     end
 
     it 'falha se não recebe parâmetros obrigatórios' do
-      FactoryBot.create(:card)
-
       payment = { payment: { order_number: '', total_value: '',
                              descount_amount: '', final_value: '',
                              cpf: '', card_number: '',
