@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_13_160705) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_14_233825) do
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -54,14 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_13_160705) do
     t.integer "days_to_use"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "cashback_rules", force: :cascade do |t|
-    t.integer "minimum_amount_points"
-    t.decimal "cashback_percentage", precision: 4, scale: 2
-    t.integer "days_to_use"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["cashback_percentage", "minimum_amount_points", "days_to_use"], name: "index_cashback_rules_on_minimum_amount_points_and_days_to_use", unique: true
   end
 
   create_table "company_card_types", force: :cascade do |t|

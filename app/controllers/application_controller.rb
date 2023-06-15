@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   rescue_from Faraday::ConnectionFailed, with: :internal_server_error
 
+  def after_sign_out_path_for(_resource)
+    new_admin_session_path
+  end
+
   def not_found
     render file: Rails.public_path.join('404.html'), layout: false, status: :not_found
   end

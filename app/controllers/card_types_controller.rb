@@ -21,7 +21,7 @@ class CardTypesController < ApplicationController
     @card_type = CardType.new(card_type_params)
     return redirect_to card_type_path(@card_type), notice: I18n.t('notices.card_type_created') if @card_type.save
 
-    flash.now.alert = 'Não foi possível criar um novo tipo de cartão'
+    flash.now.alert = I18n.t('.alerts.failed_to_create_card_type')
     render :new, status: :unprocessable_entity
   end
 
@@ -29,7 +29,7 @@ class CardTypesController < ApplicationController
     @card_type = CardType.find(params[:id])
     return redirect_to @card_type, notice: I18n.t('notices.card_type_created') if @card_type.update(card_type_params)
 
-    flash.now.alert = 'Não foi possível salvar as alterações'
+    flash.now.alert = I18n.t('alerts.card_type_changes_not_saved')
     render :edit, status: :unprocessable_entity
   end
 

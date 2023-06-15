@@ -1,9 +1,12 @@
 card_type = CardType.create!(name: 'Gold', start_points: 100,
-                             icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg')
+                             icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg',
+                             emission: true)
 card_type2 = CardType.create!(name: 'Platinum', start_points: 200,
-                              icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/platinum.svg')
+                              icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/platinum.svg',
+                              emission: true)
 other_card_type = CardType.create!(name: 'Black', start_points: 300,
-                                   icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/black.svg')
+                                   icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/black.svg',
+                                   emission: true)
 CompanyCardType.create!(
   status: :active,
   cnpj: '02423374000145',

@@ -17,7 +17,7 @@ describe 'Admin do create a count', type: :system do
 
       expect(page).to have_content 'Não foi possível salvar administrador: 2 erros'
       expect(page).to have_content 'Nome não pode ficar em branco'
-      expect(page).to have_content 'Nome é muito curto (mínimo: 10 caracteres)'
+      expect(page).to have_content 'Nome é muito curto (mínimo: 5 caracteres)'
     end
 
     it 'when email is not the momain @punti.com' do

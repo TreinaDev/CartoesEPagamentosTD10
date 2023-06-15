@@ -1,5 +1,4 @@
 class CashbackRulesController < ApplicationController
-
   def index
     @cashback_rules = CashbackRule.all
   end
@@ -10,19 +9,10 @@ class CashbackRulesController < ApplicationController
 
   def create
     @cashback_rule = CashbackRule.new(cashback_rules_params)
-    return redirect_to cashback_rules_path, notice: 'Regra de cashback criada com sucesso.' if @cashback_rule.save
-    
-    flash.now.alert = 'Não foi possível criar uma nova regra de cashback'
+    return redirect_to cashback_rules_path, notice: I18n.t('notices.cashback_rule_created') if @cashback_rule.save
+
+    flash.now.alert = I18n.t('alerts.failed_to_create_cashback_rule')
     render :new, status: :unprocessable_entity
-  end
-
-  def edit
-    @cashback_rule = CashbackRule.find(params[:id])
-  end
-
-  def update
-    @cashback_rule = CashbackRule.find(params[:id])
-
   end
 
   private

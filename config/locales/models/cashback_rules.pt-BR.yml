@@ -7,4 +7,9 @@ pt-BR:
         minimum_amount_points: Valor mínimo
         cashback_percentage: Porcentagem de retorno 
         days_to_use: Deve ser válido por quantos dias?
-  
+    errors:
+      models:
+        cashback_rule:
+          attributes:
+            cashback_percentage:
+              uniqueness: A regra de cashback já existe

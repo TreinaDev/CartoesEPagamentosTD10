@@ -1,3 +1,11 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to 'Inicio', root_path %></li>
+    <li class="breadcrumb-item fw-bold" aria-current="page"><%= link_to 'Empresas', companies_path %></li>
+    <li class="breadcrumb-item active" aria-current="page">Tipos de cartões</li>
+  </ol>
+</nav>
+
 <div class='my-4 d-flex justify-content-between align-items-center'>
   <h1 class='m-0 fs-2'><%= @company.brand_name %></h1>
   <h2 class='m-0 fs-3 fst-italic'><%= t('.registration_number') %>: <%= @company.registration_number %></h2>
