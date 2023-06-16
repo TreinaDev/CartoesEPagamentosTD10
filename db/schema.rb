@@ -10,7 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_15_161628) do
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -28,12 +56,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
 
   create_table "card_types", force: :cascade do |t|
     t.string "name"
-    t.string "icon"
     t.integer "start_points"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "emission", default: true
-    t.index ["icon"], name: "index_card_types_on_icon", unique: true
     t.index ["name"], name: "index_card_types_on_name", unique: true
   end
 
@@ -46,6 +72,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
     t.datetime "updated_at", null: false
     t.integer "company_card_type_id", null: false
     t.index ["company_card_type_id"], name: "index_cards_on_company_card_type_id"
+  end
+
+  create_table "cashback_rules", force: :cascade do |t|
+    t.integer "minimum_amount_points"
+    t.decimal "cashback_percentage", precision: 4, scale: 2
+    t.integer "days_to_use"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cashback_percentage", "minimum_amount_points", "days_to_use"], name: "index_cashback_rules_on_minimum_amount_points_and_days_to_use", unique: true
   end
 
   create_table "company_card_types", force: :cascade do |t|
@@ -87,6 +122,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cards", "company_card_types"
   add_foreign_key "company_card_types", "card_types"
 end

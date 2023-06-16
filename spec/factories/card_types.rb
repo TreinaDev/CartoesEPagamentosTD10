@@ -1,8 +1,15 @@
 FactoryBot.define do
   factory :card_type do
     name { 'Premium' }
-    icon { 'https://i.imgur.com/YmQ9jRN.png' }
     start_points { 100 }
     emission { true }
   end
+
+   after :build do |card_type|
+     card_type.icon.attach(
+       io: Rails.root.join('spec', 'support', 'images', 'premium.svg').open,
+       filename: 'premium.svg',
+       content_type: 'image/svg+xml'
+     )
+   end
 end
