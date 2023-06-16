@@ -2,15 +2,25 @@ require 'rails_helper'
 
 describe 'Administrador muda status de um tipo de cartão vinculado a uma empresa' do
   it 'de ativado para desativado' do
-    gold_card = FactoryBot.create(:card_type, name: 'Gold', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg')
-    premium_card = FactoryBot.create(:card_type, name: 'Premium', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/premium.svg')
+    admin = FactoryBot.create(:admin)
+    gold_img = Rails.root.join('spec', 'support', 'images', 'gold.svg')
+    gold_card = FactoryBot.create(:card_type, name: 'Gold')
+    gold_card.icon.attach(
+      io: gold_img.open,
+      filename: 'gold.svg',
+      content_type: 'image/svg+xml'
+    )
+    premium_card = FactoryBot.create(:card_type)
     company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
     FactoryBot.create(:company_card_type, card_type: premium_card, status: :active)
     FactoryBot.create(:company_card_type, card_type: gold_card, status: :active)
 
     allow(Company).to receive(:find).and_return(company)
 
-    visit company_path(company.id)
+    login_as admin
+    visit root_path
+    click_on 'Disponibilizar tipos de cartões'
+    click_on 'Samsung'
     find_button('Desativar disponibilidade', id: dom_id(premium_card)).click
 
     expect(page).to have_content 'Cartão desabilitado para a empresa com sucesso.'
@@ -20,15 +30,25 @@ describe 'Administrador muda status de um tipo de cartão vinculado a uma empres
   end
 
   it 'de desativado para ativado' do
-    gold_card = FactoryBot.create(:card_type, name: 'Gold', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg')
-    premium_card = FactoryBot.create(:card_type, name: 'Premium', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/premium.svg')
+    admin = FactoryBot.create(:admin)
+    gold_img = Rails.root.join('spec', 'support', 'images', 'gold.svg')
+    gold_card = FactoryBot.create(:card_type, name: 'Gold')
+    gold_card.icon.attach(
+      io: gold_img.open,
+      filename: 'gold.svg',
+      content_type: 'image/svg+xml'
+    )
+    premium_card = FactoryBot.create(:card_type)
     company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
     FactoryBot.create(:company_card_type, card_type: premium_card, status: :inactive)
     FactoryBot.create(:company_card_type, card_type: gold_card, status: :inactive)
 
     allow(Company).to receive(:find).and_return(company)
 
-    visit company_path(company.id)
+    login_as admin
+    visit root_path
+    click_on 'Disponibilizar tipos de cartões'
+    click_on 'Samsung'
     find_button('Ativar disponibilidade', id: dom_id(premium_card)).click
 
     expect(page).to have_content 'Cartão habilitado para a empresa com sucesso.'

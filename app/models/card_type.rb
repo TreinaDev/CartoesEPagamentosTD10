@@ -13,7 +13,6 @@ class CardType < ApplicationRecord
 
   def icon_is_image
     return if icon.present? && icon.content_type =~ /^image\/(jpeg|gif|png|svg\+xml)$/
-
     errors.add(:upload, 'Tipo de imagem inválida')
   end
 end

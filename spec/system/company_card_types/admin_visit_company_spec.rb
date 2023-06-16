@@ -20,18 +20,26 @@ describe 'Admin visita tela de uma empresa' do
   end
 
   it 'e vê os tipos de cartão' do
+    black_img = Rails.root.join('spec', 'support', 'images', 'black.svg')
+
     company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
-    FactoryBot.create(:card_type, name: 'Gold', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg')
-    FactoryBot.create(:card_type, name: 'Premium', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/premium.svg')
+    card_type = FactoryBot.create(:card_type)
+    card_type2 = FactoryBot.build(:card_type, name: 'Black', start_points: 1500, emission: true)
+    card_type2.icon.attach(
+      io: black_img.open,
+      filename: 'black.svg',
+      content_type: 'image/svg+xml'
+    )
+    card_type2.save
 
     allow(Company).to receive(:find).and_return(company)
 
     visit company_path(company.id)
 
-    expect(page).to have_css "img[src*='gold']"
-    expect(page).to have_content 'Gold'
     expect(page).to have_css "img[src*='premium']"
     expect(page).to have_content 'Premium'
+    expect(page).to have_css "img[src*='black']"
+    expect(page).to have_content 'Black'
     expect(page).to have_button 'Vincular a empresa'
   end
 end
