@@ -1,7 +1,7 @@
 pt-BR:
   activerecord:
     attributes:
-      user:
+      admin:
         confirmation_sent_at: Confirmação enviada em
         confirmation_token: Token de confirmação
         confirmed_at: Confirmado em
@@ -26,9 +26,9 @@ pt-BR:
         unlock_token: Token de desbloqueio
         updated_at: Atualizado em
     models:
-      user:
-        one: Usuário
-        other: Usuários
+      admin:
+        one: Administrador
+        other: Administradores
   devise:
     confirmations:
       confirmed: A sua conta foi confirmada com sucesso.
@@ -138,7 +138,7 @@ pt-BR:
   errors:
     messages:
       already_confirmed: já foi confirmado
-      confirmation_period_expired: É necessário ser confirmado dentro do período %{period}, por favor requisite um novo usuário.
+      confirmation_period_expired: É necessário ser confirmado dentro do período %{period}, por favor requisite um novo administrador.
       expired: expirou, por favor solicite uma nova
       not_found: não encontrado
       not_locked: não foi bloqueado

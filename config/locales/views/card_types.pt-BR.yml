@@ -1,0 +1,19 @@
+pt-BR:
+  card_types:
+    index:
+      home: Início
+      card_types: Tipos de cartões
+      types_enabled_for_issuance: Tipos habilitados para emissão
+      no_card_type_with_issuance_enabled: Nenhum tipo de cartão com emissão habilitada
+      types_disabled_for_issuance: Tipos desabilitados para emissão
+      no_card_type_with_issuance_disabled: Nenhum tipo de cartão com emissão desabilitada
+    show:
+      home: Início
+      card_types: Tipos de cartões
+      card: Cartão
+      initial_points: Pontos iniciais
+    new:
+      create_new_card_type: Criar tipo de cartão
+      new_card_type: Novo tipo de cartão
+    edit:
+      edit_card_type: Editar tipo de cartão

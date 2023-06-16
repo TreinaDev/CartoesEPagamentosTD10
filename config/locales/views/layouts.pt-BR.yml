@@ -1,8 +1,13 @@
 pt-BR:
   layouts:
     application:
-      provide_card_types: 'Disponibilizar tipos de cartões'
-      home: 'Início'
-      card_types: 'Tipos de cartão'
-      new_card_types: 'Novo tipo de cartão'
       brand_name: TIME 3
+      home: 'Início'
+      provide_card_types: 'Disponibilizar tipos de cartões'
+      card: 'Cartão'
+      card_types: 'Tipos de cartões'
+      new_card_type: 'Novo tipo de cartão'
+      cashback: 'Cashback'
+      index_cashback_rules: 'Regras de cashback'
+      new_cashback_rule: 'Criar regra de cashback'
+      edit_cashback_rule: 'Editar regra de cashback'
