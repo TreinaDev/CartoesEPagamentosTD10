@@ -40,13 +40,12 @@ class Api::V1::CardsController < Api::V1::ApiController
     old_card = Card.find_by!(cpf: @card_params[:cpf], status: :active)
     return render status: :precondition_failed, json: { errors: 'Mesmo tipo de cartão' } if check_type(old_card, @card)
 
-    Card.transaction do
-      old_card.update!(status: :blocked)
-      @card.save!
+    if @card.company_card_type && old_card.company_card_type.cnpj != @card.company_card_type.cnpj
+      return render status: :precondition_failed,
+                    json: { errors: 'CNPJ do tipo de cartão diferente do cartão anterior' }
     end
-    render status: :ok, json: format_created_card(@card)
-  rescue ActiveRecord::RecordInvalid
-    render status: :precondition_failed, json: { errors: @card.errors.full_messages }
+
+    update_transaction(old_card, @card)
   end
 
   private
@@ -58,6 +57,16 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   def check_type(old_card, card)
     old_card.company_card_type_id == card.company_card_type_id
+  end
+
+  def update_transaction(old_card, card)
+    Card.transaction do
+      old_card.update!(status: :blocked)
+      card.save!
+    end
+    render status: :ok, json: format_created_card(card)
+  rescue ActiveRecord::RecordInvalid
+    render status: :precondition_failed, json: { errors: card.errors.full_messages }
   end
 
   def format_created_card(card)

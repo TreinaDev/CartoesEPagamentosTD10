@@ -71,6 +71,30 @@ describe 'API para upgrade de cartão' do
       expect(response.body).to include 'Mesmo tipo de cartão'
     end
 
+    it 'falha se o cnpj do novo cartão for diferente do cartão anterior' do
+      card_type = FactoryBot.create(:card_type)
+      company_card_type1 = CompanyCardType.create!(
+        cnpj: '12193448000158',
+        card_type:,
+        conversion_tax: 10,
+        status: :active
+      )
+      CompanyCardType.create!(
+        cnpj: '15581683000195',
+        card_type:,
+        conversion_tax: 12,
+        status: :active
+      )
+
+      Card.create!(cpf: '34447873087', company_card_type: company_card_type1)
+      card = { card: { cpf: '34447873087', company_card_type_id: 2 } }
+
+      post '/api/v1/cards/upgrade', params: card
+
+      expect(response.status).to eq 412
+      expect(response.body).to include 'CNPJ do tipo de cartão diferente do cartão anterior'
+    end
+
     it 'com sucesso' do
       card_type1 = FactoryBot.create(:card_type)
       card_type2 = FactoryBot.create(:card_type, name: 'Black', icon: 'icone', start_points: 120)
@@ -82,7 +106,7 @@ describe 'API para upgrade de cartão' do
         status: :active
       )
       CompanyCardType.create!(
-        cnpj: '15581683000195',
+        cnpj: '12193448000158',
         card_type: card_type2,
         conversion_tax: 12,
         status: :active
