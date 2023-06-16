@@ -1,6 +1,15 @@
 class Api::V1::CardsController < Api::V1::ApiController
   before_action :prepare_new_card, only: %i[create upgrade]
 
+  def show
+    card = Card.find_by(cpf: params[:id])
+    if card.nil?
+      render status: :not_found, json: { errors: 'Cartão não encontrado' }
+    else
+      render status: :ok, json: format_created_card(card)
+    end
+  end
+
   def create
     if @card.save
       render status: :created, json: format_created_card(@card)
@@ -9,10 +18,22 @@ class Api::V1::CardsController < Api::V1::ApiController
     end
   end
 
-  def destroy
+  def update
     card = Card.find(params[:id])
-    card.update!(status: :inactive)
-    render status: :ok, json: format_created_card(card)
+    if card.update(status: :inactive)
+      render status: :ok, json: format_created_card(card)
+    else
+      render status: :precondition_failed, json: { errors: card.errors.full_messages }
+    end
+  end
+
+  def block
+    card = Card.find(params[:id])
+    if card.update(status: :blocked)
+      render status: :ok, json: format_created_card(card)
+    else
+      render status: :precondition_failed, json: { errors: card.errors.full_messages }
+    end
   end
 
   def upgrade

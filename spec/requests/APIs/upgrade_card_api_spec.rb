@@ -46,7 +46,7 @@ describe 'API para upgrade de cartão' do
         cnpj: '15581683000195',
         card_type: card_type2,
         conversion_tax: 12,
-        status: :pending
+        status: :inactive
       )
 
       Card.create!(cpf: '34447873087', company_card_type_id: 1)
