@@ -38,6 +38,8 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   def upgrade
     old_card = Card.find_by!(cpf: @card_params[:cpf], status: :active)
+    return render status: :precondition_failed, json: { errors: 'Mesmo tipo de cartão' } if check_type(old_card, @card)
+
     Card.transaction do
       old_card.update!(status: :blocked)
       @card.save!
@@ -52,6 +54,10 @@ class Api::V1::CardsController < Api::V1::ApiController
   def prepare_new_card
     @card_params = params.require(:card).permit(:cpf, :company_card_type_id)
     @card = Card.new(@card_params)
+  end
+
+  def check_type(old_card, card)
+    old_card.company_card_type_id == card.company_card_type_id
   end
 
   def format_created_card(card)

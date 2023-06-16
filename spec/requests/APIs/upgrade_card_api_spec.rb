@@ -59,6 +59,18 @@ describe 'API para upgrade de cartão' do
       expect(old_card.status).to eq 'active'
     end
 
+    it 'falha se tiver o mesmo tipo de cartão que o anterior' do
+      company_card_type = FactoryBot.create(:company_card_type)
+
+      Card.create!(cpf: '34447873087', company_card_type:)
+      card = { card: { cpf: '34447873087', company_card_type_id: 1 } }
+
+      post '/api/v1/cards/upgrade', params: card
+
+      expect(response.status).to eq 412
+      expect(response.body).to include 'Mesmo tipo de cartão'
+    end
+
     it 'com sucesso' do
       card_type1 = FactoryBot.create(:card_type)
       card_type2 = FactoryBot.create(:card_type, name: 'Black', icon: 'icone', start_points: 120)
