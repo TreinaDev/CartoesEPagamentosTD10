@@ -1,0 +1,11 @@
+pt-BR:
+  activerecord:
+    models:
+      card: 'Cartão'
+    attributes:
+      card:
+        number: 'Número do cartão'
+        cpf: 'CPF'
+        points: 'Pontos'
+        status: 'Status'
+        card_type_id: 'Tipo de cartão'
