@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_14_201031) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_15_222743) do
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -96,15 +96,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_14_201031) do
 
   create_table "payments", force: :cascade do |t|
     t.string "order_number"
-    t.string "code"
     t.integer "total_value"
     t.integer "descount_amount"
     t.integer "final_value"
-    t.integer "status"
     t.string "cpf"
     t.string "card_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "payment_date"
+    t.integer "status", default: 0
+    t.string "code"
+    t.index ["code"], name: "index_payments_on_code", unique: true
   end
 
   add_foreign_key "cards", "company_card_types"
