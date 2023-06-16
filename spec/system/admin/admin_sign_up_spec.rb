@@ -45,7 +45,9 @@ describe 'Admin do login', type: :system do
       fill_in 'Senha', with: '123456'
       click_on 'Entrar'
     end
-    click_on 'Sair'
+    within('#user-menu') do
+      click_on 'Sair'
+    end
     expect(page).to have_content 'Logout efetuado com sucesso.'
   end
 

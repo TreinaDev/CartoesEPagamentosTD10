@@ -1,11 +1,15 @@
 require 'rails_helper'
 
-describe 'Usuário tenta mudar status do cartão' do
+describe 'Administrador tenta mudar status do cartão' do
   it 'e habilita com sucesso' do
+    admin = FactoryBot.create(:admin)
     FactoryBot.create(:card_type, emission: false, name: 'Platinum')
 
+    login_as admin
     visit root_path
-    click_on 'Tipos de cartão'
+    within '#cards' do
+      click_on 'Tipos de cartões'
+    end
     click_on 'Platinum'
     click_on 'Habilitar emissão'
 
@@ -14,10 +18,14 @@ describe 'Usuário tenta mudar status do cartão' do
   end
 
   it 'e desabilita com sucesso' do
+    admin = FactoryBot.create(:admin)
     FactoryBot.create(:card_type, emission: true, name: 'Platinum')
 
+    login_as admin
     visit root_path
-    click_on 'Tipos de cartão'
+    within '#cards' do
+      click_on 'Tipos de cartões'
+    end
     click_on 'Platinum'
     click_on 'Desabilitar emissão'
 

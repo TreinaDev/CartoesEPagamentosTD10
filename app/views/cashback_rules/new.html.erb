@@ -1,0 +1,45 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to t('.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('.create_bachback_rule') %></li>
+  </ol>
+</nav>
+
+<section>
+  <h1 class='title-style'><%= t('.create_bachback_rule') %></h1>
+  
+  <div class='cashback-rules-form'>
+    <% if @cashback_rule.errors[:cashback_percentage].include?(t('.cashback_rule_alredy_exists')) %>
+      <h4><%= t('.verify_the_following_error') %>:</h4>
+      <div id='errors-div'>
+        <p><%= t('.cashback_rule_alredy_exists') %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <%= form_with model: @cashback_rule, class:'form' do |f| %>
+  
+    <div class='form-attributes'>
+      <%= f.label :minimum_amount_points %>
+      <%= f.number_field :minimum_amount_points, placeholder: t('.minimum_amount_points_placeholder') %>
+      <% if @cashback_rule.errors[:minimum_amount_points].present? %>
+        <span class='text-danger errors'><%= @cashback_rule.errors[:minimum_amount_points].join(', ') %></span>
+      <% end %>
+    </div>
+    <div class='form-attributes'>
+      <%= f.label :cashback_percentage %>
+      <%= f.number_field :cashback_percentage, min: 0, max: 99.99, step: 0.01, placeholder: t('.cashback_percentage_placeholder') %>
+      <% unless @cashback_rule.errors[:cashback_percentage].include?(t('.cashback_rule_alredy_exists')) %>
+        <span class='text-danger errors'><%= @cashback_rule.errors[:cashback_percentage].join(', ') %></span>
+      <% end %>
+    </div>
+    <div class='form-attributes'>
+      <%= f.label :days_to_use %>
+      <%= f.number_field :days_to_use, placeholder: t('.days_to_use_placeholder') %>
+      <% if @cashback_rule.errors[:days_to_use].present? %>
+        <span class='text-danger errors'><%= @cashback_rule.errors[:days_to_use].join(', ') %></span>
+      <% end %>
+    </div>
+    <%= f.submit 'Criar regra', class: 'btn btn-primary w-100 mt-1' %>
+  <% end %>
+</section>
