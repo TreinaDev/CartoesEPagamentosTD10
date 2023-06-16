@@ -1,0 +1,17 @@
+pt-BR:
+  activerecord:
+    models:
+      payment:
+        one: Pagamento
+        other: Pagamentos
+    attributes:
+        payment:
+          order_number: Número do pedido
+          cpf: CPF
+          total_value: Valor total
+          descount_amount: Valor do desconto
+          final_value: Valor final
+          status: Status
+          code: Código do pedido
+          card_number: Número do cartão
+          payment_date: Data de pagamento

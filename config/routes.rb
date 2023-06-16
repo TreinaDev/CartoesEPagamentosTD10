@@ -16,8 +16,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :company_card_types, only: [:index]
-      resources :payments, only: [:index]
-      resources :cards, only: [:create, :update] do
+      resources :extracts, only: [:index]
+      resources :payments, only: [:create, :index]
+      resources :cards, only: [:create, :update, :destroy, :show] do
         delete 'block', on: :member
       end
     end
