@@ -4,13 +4,13 @@ describe 'API de consulta do pagamento' do
   context 'GET /api/v1/payments?code=code_number' do
     it 'com sucesso' do
       payment = Payment.create!(order_number: '852369',
-                                code: 'EKMZVUVIWU',
                                 total_value: 500,
                                 descount_amount: 50,
                                 final_value: 450,
                                 status: 'pending',
                                 cpf: '15756448506',
-                                card_number: '98765432165432198765')
+                                card_number: '98765432165432198765',
+                                payment_date: Date.current)
 
       get "/api/v1/payments?code=#{payment.code}"
 
@@ -23,28 +23,28 @@ describe 'API de consulta do pagamento' do
       expect(json_response['final_value']).to eq 450
       expect(json_response['cpf']).to eq '15756448506'
       expect(json_response['card_number']).to eq '98765432165432198765'
-      expect(json_response['code']).to eq 'EKMZVUVIWU'
+      expect(json_response['code']).to eq payment.code
       expect(json_response['status']).to eq 'pending'
     end
 
     it 'retorna apenas o pagamento do codigo informado' do
       payment = Payment.create!(order_number: '852369',
-                                code: 'EKMZVUVIWU',
                                 total_value: 500,
                                 descount_amount: 50,
                                 final_value: 450,
                                 status: 'pending',
                                 cpf: '15756448506',
-                                card_number: '98765432165432198765')
+                                card_number: '98765432165432198765',
+                                payment_date: Date.current)
 
       Payment.create!(order_number: '456123',
-                      code: 'T37PD3ARY0',
                       total_value: 300,
                       descount_amount: 50,
                       final_value: 250,
                       status: 'pending',
                       cpf: '04621165062',
-                      card_number: '87452147852365874125')
+                      card_number: '87452147852365874125',
+                      payment_date: Date.current)
 
       get "/api/v1/payments?code=#{payment.code}"
 
@@ -57,19 +57,19 @@ describe 'API de consulta do pagamento' do
       expect(json_response['final_value']).to eq 450
       expect(json_response['cpf']).to eq '15756448506'
       expect(json_response['card_number']).to eq '98765432165432198765'
-      expect(json_response['code']).to eq 'EKMZVUVIWU'
+      expect(json_response['code']).to eq payment.code
       expect(json_response['status']).to eq 'pending'
     end
 
     it 'retonar erro caso não encontre um código informado' do
       Payment.create!(order_number: '852369',
-                      code: 'EKMZVUVIWU',
                       total_value: 500,
                       descount_amount: 50,
                       final_value: 450,
                       status: 'pending',
                       cpf: '15756448506',
-                      card_number: '98765432165432198765')
+                      card_number: '98765432165432198765',
+                      payment_date: Date.current)
       code = 'DW4NWMSBWJ'
 
       get "/api/v1/payments?code=#{code}"
@@ -82,13 +82,13 @@ describe 'API de consulta do pagamento' do
       allow(Payment).to receive(:find_by!).and_raise(ActiveRecord::ActiveRecordError)
 
       payment = Payment.create!(order_number: '852369',
-                                code: 'EKMZVUVIWU',
                                 total_value: 500,
                                 descount_amount: 50,
                                 final_value: 450,
                                 status: 'pending',
                                 cpf: '15756448506',
-                                card_number: '98765432165432198765')
+                                card_number: '98765432165432198765',
+                                payment_date: Date.current)
 
       get "/api/v1/payments?#{payment.code}"
 

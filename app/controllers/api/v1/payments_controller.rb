@@ -1,4 +1,10 @@
 class Api::V1::PaymentsController < Api::V1::ApiController
+  def index
+    payment = Payment.find_by!(code: params[:code])
+    json_payment = format_created_payment(payment)
+    render status: :ok, json: json_payment
+  end
+
   def create
     payment_params = params.require(:payment).permit(:order_number, :total_value, :descount_amount, :final_value,
                                                      :cpf, :card_number, :payment_date)
@@ -9,13 +15,6 @@ class Api::V1::PaymentsController < Api::V1::ApiController
     else
       render status: :precondition_failed, json: { errors: payment.errors.full_messages }
     end
-  end
-  
-  def index
-    payment = Payment.find_by!(code: params[:code])
-
-    json_payment = format_created_payment(payment)
-    render status: :ok, json: json_payment
   end
 
   private
