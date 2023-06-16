@@ -8,6 +8,7 @@ pt-BR:
       validity: Válido por
       days: Dias
       return_percentage: Porcentagem de retorno
+      no_cashback_rules_registered: Ainda não existem regras de cashback cadastradas
     new:
       home: Início
       create_bachback_rule: Criar regra de cashback

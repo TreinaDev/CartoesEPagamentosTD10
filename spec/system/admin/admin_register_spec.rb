@@ -11,7 +11,7 @@ describe 'Admin do create a count', type: :system do
         fill_in 'CPF', with: '86882381208'
         fill_in 'E-mail', with: 'admin.luizq@punti.com'
         fill_in 'Senha', with: '123456'
-        fill_in 'Confirmação de senha', with: '123456'
+        fill_in 'Confirme sua senha', with: '123456'
         click_on 'Cadastrar'
       end
 
@@ -29,7 +29,7 @@ describe 'Admin do create a count', type: :system do
         fill_in 'CPF', with: '06909882733'
         fill_in 'E-mail', with: 'admin.luizq@email.com'
         fill_in 'Senha', with: '123456'
-        fill_in 'Confirmação de senha', with: '123456'
+        fill_in 'Confirme sua senha', with: '123456'
         click_on 'Cadastrar'
       end
 
@@ -59,7 +59,7 @@ describe 'Admin do create a count', type: :system do
         fill_in 'CPF', with: '27438203816'
         fill_in 'E-mail', with: 'j@punti.com'
         fill_in 'Senha', with: '123456'
-        fill_in 'Confirmação de senha', with: '123456'
+        fill_in 'Confirme sua senha', with: '123456'
         click_on 'Cadastrar'
       end
 
@@ -75,7 +75,7 @@ describe 'Admin do create a count', type: :system do
         fill_in 'CPF', with: '11122233345'
         fill_in 'E-mail', with: 'admin@punti.com'
         fill_in 'Senha', with: '123456'
-        fill_in 'Confirmação de senha', with: '123456'
+        fill_in 'Confirme sua senha', with: '123456'
         click_on 'Cadastrar'
       end
 
@@ -99,7 +99,7 @@ describe 'Admin do create a count', type: :system do
         fill_in 'CPF', with: '27413653346'
         fill_in 'E-mail', with: 'admin.luiz@punti.com'
         fill_in 'Senha', with: '123456'
-        fill_in 'Confirmação de senha', with: '123456'
+        fill_in 'Confirme sua senha', with: '123456'
         click_on 'Cadastrar'
       end
 
