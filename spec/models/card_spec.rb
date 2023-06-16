@@ -99,4 +99,16 @@ RSpec.describe Card, type: :model do
       expect(result).to eq 'active'
     end
   end
+
+  describe 'com status bloqueado' do
+    it 'não permite atualização' do
+      company_card_type = FactoryBot.create(:company_card_type)
+      card = Card.create!(cpf: '78956470081', status: :blocked, company_card_type:)
+
+      result = card.update(status: :active)
+
+      expect(result).to eq false
+      expect(card.errors.full_messages).to include 'Status bloqueado não permite alterações no cartão'
+    end
+  end
 end
