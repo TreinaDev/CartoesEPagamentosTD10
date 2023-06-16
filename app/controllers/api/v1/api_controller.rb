@@ -1,6 +1,7 @@
 class Api::V1::ApiController < ActionController::API
   rescue_from ActiveRecord::ActiveRecordError, with: :internet_server_error
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from ActionController::ParameterMissing, with: :bad_request
 
   private
 
@@ -10,5 +11,9 @@ class Api::V1::ApiController < ActionController::API
 
   def not_found
     render status: :not_found, json: { errors: 'Erro de entidade não encontrada' }
+  end
+
+  def bad_request
+    render status: :bad_request, json: { errors: 'Erro nos parâmetros enviados' }
   end
 end
