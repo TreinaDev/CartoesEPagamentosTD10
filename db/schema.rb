@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_14_201031) do
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -74,6 +74,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "deposits", force: :cascade do |t|
+    t.integer "card_id", null: false
+    t.integer "amount"
+    t.string "description"
+    t.string "deposit_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_deposits_on_card_id"
+  end
+
+  create_table "extracts", force: :cascade do |t|
+    t.datetime "date"
+    t.string "operation_type"
+    t.integer "value"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "card_number"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.string "order_number"
     t.string "code"
@@ -89,4 +109,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_170805) do
 
   add_foreign_key "cards", "company_card_types"
   add_foreign_key "company_card_types", "card_types"
+  add_foreign_key "deposits", "cards"
 end
