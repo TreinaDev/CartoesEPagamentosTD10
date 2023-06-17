@@ -1,8 +1,15 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to t('.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('.card_types') %></li>
+  </ol>
+</nav>
+
 <section class='d-md-flex p-2'>
     <div id='emission-enabled-card-types' class='container'>
-        <h4>Tipos habilitados para emissão:</h4>
+        <h1 class='title-style'><%= t('.types_enabled_for_issuance') %>:</h1>
         <% if @cards_emission_enabled.empty? %>
-            <span>Nenhum tipo de cartão com emissão habilitada</span>
+            <span><%= t('.no_card_type_with_issuance_enabled') %></span>
         <% else %>
             <%@cards_emission_enabled.each do |type|%>
                 <div class='row align-items-center my-2'>
@@ -14,9 +21,9 @@
   </div>
 
   <div id='emission-disabled-card-types' class='container'>
-        <h4>Tipos desabilitados para emissão:</h4>
+        <h1 class='title-style'><%= t('.types_disabled_for_issuance') %>:</h1>
         <% if @cards_emission_disabled.empty? %>
-            <span>Nenhum tipo de cartão com emissão desabilitada</span>
+            <span><%= t('.no_card_type_with_issuance_disabled') %></span>
         <% else %>
             <%@cards_emission_disabled.each do |type|%>
                 <div class='row align-items-center'>

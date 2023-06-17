@@ -1,6 +1,13 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to 'Inicio', root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('.create_new_card_type') %></li>
+  </ol>
+</nav>
+
 <section class='card-type-form'>
-  <h1>Novo tipo de cartão</h1>
+  <h1 class='title-style'><%= t('.new_card_type') %></h1>
   
-  <%= render 'errors_full_messages', locals: {card_type: @card_type} %>
+  <%= render 'errors_full_messages', locals: { card_type: @card_type } %>
   <%= render 'form'%>
 </section>

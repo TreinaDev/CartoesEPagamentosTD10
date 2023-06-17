@@ -18,7 +18,7 @@ RSpec.describe CardType, type: :model do
       end
     end
 
-    context 'campo icone ' do
+    context 'campo icone' do
       it 'vazio' do
         card_type = CardType.new(name: 'Premium', icon: '', start_points: 100)
 
