@@ -1,4 +1,15 @@
 class Api::V1::CardsController < Api::V1::ApiController
+  def recharge
+    messages = []
+    return if params[:request].nil?
+
+    params[:request].each do |r|
+      card = Card.find_by(cpf: r[:cpf])
+      messages << (!card.nil? && card.active? ? update_card(card, r) : { message: 'Cartão indisponível para recarga' })
+    end
+    render status: :ok, json: messages
+  end
+
   def show
     card = Card.find_by(cpf: params[:id])
     if card.nil?
@@ -38,6 +49,26 @@ class Api::V1::CardsController < Api::V1::ApiController
   end
 
   private
+
+  def convert_to_points(card, request)
+    conversion = card.company_card_type.conversion_tax * request[:value].to_f
+    conversion + card.points
+  end
+
+  def create_deposit(value)
+    deposit = Deposit.create(amount: value, description: 'Recarga feita pela empresa')
+    Extract.create(date: deposit.created_at, operation_type: 'Depósito', value: deposit.amount,
+                   description: "Recarga #{deposit.deposit_code}")
+  end
+
+  def update_card(card, request)
+    conversion = convert_to_points(card, request)
+    if card.update(points: conversion)
+      create_deposit(conversion)
+      return { message: 'Recarga efetuada com sucesso' }
+    end
+    { message: 'Não foi possível concluir a recarga' }
+  end
 
   def format_created_card(card)
     {

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :extracts, only: [:index]
       resources :cards, only: [:create, :update, :destroy, :show] do
         delete 'block', on: :member
+        patch 'recharge', on: :collection
       end
     end
   end
