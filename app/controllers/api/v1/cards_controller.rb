@@ -1,5 +1,5 @@
 class Api::V1::CardsController < Api::V1::ApiController
-  before_action :prepare_new_card, only: %i[create upgrade]
+  before_action :set_new_card, only: %i[create upgrade]
 
   def show
     card = Card.find_by(cpf: params[:id])
@@ -50,7 +50,7 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   private
 
-  def prepare_new_card
+  def set_new_card
     @card_params = params.require(:card).permit(:cpf, :company_card_type_id)
     @card = Card.new(@card_params)
   end
