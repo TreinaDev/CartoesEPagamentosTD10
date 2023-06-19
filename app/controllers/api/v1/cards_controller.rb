@@ -18,9 +18,18 @@ class Api::V1::CardsController < Api::V1::ApiController
     end
   end
 
-  def update
+  def deactivate
     card = Card.find(params[:id])
     if card.update(status: :inactive)
+      render status: :ok, json: format_created_card(card)
+    else
+      render status: :precondition_failed, json: { errors: card.errors.full_messages }
+    end
+  end
+
+  def activate
+    card = Card.find(params[:id])
+    if card.update(status: :active)
       render status: :ok, json: format_created_card(card)
     else
       render status: :precondition_failed, json: { errors: card.errors.full_messages }
