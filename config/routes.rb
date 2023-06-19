@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :payments, only: [:create]
       resources :cards, only: [:create, :update, :destroy, :show] do
         delete 'block', on: :member
+        post 'upgrade', on: :collection
       end
     end
   end
