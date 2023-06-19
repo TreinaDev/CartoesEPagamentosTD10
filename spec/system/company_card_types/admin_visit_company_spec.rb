@@ -23,6 +23,7 @@ describe 'Admin visita tela de uma empresa' do
   end
 
   it 'e vê os tipos de cartão' do
+    admin = FactoryBot.create(:admin)
     company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
     FactoryBot.create(:card_type)
     card_type2 = FactoryBot.create(:card_type, name: 'Black', start_points: 1500, emission: true)
@@ -32,8 +33,7 @@ describe 'Admin visita tela de uma empresa' do
       content_type: 'image/svg+xml'
     )
 
-    allow(Company).to receive(:all).and_return(companies)
-    allow(Company).to receive(:find).and_return(companies[0])
+    allow(Company).to receive(:find).and_return(company)
 
     login_as admin
     visit root_path
