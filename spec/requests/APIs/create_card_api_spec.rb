@@ -23,8 +23,7 @@ describe 'API para emissão de cartão' do
     end
 
     it 'falha caso o CPF já possua um cartão ativo' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      FactoryBot.create(:company_card_type)
 
       Card.create!(cpf: '67855872043', company_card_type_id: 1)
 
@@ -37,8 +36,7 @@ describe 'API para emissão de cartão' do
     end
 
     it 'com sucesso' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      FactoryBot.create(:company_card_type)
 
       card = { card: { cpf: '12193448000158', company_card_type_id: 1 } }
 

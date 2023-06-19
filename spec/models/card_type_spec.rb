@@ -12,11 +12,10 @@ RSpec.describe CardType, type: :model do
 
       it 'não é unico' do
         FactoryBot.create(:card_type)
-        gold_img = Rails.root.join('spec', 'support', 'images', 'gold.svg')
         second_card_type = FactoryBot.build(:card_type, name: 'Premium')
         second_card_type.icon.attach(
-          io: gold_img.open,
-          filename: 'gold.svg',
+          io: Rails.root.join('spec/support/images/premium.svg').open,
+          filename: 'premium.svg',
           content_type: 'image/svg+xml'
         )
         expect(second_card_type.valid?).to eq false

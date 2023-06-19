@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe Card, type: :model do
   describe '#valid?' do
     it 'falso quando o cpf é vazio' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      company_card_type = FactoryBot.create(:company_card_type)
       card = Card.new(cpf: '', company_card_type:)
 
       result = card.valid?
@@ -23,8 +22,7 @@ RSpec.describe Card, type: :model do
     end
 
     it 'falso quando já existe um cartão ativo com mesmo CPF' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      company_card_type = FactoryBot.create(:company_card_type)
       Card.create!(cpf: '78956470081', company_card_type:)
       card = Card.new(cpf: '78956470081', company_card_type:)
 
@@ -35,9 +33,7 @@ RSpec.describe Card, type: :model do
     end
 
     it 'falso quando o tipo de cartão não está disponível' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99',
-                                                  status: :inactive)
+      company_card_type = FactoryBot.create(:company_card_type, status: :inactive)
       card = Card.new(cpf: '78956470081', company_card_type:)
 
       result = card.valid?
@@ -49,8 +45,7 @@ RSpec.describe Card, type: :model do
 
   describe 'gera um número aleatório' do
     it 'ao criar um novo cartão' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      company_card_type = FactoryBot.create(:company_card_type)
       card = Card.new(cpf: '78956470081', company_card_type:)
 
       card.save!
@@ -61,8 +56,7 @@ RSpec.describe Card, type: :model do
     end
 
     it 'de forma única' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      company_card_type = FactoryBot.create(:company_card_type)
       first_card = Card.create!(cpf: '78956470081', company_card_type:)
       second_card = Card.new(cpf: '97988819070', company_card_type:)
 
@@ -72,8 +66,7 @@ RSpec.describe Card, type: :model do
     end
 
     it 'e não deve ser modificado' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      company_card_type = FactoryBot.create(:company_card_type)
       card = Card.create!(cpf: '78956470081', company_card_type:)
       original_number = card.number
 
@@ -85,8 +78,7 @@ RSpec.describe Card, type: :model do
 
   describe 'gera a quantidade de pontos iniciais' do
     it 'ao criar um novo cartão' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      company_card_type = FactoryBot.create(:company_card_type)
       card = Card.new(cpf: '78956470081', company_card_type:)
 
       card.save!
@@ -98,8 +90,7 @@ RSpec.describe Card, type: :model do
 
   describe 'gera com status ativo' do
     it 'ao criar um novo cartão' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      company_card_type = FactoryBot.create(:company_card_type)
       card = Card.new(cpf: '78956470081', company_card_type:)
 
       card.save!
@@ -111,8 +102,7 @@ RSpec.describe Card, type: :model do
 
   describe 'com status bloqueado' do
     it 'não permite atualização' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      company_card_type = FactoryBot.create(:company_card_type)
       card = Card.create!(cpf: '78956470081', status: :blocked, company_card_type:)
 
       result = card.update(status: :active)

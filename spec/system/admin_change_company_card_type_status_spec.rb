@@ -3,10 +3,9 @@ require 'rails_helper'
 describe 'Administrador muda status de um tipo de cartão vinculado a uma empresa' do
   it 'de ativado para desativado' do
     admin = FactoryBot.create(:admin)
-    gold_img = Rails.root.join('spec', 'support', 'images', 'gold.svg')
     gold_card = FactoryBot.create(:card_type, name: 'Gold')
     gold_card.icon.attach(
-      io: gold_img.open,
+      io: Rails.root.join('spec/support/images/gold.svg').open,
       filename: 'gold.svg',
       content_type: 'image/svg+xml'
     )
@@ -31,10 +30,9 @@ describe 'Administrador muda status de um tipo de cartão vinculado a uma empres
 
   it 'de desativado para ativado' do
     admin = FactoryBot.create(:admin)
-    gold_img = Rails.root.join('spec', 'support', 'images', 'gold.svg')
     gold_card = FactoryBot.create(:card_type, name: 'Gold')
     gold_card.icon.attach(
-      io: gold_img.open,
+      io: Rails.root.join('spec/support/images/gold.svg').open,
       filename: 'gold.svg',
       content_type: 'image/svg+xml'
     )

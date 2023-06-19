@@ -9,7 +9,6 @@ describe 'Admin visita tela de uma empresa' do
     allow(Company).to receive(:all).and_return(companies)
     allow(Company).to receive(:find).and_return(companies[0])
 
-    # login_as admin
     visit root_path
     click_on 'Disponibilizar tipos de cartões'
     click_on 'Samsung'
@@ -20,17 +19,14 @@ describe 'Admin visita tela de uma empresa' do
   end
 
   it 'e vê os tipos de cartão' do
-    black_img = Rails.root.join('spec', 'support', 'images', 'black.svg')
-
     company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
-    card_type = FactoryBot.create(:card_type)
-    card_type2 = FactoryBot.build(:card_type, name: 'Black', start_points: 1500, emission: true)
+    FactoryBot.create(:card_type)
+    card_type2 = FactoryBot.create(:card_type, name: 'Black', start_points: 1500, emission: true)
     card_type2.icon.attach(
-      io: black_img.open,
+      io: Rails.root.join('spec/support/images/black.svg').open,
       filename: 'black.svg',
       content_type: 'image/svg+xml'
     )
-    card_type2.save
 
     allow(Company).to receive(:find).and_return(company)
 

@@ -21,9 +21,8 @@ describe 'API do tipo de cartão' do
 
     it 'com status disponível' do
       card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 210)
-      black_img = Rails.root.join('spec', 'support', 'images', 'black.svg')
       card_type.icon.attach(
-        io: black_img.open,
+        io: Rails.root.join('spec/support/images/black.svg').open,
         filename: 'black.svg',
         content_type: 'image/svg+xml'
       )
@@ -58,9 +57,8 @@ describe 'API do tipo de cartão' do
 
     it 'apenas os tipos daquela empresa' do
       card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 210)
-      black_img = Rails.root.join('spec', 'support', 'images', 'black.svg')
       card_type.icon.attach(
-        io: black_img.open,
+        io: Rails.root.join('spec/support/images/black.svg').open,
         filename: 'black.svg',
         content_type: 'image/svg+xml'
       )
@@ -93,14 +91,14 @@ describe 'API do tipo de cartão' do
 
     it 'com sucesso' do
       card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 210)
-      black_img = Rails.root.join('spec', 'support', 'images', 'black.svg')
+      black_img = Rails.root.join('spec/support/images/black.svg')
       card_type.icon.attach(
         io: black_img.open,
         filename: 'black.svg',
         content_type: 'image/svg+xml'
       )
       card_type2 = FactoryBot.create(:card_type, name: 'Gold', start_points: 150)
-      gold_img = Rails.root.join('spec', 'support', 'images', 'gold.svg')
+      gold_img = Rails.root.join('spec/support/images/gold.svg')
       card_type.icon.attach(
         io: gold_img.open,
         filename: 'gold.svg',

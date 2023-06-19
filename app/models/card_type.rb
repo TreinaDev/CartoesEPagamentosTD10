@@ -4,15 +4,16 @@ class CardType < ApplicationRecord
 
   validates :name, :icon, :start_points, presence: true
   validates :name, uniqueness: true
-  validate :icon_is_image
+  validate :icon_image_type
 
   scope :enabled, -> { where(emission: true) }
   scope :disabled, -> { where(emission: false) }
 
   private
 
-  def icon_is_image
-    return if icon.present? && icon.content_type =~ /^image\/(jpeg|gif|png|svg\+xml)$/
-    errors.add(:upload, 'Tipo de imagem inválida')
+  def icon_image_type
+    return if icon.present? && icon.content_type =~ %r{^image/(jpeg|gif|png|svg\+xml)$}
+
+    errors.add(:icon, 'é um tipo de imagem inválida')
   end
 end

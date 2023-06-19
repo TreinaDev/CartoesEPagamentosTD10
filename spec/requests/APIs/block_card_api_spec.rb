@@ -10,8 +10,7 @@ describe 'API para bloqueio definitivo de cartão' do
 
     it 'retorna erro em caso de falha interna' do
       allow(Card).to receive(:find).and_raise(ActiveRecord::ActiveRecordError)
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      FactoryBot.create(:company_card_type)
 
       card = Card.create!(cpf: '12193448000158', company_card_type_id: 1)
 
@@ -21,8 +20,7 @@ describe 'API para bloqueio definitivo de cartão' do
     end
 
     it 'retorna erro em caso de cartão já bloqueado' do
-      card_type = FactoryBot.create(:card_type)
-      company_card_type = CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
+      FactoryBot.create(:company_card_type)
 
       card = Card.create!(cpf: '12193448000158', company_card_type_id: 1, status: :blocked)
 
@@ -33,9 +31,8 @@ describe 'API para bloqueio definitivo de cartão' do
     end
 
     it 'com sucesso' do
-      card_type = FactoryBot.create(:card_type)
+      FactoryBot.create(:company_card_type)
       allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
-      CompanyCardType.create!(cnpj: '71.223.406/0001-81', card_type:, conversion_tax: '9.99')
 
       Card.create!(cpf: '12193448000158', company_card_type_id: 1)
 

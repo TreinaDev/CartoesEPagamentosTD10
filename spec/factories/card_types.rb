@@ -6,7 +6,7 @@ FactoryBot.define do
 
     after :build do |card_type|
       card_type.icon.attach(
-        io: Rails.root.join('spec', 'support', 'images', 'premium.svg').open,
+        io: Rails.root.join('spec/support/images/premium.svg').open,
         filename: 'premium.svg',
         content_type: 'image/svg+xml'
       )
