@@ -85,7 +85,8 @@ class Api::V1::CardsController < Api::V1::ApiController
       number: card.number,
       points: card.points,
       status: card.status,
-      name: card.company_card_type.card_type.name
+      name: card.company_card_type.card_type.name,
+      conversion_tax: card.company_card_type.conversion_tax
     }
   end
 end
