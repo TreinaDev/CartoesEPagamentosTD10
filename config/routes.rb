@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     patch 'enable', on: :member
     patch 'disable', on: :member
   end
+  resources :cashback_rules, only: [:index, :new, :create, :edit, :update]
 
   namespace :api do
     namespace :v1 do
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
         delete 'block', on: :member
         patch 'activate', on: :member
         patch 'deactivate', on: :member
+        post 'upgrade', on: :collection
       end
     end
   end
