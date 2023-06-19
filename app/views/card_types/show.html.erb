@@ -1,3 +1,11 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to 'Inicio', root_path %></li>
+    <li class="breadcrumb-item fw-bold" aria-current="page"><%= link_to t('.card_types'), card_types_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('.card') %> <%= @card_type.name %></li>
+  </ol>
+</nav>
+
 <section class='card w-25 mx-auto'>
   <h1 class='card-header'>Cartão <%= @card_type.name %></h1>
 
@@ -6,15 +14,15 @@
   <% end %>
   
   <div class='card-body'>
-    <span class='card-text'>Pontos iniciais: <%= @card_type.start_points %></span>
+    <span class='card-text'><%= t('.initial_points') %>: <%= @card_type.start_points %></span>
   </div>
   
   <div class='card-footer'>
-    <%=link_to 'Editar', edit_card_type_path(@card_type), :class => 'btn btn-secondary'%>
+    <%=link_to 'Editar', edit_card_type_path(@card_type), class: 'btn btn-secondary'%>
     <% if @card_type.emission %>
-      <%= button_to 'Desabilitar emissão', disable_card_type_path(@card_type), :class => 'btn btn-danger', method: :patch %>
+      <%= button_to 'Desabilitar emissão', disable_card_type_path(@card_type), class: 'btn btn-danger', method: :patch %>
     <% else %>
-      <%= button_to 'Habilitar emissão', enable_card_type_path(@card_type), :class => 'btn btn-success', method: :patch %>
+      <%= button_to 'Habilitar emissão', enable_card_type_path(@card_type), class: 'btn btn-success', method: :patch %>
     <% end %>
   </div>
 </section>

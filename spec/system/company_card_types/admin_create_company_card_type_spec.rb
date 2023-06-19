@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe 'Administrador vincula um tipo de cartão a uma empresa' do
   it 'com sucesso' do
+    admin = FactoryBot.create(:admin)
     FactoryBot.create(:card_type)
     gold_card = FactoryBot.create(:card_type, name: 'Gold')
     gold_card.icon.attach(
@@ -13,7 +14,12 @@ describe 'Administrador vincula um tipo de cartão a uma empresa' do
 
     allow(Company).to receive(:find).and_return(company)
 
-    visit company_path(company.id)
+    login_as admin
+    visit root_path
+    within '#cards' do
+      click_on 'Disponibilizar tipos de cartões'
+    end
+    click_on 'Samsung'
     find_button('Vincular a empresa', id: dom_id(gold_card)).click
 
     expect(current_path).to eq company_path(company.id)

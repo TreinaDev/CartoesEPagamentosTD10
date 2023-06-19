@@ -14,9 +14,17 @@ describe 'API do tipo de cartão' do
     it 'retorna erro em caso de falha interna' do
       allow(CompanyCardType).to receive(:where).and_raise(ActiveRecord::ActiveRecordError)
 
-      get '/api/v1/company_card_types?cnpj=000000000000000'
+      get '/api/v1/company_card_types?cnpj=56577242000105'
 
       expect(response.status).to eq 500
+    end
+
+    it 'retorna erro caso não encontre um registro com o cnpj' do
+      allow(CompanyCardType).to receive(:where).and_raise(ActiveRecord::RecordNotFound)
+
+      get '/api/v1/company_card_types?cnpj=000000000000000'
+
+      expect(response.status).to eq 404
     end
 
     it 'com status disponível' do

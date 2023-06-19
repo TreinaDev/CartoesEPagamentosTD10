@@ -74,6 +74,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_161628) do
     t.index ["company_card_type_id"], name: "index_cards_on_company_card_type_id"
   end
 
+  create_table "cashback_rules", force: :cascade do |t|
+    t.integer "minimum_amount_points"
+    t.decimal "cashback_percentage", precision: 4, scale: 2
+    t.integer "days_to_use"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cashback_percentage", "minimum_amount_points", "days_to_use"], name: "index_cashback_rules_on_minimum_amount_points_and_days_to_use", unique: true
+  end
+
   create_table "company_card_types", force: :cascade do |t|
     t.integer "status", default: 1
     t.string "cnpj"
@@ -100,21 +109,44 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_161628) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "deposits", force: :cascade do |t|
+    t.integer "card_id", null: false
+    t.integer "amount"
+    t.string "description"
+    t.string "deposit_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_deposits_on_card_id"
+  end
+
+  create_table "extracts", force: :cascade do |t|
+    t.datetime "date"
+    t.string "operation_type"
+    t.integer "value"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "card_number"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.string "order_number"
-    t.string "code"
     t.integer "total_value"
     t.integer "descount_amount"
     t.integer "final_value"
-    t.integer "status"
     t.string "cpf"
     t.string "card_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "payment_date"
+    t.integer "status", default: 0
+    t.string "code"
+    t.index ["code"], name: "index_payments_on_code", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cards", "company_card_types"
   add_foreign_key "company_card_types", "card_types"
+  add_foreign_key "deposits", "cards"
 end

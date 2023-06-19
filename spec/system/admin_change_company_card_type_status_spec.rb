@@ -18,7 +18,9 @@ describe 'Administrador muda status de um tipo de cartão vinculado a uma empres
 
     login_as admin
     visit root_path
-    click_on 'Disponibilizar tipos de cartões'
+    within '#cards' do
+      click_on 'Disponibilizar tipos de cartões'
+    end
     click_on 'Samsung'
     find_button('Desativar disponibilidade', id: dom_id(premium_card)).click
 
@@ -45,7 +47,9 @@ describe 'Administrador muda status de um tipo de cartão vinculado a uma empres
 
     login_as admin
     visit root_path
-    click_on 'Disponibilizar tipos de cartões'
+    within '#cards' do
+      click_on 'Disponibilizar tipos de cartões'
+    end
     click_on 'Samsung'
     find_button('Ativar disponibilidade', id: dom_id(premium_card)).click
 

@@ -1,20 +1,20 @@
- <%= form_with model: @card_type, class: 'container' do |f| %>
+<%= form_with model: @card_type, class: 'form' do |f| %>
   
-    <div class="form-group">
-      <%= f.label :name %>
-      <%= f.text_field :name, class: 'form-control' %>
-    </div>
-  
-    <div class="form-group">
-      <%= f.label :start_points %>
-      <%= f.number_field :start_points, class: 'form-control' %>
-    </div>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
 
-    <div>
-      <%= f.label :icon %>
-      <%= f.file_field :icon, class: 'form-control', accept: 'image/jpeg, image/gif, image/png, image/svg+xml' %>
-    </div>
+  <div>
+    <%= f.label :start_points %>
+    <%= f.number_field :start_points %>
+  </div>
+
+  <div>
+    <%= f.label :icon %>
+    <%= f.file_field :icon, class: 'form-control', accept: 'image/jpeg, image/gif, image/png, image/svg+xml' %>
+  </div>
+
+  <%= f.submit 'Salvar', :class => 'btn btn-primary mt-1' %>
   
-    <%= f.submit 'Salvar', class: 'btn btn-primary mt-1' %>
-  
-  <% end %>
+<% end %>

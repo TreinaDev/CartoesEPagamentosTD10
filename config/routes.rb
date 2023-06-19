@@ -12,11 +12,14 @@ Rails.application.routes.draw do
     patch 'enable', on: :member
     patch 'disable', on: :member
   end
+  resources :cashback_rules, only: [:index, :new, :create, :edit, :update]
 
   namespace :api do
     namespace :v1 do
       resources :company_card_types, only: [:index]
-      resources :cards, only: [:create, :update] do
+      resources :extracts, only: [:index]
+      resources :payments, only: [:create]
+      resources :cards, only: [:create, :update, :destroy, :show] do
         delete 'block', on: :member
       end
     end

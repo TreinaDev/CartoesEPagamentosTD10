@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'Usuário tenta ver os tipos de cartão' do
+describe 'Administrador tenta ver os tipos de cartões' do
   it 'com sucesso' do
+    admin = FactoryBot.create(:admin)
     black_img = Rails.root.join('spec/support/images/black.svg')
     card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 1500, emission: true)
     card_type.icon.attach(
@@ -18,8 +19,11 @@ describe 'Usuário tenta ver os tipos de cartão' do
       content_type: 'image/svg+xml'
     )
 
+    login_as admin
     visit root_path
-    click_on 'Tipos de cartão'
+    within '#cards' do
+      click_on 'Tipos de cartões'
+    end
 
     within 'div#emission-enabled-card-types' do
       expect(page).to have_content('Black')
@@ -32,8 +36,12 @@ describe 'Usuário tenta ver os tipos de cartão' do
   end
 
   it 'e não existe nenhum tipo cadastrado' do
+    admin = FactoryBot.create(:admin)
+    login_as admin
     visit root_path
-    click_on 'Tipos de cartão'
+    within '#cards' do
+      click_on 'Tipos de cartões'
+    end
 
     within 'div#emission-enabled-card-types' do
       expect(page).to have_content('Nenhum tipo de cartão com emissão habilitada')

@@ -46,7 +46,32 @@ CompanyCardType.create!(
   card_type: card_type2,
   conversion_tax: 12.00
 )
-Card.create!(cpf: '12193448000158', company_card_type_id: 1)
+card = Card.create!(cpf: '30383993024', company_card_type_id: 1)
+
+payment = Payment.create!(
+  order_number: '12345678912',
+  code: '456789',
+  total_value: 20,
+  descount_amount: 10,
+  final_value: 46,
+  cpf: card.cpf,
+  status: 1,
+  card_number: card.number
+)
+Extract.create!(
+  date: payment.created_at, operation_type: 'débito', value: payment.final_value,
+  description: "Pedido #{payment.order_number}", card_number: payment.card_number
+)
+deposit = Deposit.create!(
+  card:,
+  amount: 20,
+  description: 'Recarga',
+  deposit_code: '216846513'
+)
+Extract.create!(
+  date: deposit.created_at, operation_type: 'depósito', value: deposit.amount,
+  description: deposit.description, card_number: deposit.card.number
+)
 Admin.create!(
   name: 'Luiz da Silva',
   email: 'luizs@punti.com',
@@ -61,4 +86,20 @@ Admin.create!(
   password: '123456',
   password_confirmation: '123456',
   cpf: '33134090082'
+)
+
+Admin.create!(
+  name: 'Pedro Monteiro',
+  email: 'pedro@punti.com',
+  password: 'password123',
+  password_confirmation: 'password123',
+  cpf: '24071765020'
+)
+
+Admin.create!(
+  name: 'Gustavo Alberto',
+  email: 'gustavo@punti.com',
+  password: 'password',
+  password_confirmation: 'password',
+  cpf: '41115338684'
 )
