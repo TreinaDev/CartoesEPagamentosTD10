@@ -13,7 +13,7 @@ describe 'API de recarga de cartões' do
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
       json_response = response.parsed_body
-      expect(json_response[0]['message']).to eq 'Recarga efetuada com sucesso'
+      expect(json_response['message']).to eq 'Recarga efetuada com sucesso'
       expect(card.points).to eq 250
     end
 
@@ -21,8 +21,8 @@ describe 'API de recarga de cartões' do
       company = FactoryBot.create(:company_card_type, conversion_tax: 10)
       first_card = FactoryBot.create(:card, points: 100, company_card_type: company)
       second_card = Card.create!(cpf: '50226428087', points: 100, company_card_type: company)
-      request = { request: [{ cpf: first_card.cpf, value: 15 }, { cpf: second_card.cpf, value: 15 }] }
-      patch '/api/v1/cards/recharge', params: request
+      fake_request = { request: [{ cpf: first_card.cpf, value: 15 }, { cpf: second_card.cpf, value: 15 }] }
+      patch '/api/v1/cards/recharge', params: fake_request
       first_card.reload
       second_card.reload
 
@@ -42,16 +42,24 @@ describe 'API de recarga de cartões' do
 
       patch '/api/v1/cards/recharge', params: request
 
-      expect(response.status).to eq 200
+      expect(response.status).to eq 400
       expect(response.content_type).to include 'application/json'
       json_response = response.parsed_body
-      expect(json_response[0]['message']).to eq 'Cartão indisponível para recarga'
+      expect(json_response['errors']).to eq 'CPF inválido ou cartão inativo'
     end
 
-    it 'retorna mensagem de status 204 quando requisição está vazia' do
-      patch '/api/v1/cards/recharge'
+    it 'retorna mensagem de status 400 quando requisição está vazia' do
+      company = FactoryBot.create(:company_card_type, conversion_tax: 10)
+      card = Card.create!(cpf: '50226428087', points: 100, company_card_type: company)
+      request = { request: [{ cpf: '45928010087', value: 15 }] }
+      card.reload
 
-      expect(response.status).to eq 204
+      patch '/api/v1/cards/recharge', params: request
+
+      expect(response.status).to eq 400
+      expect(response.content_type).to include 'application/json'
+      json_response = response.parsed_body
+      expect(json_response['errors']).to eq 'CPF inválido ou cartão inativo'
     end
   end
 end

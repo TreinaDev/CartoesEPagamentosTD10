@@ -1,13 +1,9 @@
 class Api::V1::CardsController < Api::V1::ApiController
   def recharge
-    messages = []
     return if params[:request].nil?
+    return update_one_card(params[:request][0]) if params[:request].one?
 
-    params[:request].each do |r|
-      card = Card.find_by(cpf: r[:cpf])
-      messages << (!card.nil? && card.active? ? update_card(card, r) : { message: 'Cartão indisponível para recarga' })
-    end
-    render status: :ok, json: messages
+    update_multiple_cards(params[:request])
   end
 
   def show
@@ -59,6 +55,25 @@ class Api::V1::CardsController < Api::V1::ApiController
     deposit = Deposit.create(amount: value, description: 'Recarga feita pela empresa')
     Extract.create(date: deposit.created_at, operation_type: 'Depósito', value: deposit.amount,
                    description: "Recarga #{deposit.deposit_code}")
+  end
+
+  def update_one_card(request)
+    card = Card.find_by(cpf: request[:cpf])
+    if !card.nil? && card.active?
+      update_card(card, request)
+      render status: :ok, json: { message: 'Recarga efetuada com sucesso' }
+    else
+      render status: :bad_request, json: { errors: 'CPF inválido ou cartão inativo' }
+    end
+  end
+
+  def update_multiple_cards(request)
+    messages = []
+    request.each do |r|
+      card = Card.find_by(cpf: r[:cpf])
+      messages << (!card.nil? && card.active? ? update_card(card, r) : { message: 'Cartão indisponível para recarga' })
+    end
+    render status: :ok, json: messages
   end
 
   def update_card(card, request)
