@@ -48,6 +48,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_222743) do
     t.index ["company_card_type_id"], name: "index_cards_on_company_card_type_id"
   end
 
+  create_table "cashback_rules", force: :cascade do |t|
+    t.integer "minimum_amount_points"
+    t.decimal "cashback_percentage", precision: 4, scale: 2
+    t.integer "days_to_use"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cashback_percentage", "minimum_amount_points", "days_to_use"], name: "index_cashback_rules_on_minimum_amount_points_and_days_to_use", unique: true
+  end
+
   create_table "company_card_types", force: :cascade do |t|
     t.integer "status", default: 1
     t.string "cnpj"

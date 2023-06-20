@@ -14,9 +14,17 @@ describe 'API do tipo de cartão' do
     it 'retorna erro em caso de falha interna' do
       allow(CompanyCardType).to receive(:where).and_raise(ActiveRecord::ActiveRecordError)
 
-      get '/api/v1/company_card_types?cnpj=000000000000000'
+      get '/api/v1/company_card_types?cnpj=56577242000105'
 
       expect(response.status).to eq 500
+    end
+
+    it 'retorna erro caso não encontre um registro com o cnpj' do
+      allow(CompanyCardType).to receive(:where).and_raise(ActiveRecord::RecordNotFound)
+
+      get '/api/v1/company_card_types?cnpj=000000000000000'
+
+      expect(response.status).to eq 404
     end
 
     it 'com status disponível' do
@@ -43,7 +51,7 @@ describe 'API do tipo de cartão' do
       expect(json_response.length).to eq 1
       expect(json_response[0]['name']).to eq 'Black'
       expect(json_response[0]['icon']).to eq 'icone'
-      expect(json_response[0]['id']).to eq 1
+      expect(json_response[0]['company_card_type_id']).to eq 1
       expect(json_response[0]['start_points']).to eq 210
       expect(json_response[0]['conversion_tax']).to eq 20.00
     end
@@ -71,7 +79,7 @@ describe 'API do tipo de cartão' do
       expect(json_response.length).to eq 1
       expect(json_response[0]['name']).to eq 'Black'
       expect(json_response[0]['icon']).to eq 'icone'
-      expect(json_response[0]['id']).to eq 1
+      expect(json_response[0]['company_card_type_id']).to eq 1
       expect(json_response[0]['start_points']).to eq 210
       expect(json_response[0]['conversion_tax']).to eq 20.00
     end
@@ -100,12 +108,12 @@ describe 'API do tipo de cartão' do
       expect(json_response.length).to eq 2
       expect(json_response[0]['name']).to eq 'Black'
       expect(json_response[0]['icon']).to eq 'icone'
-      expect(json_response[0]['id']).to eq 1
+      expect(json_response[0]['company_card_type_id']).to eq 1
       expect(json_response[0]['start_points']).to eq 210
       expect(json_response[0]['conversion_tax']).to eq 20.00
       expect(json_response[1]['name']).to eq 'Starter'
       expect(json_response[1]['icon']).to eq 'icone2'
-      expect(json_response[1]['id']).to eq 2
+      expect(json_response[1]['company_card_type_id']).to eq 2
       expect(json_response[1]['start_points']).to eq 150
       expect(json_response[1]['conversion_tax']).to eq 12.00
     end

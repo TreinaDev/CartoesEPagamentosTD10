@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe 'Admin visita tela de uma empresa' do
   it 'com sucesso' do
+    admin = FactoryBot.create(:admin)
     companies = []
     companies << Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
     companies << Company.new(id: 2, brand_name: 'LG Electronics', registration_number: '25.325.922/0001-08')
@@ -9,9 +10,11 @@ describe 'Admin visita tela de uma empresa' do
     allow(Company).to receive(:all).and_return(companies)
     allow(Company).to receive(:find).and_return(companies[0])
 
-    # login_as admin
+    login_as admin
     visit root_path
-    click_on 'Disponibilizar tipos de cartões'
+    within '#cards' do
+      click_on 'Disponibilizar tipos de cartões'
+    end
     click_on 'Samsung'
 
     expect(current_path).to eq company_path(companies[0].id)
@@ -20,13 +23,22 @@ describe 'Admin visita tela de uma empresa' do
   end
 
   it 'e vê os tipos de cartão' do
-    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
+    admin = FactoryBot.create(:admin)
+    companies = []
+    companies << Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
+    companies << Company.new(id: 2, brand_name: 'LG Electronics', registration_number: '25.325.922/0001-08')
     FactoryBot.create(:card_type, name: 'Gold', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg')
     FactoryBot.create(:card_type, name: 'Premium', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/premium.svg')
 
-    allow(Company).to receive(:find).and_return(company)
+    allow(Company).to receive(:all).and_return(companies)
+    allow(Company).to receive(:find).and_return(companies[0])
 
-    visit company_path(company.id)
+    login_as admin
+    visit root_path
+    within '#cards' do
+      click_on 'Disponibilizar tipos de cartões'
+    end
+    click_on 'Samsung'
 
     expect(page).to have_css "img[src*='gold']"
     expect(page).to have_content 'Gold'
