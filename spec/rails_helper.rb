@@ -38,6 +38,7 @@ RSpec.configure do |config|
     driven_by(:rack_test)
   end
 
+  config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Warden::Test::Helpers
   config.include ActionView::RecordIdentifier

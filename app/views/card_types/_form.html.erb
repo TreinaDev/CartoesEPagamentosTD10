@@ -6,13 +6,13 @@
   </div>
 
   <div>
-    <%= f.label :icon %>
-    <%= f.text_field :icon %>
+    <%= f.label :start_points %>
+    <%= f.number_field :start_points %>
   </div>
 
   <div>
-    <%= f.label :start_points %>
-    <%= f.number_field :start_points %>
+    <%= f.label :icon %>
+    <%= f.file_field :icon, class: 'form-control', accept: 'image/jpeg, image/gif, image/png, image/svg+xml' %>
   </div>
 
   <%= f.submit 'Salvar', :class => 'btn btn-primary mt-1' %>
