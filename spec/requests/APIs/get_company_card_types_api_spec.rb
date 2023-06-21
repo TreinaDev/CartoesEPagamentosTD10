@@ -58,7 +58,7 @@ describe 'API do tipo de cartão' do
       expect(json_response.length).to eq 1
       expect(json_response[0]['name']).to eq 'Black'
       expect(json_response[0]['icon']).to eq url_for(card_type.icon)
-      expect(json_response[0]['id']).to eq 1
+      expect(json_response[0]['company_card_type_id']).to eq 1
       expect(json_response[0]['start_points']).to eq 210
       expect(json_response[0]['conversion_tax']).to eq 20.00
     end
@@ -92,7 +92,7 @@ describe 'API do tipo de cartão' do
       expect(json_response.length).to eq 1
       expect(json_response[0]['name']).to eq 'Black'
       expect(json_response[0]['icon']).to eq url_for(card_type.icon)
-      expect(json_response[0]['id']).to eq 1
+      expect(json_response[0]['company_card_type_id']).to eq 1
       expect(json_response[0]['start_points']).to eq 210
       expect(json_response[0]['conversion_tax']).to eq 20.00
     end
@@ -134,13 +134,13 @@ describe 'API do tipo de cartão' do
       json_response = response.parsed_body
       expect(json_response.length).to eq 2
       expect(json_response[0]['name']).to eq 'Black'
-      expect(json_response[0]['icon']).to eq url_for(card_type.icon)
-      expect(json_response[0]['id']).to eq 1
+      expect(json_response[0]['icon']).to eq url_for(card_type.icon
+      expect(json_response[0]['company_card_type_id']).to eq 1
       expect(json_response[0]['start_points']).to eq 210
       expect(json_response[0]['conversion_tax']).to eq 20.00
       expect(json_response[1]['name']).to eq 'Gold'
       expect(json_response[1]['icon']).to eq url_for(card_type2.icon)
-      expect(json_response[1]['id']).to eq 2
+      expect(json_response[1]['company_card_type_id']).to eq 2
       expect(json_response[1]['start_points']).to eq 150
       expect(json_response[1]['conversion_tax']).to eq 12.00
     end

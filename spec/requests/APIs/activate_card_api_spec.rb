@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe 'API para desativação de cartão' do
-  context 'PATCH /api/v1/cards/:id/deactivate' do
-    it 'falha se não existir o cartão que será desativado' do
-      patch '/api/v1/cards/1/deactivate'
+describe 'API para ativação de cartão' do
+  context 'PATCH /api/v1/cards/:id/activate' do
+    it 'falha se não existir o cartão que será ativado' do
+      patch '/api/v1/cards/1/activate'
 
       expect(response.status).to eq 404
     end
@@ -14,7 +14,7 @@ describe 'API para desativação de cartão' do
 
       card = Card.create!(cpf: '12193448000158', company_card_type_id: 1)
 
-      patch "/api/v1/cards/#{card.id}/deactivate"
+      patch "/api/v1/cards/#{card.id}/activate"
 
       expect(response.status).to eq 500
     end
@@ -24,26 +24,26 @@ describe 'API para desativação de cartão' do
 
       card = Card.create!(cpf: '12193448000158', company_card_type_id: 1, status: :blocked)
 
-      patch "/api/v1/cards/#{card.id}/deactivate"
+      patch "/api/v1/cards/#{card.id}/activate"
 
       expect(response.status).to eq 412
       expect(response.body).to include 'Status bloqueado não permite alterações no cartão'
     end
 
     it 'com sucesso' do
-      FactoryBot.create(:company_card_type)
       allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
+      FactoryBot.create(:company_card_type)
 
       card = Card.create!(cpf: '12193448000158', company_card_type_id: 1)
 
-      patch "/api/v1/cards/#{card.id}/deactivate"
+      patch "/api/v1/cards/#{card.id}/activate"
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
       json_response = response.parsed_body
       expect(json_response['number']).to eq '12345678912345678912'
       expect(json_response['cpf']).to eq '12193448000158'
-      expect(json_response['status']).to eq 'inactive'
+      expect(json_response['status']).to eq 'active'
       expect(json_response['points']).to eq 100
       expect(json_response['name']).to eq 'Premium'
     end

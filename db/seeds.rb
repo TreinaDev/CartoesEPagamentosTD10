@@ -55,9 +55,9 @@ payment = Payment.create!(
   descount_amount: 10,
   final_value: 46,
   cpf: card.cpf,
-  status: 0,
-  payment_date: Date.current,
-  card_number: card.number
+  status: :pending,
+  card_number: card.number,
+  payment_date: Date.current
 )
 Extract.create!(
   date: payment.created_at, operation_type: 'débito', value: payment.final_value,

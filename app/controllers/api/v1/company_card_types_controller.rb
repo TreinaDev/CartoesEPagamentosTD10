@@ -11,7 +11,7 @@ class Api::V1::CompanyCardTypesController < Api::V1::ApiController
   def format_card_type_body(company_card_types)
     company_card_types.map do |c|
       {
-        id: c.id,
+        company_card_type_id: c.id,
         name: c.card_type.name,
         icon: url_for(c.card_type.icon),
         start_points: c.card_type.start_points,
