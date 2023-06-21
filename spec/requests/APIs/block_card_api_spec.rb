@@ -3,7 +3,8 @@ require 'rails_helper'
 describe 'API para bloqueio definitivo de cartão' do
   context 'DELETE /api/v1/cards/:id/block' do
     it 'falha se não existir o cartão que será bloqueado' do
-      delete '/api/v1/cards/1/block'
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      delete '/api/v1/cards/1/block', headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 404
     end
@@ -14,7 +15,8 @@ describe 'API para bloqueio definitivo de cartão' do
 
       card = Card.create!(cpf: '12193448000158', company_card_type_id: 1)
 
-      delete "/api/v1/cards/#{card.id}/block"
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      delete "/api/v1/cards/#{card.id}/block", headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 500
     end
@@ -24,7 +26,8 @@ describe 'API para bloqueio definitivo de cartão' do
 
       card = Card.create!(cpf: '12193448000158', company_card_type_id: 1, status: :blocked)
 
-      delete "/api/v1/cards/#{card.id}/block"
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      delete "/api/v1/cards/#{card.id}/block", headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 412
       expect(response.body).to include 'Status bloqueado não permite alterações no cartão'
@@ -36,7 +39,8 @@ describe 'API para bloqueio definitivo de cartão' do
 
       Card.create!(cpf: '12193448000158', company_card_type_id: 1)
 
-      delete '/api/v1/cards/1/block'
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      delete '/api/v1/cards/1/block', headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
@@ -46,6 +50,20 @@ describe 'API para bloqueio definitivo de cartão' do
       expect(json_response['status']).to eq 'blocked'
       expect(json_response['points']).to eq 100
       expect(json_response['name']).to eq 'Premium'
+    end
+
+    it 'e falha pois a chave de api está errada' do
+      allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
+      FactoryBot.create(:company_card_type)
+
+      Card.create!(cpf: '12193448000158', company_card_type_id: 1)
+
+      key = ActionController::HttpAuthentication::Token.encode_credentials('324143gfdaf-f34ggs-gsgf')
+      delete '/api/v1/cards/1/block', headers: { 'Api-Key' => key }
+
+      expect(response.status).to eq 401
+      expect(response.content_type).to include 'application/json'
+      expect(response.body).to include 'Chave de API inválida'
     end
   end
 end

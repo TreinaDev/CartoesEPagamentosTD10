@@ -1,4 +1,5 @@
 class Api::V1::CompanyCardTypesController < Api::V1::ApiController
+  before_action :authenticate_api_key
   def index
     company = CompanyCardType.where(cnpj: params[:cnpj])
     card_types = company.where(status: :active)
@@ -19,4 +20,6 @@ class Api::V1::CompanyCardTypesController < Api::V1::ApiController
       }
     end
   end
+
+
 end

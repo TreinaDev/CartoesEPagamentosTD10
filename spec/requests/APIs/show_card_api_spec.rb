@@ -5,7 +5,8 @@ describe 'API de consulta de cartão' do
     it 'e retorna dados do cartão com sucesso' do
       card = FactoryBot.create(:card)
 
-      get "/api/v1/cards/#{card.cpf}"
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      get "/api/v1/cards/#{card.cpf}", headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
@@ -20,10 +21,22 @@ describe 'API de consulta de cartão' do
     end
 
     it 'e não encontra nenhum resultado' do
-      get '/api/v1/cards/72477982036'
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      get '/api/v1/cards/72477982036', headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 404
       expect(response.content_type).to include 'application/json'
+    end
+
+    it 'e falha pois a chave de api está errada' do
+      card = FactoryBot.create(:card)
+
+      key = ActionController::HttpAuthentication::Token.encode_credentials('324143gfdaf-f34ggs-gsgf')
+      get "/api/v1/cards/#{card.cpf}", headers: { 'Api-Key' => key }
+
+      expect(response.status).to eq 401
+      expect(response.content_type).to include 'application/json'
+      expect(response.body).to include 'Chave de API inválida'
     end
   end
 end

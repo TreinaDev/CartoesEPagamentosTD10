@@ -1,9 +1,11 @@
 require 'rails_helper'
+require 'net/http'
 
 describe 'API do tipo de cartão' do
   context 'GET /api/v1/company_card_types?cnpj=cnpj_number' do
     it 'retorna vazio se não tiver tipo de cartão disponível' do
-      get '/api/v1/company_card_types?cnpj=000000000000000'
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      get '/api/v1/company_card_types?cnpj=000000000000000', headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
@@ -14,7 +16,8 @@ describe 'API do tipo de cartão' do
     it 'retorna erro em caso de falha interna' do
       allow(CompanyCardType).to receive(:where).and_raise(ActiveRecord::ActiveRecordError)
 
-      get '/api/v1/company_card_types?cnpj=56577242000105'
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      get '/api/v1/company_card_types?cnpj=56577242000105', headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 500
     end
@@ -22,7 +25,8 @@ describe 'API do tipo de cartão' do
     it 'retorna erro caso não encontre um registro com o cnpj' do
       allow(CompanyCardType).to receive(:where).and_raise(ActiveRecord::RecordNotFound)
 
-      get '/api/v1/company_card_types?cnpj=000000000000000'
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      get '/api/v1/company_card_types?cnpj=000000000000000', headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 404
     end
@@ -43,7 +47,8 @@ describe 'API do tipo de cartão' do
         conversion_tax: 10.00
       )
 
-      get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}"
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}", headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
@@ -71,7 +76,8 @@ describe 'API do tipo de cartão' do
         conversion_tax: 15.00
       )
 
-      get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}"
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}", headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
@@ -99,8 +105,9 @@ describe 'API do tipo de cartão' do
         card_type: card_type2,
         conversion_tax: 12.00
       )
-
-      get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}"
+      key = ActionController::HttpAuthentication::Token.encode_credentials('324143gfdaf-f34ggs-gsgf')
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}", headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
@@ -116,6 +123,29 @@ describe 'API do tipo de cartão' do
       expect(json_response[1]['company_card_type_id']).to eq 2
       expect(json_response[1]['start_points']).to eq 150
       expect(json_response[1]['conversion_tax']).to eq 12.00
+    end
+
+    it 'e falha pois a chave de api está errada' do
+      card_type = CardType.create!(name: 'Black', icon: 'icone', start_points: 210)
+      card_type2 = CardType.create!(name: 'Starter', icon: 'icone2', start_points: 150)
+      company_card_type = CompanyCardType.create!(
+        status: :active,
+        cnpj: '02423374000145',
+        card_type:,
+        conversion_tax: 20.00
+      )
+      CompanyCardType.create!(
+        status: :active,
+        cnpj: '02423374000145',
+        card_type: card_type2,
+        conversion_tax: 12.00
+      )
+      key = ActionController::HttpAuthentication::Token.encode_credentials('324143gfdaf-f34ggs-gsgf')
+      get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}", headers: { 'Api-Key' => key }
+
+      expect(response.status).to eq 401
+      expect(response.content_type).to include 'application/json'
+      expect(response.body).to include 'Chave de API inválida'
     end
   end
 end

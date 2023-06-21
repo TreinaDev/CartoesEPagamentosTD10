@@ -12,7 +12,8 @@ describe 'API para criação de payment' do
 
       allow(SecureRandom).to receive(:alphanumeric).and_return('5KIAMXNLUO')
 
-      post '/api/v1/payments', params: payment
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      post '/api/v1/payments', params: payment, headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 201
       expect(response.content_type).to include 'application/json'
@@ -31,7 +32,8 @@ describe 'API para criação de payment' do
     it 'com falha' do
       payment = { payment: {} }
 
-      post '/api/v1/payments', params: payment
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      post '/api/v1/payments', params: payment, headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 400
       expect(response.body).to include 'Erro nos parâmetros enviados'
@@ -49,7 +51,8 @@ describe 'API para criação de payment' do
       allow(SecureRandom).to receive(:alphanumeric).and_return('5KIAMXNLUO')
       allow(Payment).to receive(:new).and_raise(ActiveRecord::ActiveRecordError)
 
-      post '/api/v1/payments', params: payment
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      post '/api/v1/payments', params: payment, headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 500
     end
@@ -60,7 +63,8 @@ describe 'API para criação de payment' do
                              cpf: '', card_number: '',
                              payment_date: '' } }
 
-      post '/api/v1/payments', params: payment
+      key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
+      post '/api/v1/payments', params: payment, headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 412
       expect(response.body).to include 'Número do pedido não pode ficar em branco'
@@ -70,6 +74,24 @@ describe 'API para criação de payment' do
       expect(response.body).to include 'CPF não pode ficar em branco'
       expect(response.body).to include 'Número do cartão não pode ficar em branco'
       expect(response.body).to include 'Data de pagamento não pode ficar em branco'
+    end
+
+    it 'e falha pois a chave api está errada' do
+      FactoryBot.create(:card)
+
+      payment = { payment: { order_number: '123246', total_value: 300,
+                             descount_amount: 50, final_value: 250,
+                             cpf: '12193448000158', card_number: '12345678912345678912',
+                             payment_date: Date.current } }
+
+      allow(SecureRandom).to receive(:alphanumeric).and_return('5KIAMXNLUO')
+
+      key = ActionController::HttpAuthentication::Token.encode_credentials('324143gfdaf-f34ggs-gsgf')
+      post '/api/v1/payments', params: payment, headers: { 'Api-Key' => key }
+
+      expect(response.status).to eq 401
+      expect(response.content_type).to include 'application/json'
+      expect(response.body).to include 'Chave de API inválida'
     end
   end
 end
