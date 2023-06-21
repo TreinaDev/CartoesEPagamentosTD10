@@ -34,8 +34,8 @@ describe 'API para desativação de cartão' do
     end
 
     it 'com sucesso' do
-      allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
       FactoryBot.create(:company_card_type)
+      allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
 
       card = Card.create!(cpf: '12193448000158', company_card_type_id: 1)
 
