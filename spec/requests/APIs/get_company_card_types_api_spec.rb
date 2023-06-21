@@ -153,21 +153,35 @@ describe 'API do tipo de cartão' do
     end
 
     it 'e falha pois a chave de api está errada' do
-      card_type = CardType.create!(name: 'Black', icon: 'icone', start_points: 210)
-      card_type2 = CardType.create!(name: 'Starter', icon: 'icone2', start_points: 150)
-      company_card_type = CompanyCardType.create!(
+      card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 210)
+      black_img = Rails.root.join('spec/support/images/black.svg')
+      card_type.icon.attach(
+        io: black_img.open,
+        filename: 'black.svg',
+        content_type: 'image/svg+xml'
+      )
+      card_type2 = FactoryBot.create(:card_type, name: 'Gold', start_points: 150)
+      gold_img = Rails.root.join('spec/support/images/gold.svg')
+      card_type.icon.attach(
+        io: gold_img.open,
+        filename: 'gold.svg',
+        content_type: 'image/svg+xml'
+      )
+      company_card_type = FactoryBot.create(
+        :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type:,
         conversion_tax: 20.00
       )
-      CompanyCardType.create!(
+      FactoryBot.create(
+        :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type: card_type2,
         conversion_tax: 12.00
       )
-      key = ActionController::HttpAuthentication::Token.encode_credentials('324143gfdaf-f34ggs-gsgf')
+      key = ActionController::HttpAuthentication::Token.encode_credentials('e525d5eb-aa2c-4093-8fcd-9a35dafc85d9')
       get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}", headers: { 'Api-Key' => key }
 
       expect(response.status).to eq 401
