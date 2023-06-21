@@ -5,8 +5,9 @@ describe 'Administrador vincula um tipo de cartão a uma empresa' do
     admin = FactoryBot.create(:admin)
     FactoryBot.create(:card_type, name: 'Premium', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/premium.svg')
     gold_card = FactoryBot.create(:card_type, name: 'Gold', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg')
-    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
+    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81', active: true)
 
+    allow(Company).to receive(:all).and_return([company])
     allow(Company).to receive(:find).and_return(company)
 
     login_as admin
