@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_15_222743) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_20_193431) do
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -64,8 +64,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_222743) do
     t.decimal "conversion_tax", precision: 4, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "cashback_rule_id"
     t.index ["card_type_id", "cnpj"], name: "index_company_card_types_on_card_type_id_and_cnpj", unique: true
     t.index ["card_type_id"], name: "index_company_card_types_on_card_type_id"
+    t.index ["cashback_rule_id"], name: "index_company_card_types_on_cashback_rule_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -120,5 +122,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_222743) do
 
   add_foreign_key "cards", "company_card_types"
   add_foreign_key "company_card_types", "card_types"
+  add_foreign_key "company_card_types", "cashback_rules"
   add_foreign_key "deposits", "cards"
 end

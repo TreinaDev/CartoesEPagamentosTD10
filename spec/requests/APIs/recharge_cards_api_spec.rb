@@ -21,7 +21,7 @@ describe 'API de recarga de cartões' do
       company = FactoryBot.create(:company_card_type, conversion_tax: 10)
       first_card = FactoryBot.create(:card, points: 100, company_card_type: company)
       second_card = Card.create!(cpf: '50226428087', points: 100, company_card_type: company)
-      fake_request = { request: [{ cpf: first_card.cpf, value: 15 }, { cpf: second_card.cpf, value: 15 }] }
+      fake_request = { request: [{ cpf: first_card.cpf, value: 25 }, { cpf: second_card.cpf, value: 15 }] }
       patch '/api/v1/cards/recharge', params: fake_request
       first_card.reload
       second_card.reload
@@ -31,8 +31,25 @@ describe 'API de recarga de cartões' do
       json_response = response.parsed_body
       expect(json_response[0]['message']).to eq 'Recarga efetuada com sucesso'
       expect(json_response[1]['message']).to eq 'Recarga efetuada com sucesso'
-      expect(first_card.points).to eq 250
+      expect(first_card.points).to eq 350
       expect(second_card.points).to eq 250
+    end
+
+    it 'retorna mensagem de sucesso e uma de falha para mais de um cartão' do
+      company = FactoryBot.create(:company_card_type, conversion_tax: 10)
+      first_card = FactoryBot.create(:card, points: 100, company_card_type: company)
+      second_card = Card.create!(cpf: '50226428087', points: 100, company_card_type: company, status: 'inactive')
+      request = { request: [{ cpf: first_card.cpf, value: 25 }, { cpf: second_card.cpf, value: 15 }] }
+      patch '/api/v1/cards/recharge', params: request
+      first_card.reload
+      second_card.reload
+
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
+      json_response = response.parsed_body
+      expect(json_response[0]['message']).to eq 'Recarga efetuada com sucesso'
+      expect(json_response[1]['message']).to eq 'Cartão indisponível para recarga'
+      expect(first_card.points).to eq 350
     end
 
     it 'retorna mensagem de erro quando cartão é inválido' do
