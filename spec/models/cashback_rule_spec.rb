@@ -90,8 +90,17 @@ RSpec.describe CashbackRule, type: :model do
         expect(cashback_rule.errors.full_messages).to include 'Porcentagem de retorno deve ser maior que 0'
       end
 
-      it 'deve retornar falso caso cashback_percentage seja um número maior ou igual a 100' do
+      it 'deve retornar falso caso cashback_percentage seja um número igual a 100' do
         cashback_rule = CashbackRule.new(minimum_amount_points: 500, cashback_percentage: 100, days_to_use: 10)
+
+        result = cashback_rule.valid?
+
+        expect(result).to eq false
+        expect(cashback_rule.errors.full_messages).to include 'Porcentagem de retorno deve ser menor que 100'
+      end
+
+      it 'deve retornar falso caso cashback_percentage seja um número maior que 100' do
+        cashback_rule = CashbackRule.new(minimum_amount_points: 500, cashback_percentage: 150, days_to_use: 10)
 
         result = cashback_rule.valid?
 
