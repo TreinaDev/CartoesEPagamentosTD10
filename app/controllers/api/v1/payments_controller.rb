@@ -1,6 +1,6 @@
 class Api::V1::PaymentsController < Api::V1::ApiController
-  def index
-    payment = Payment.find_by!(code: params[:code])
+  def show
+    payment = Payment.find_by!(code: params[:id])
     json_payment = format_created_payment(payment)
     render status: :ok, json: json_payment
   end

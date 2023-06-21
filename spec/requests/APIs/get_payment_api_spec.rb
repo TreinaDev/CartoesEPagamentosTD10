@@ -12,7 +12,7 @@ describe 'API de consulta do pagamento' do
                                             card_number: '98765432165432198765',
                                             payment_date: Date.current)
 
-      get "/api/v1/payments?code=#{payment.code}"
+      get "/api/v1/payments/#{payment.code}"
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
@@ -46,21 +46,20 @@ describe 'API de consulta do pagamento' do
                                   card_number: '87452147852365874125',
                                   payment_date: Date.current)
 
-      get "/api/v1/payments?code=#{payment.code}"
+      get "/api/v1/payments/#{payment.code}"
 
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
       json_response = response.parsed_body
-      json_response = [json_response]
-      expect(json_response.length).to eq(1)
-      expect(json_response[0]['order_number']).to eq '852369'
-      expect(json_response[0]['total_value']).to eq 500
-      expect(json_response[0]['descount_amount']).to eq 50
-      expect(json_response[0]['final_value']).to eq 450
-      expect(json_response[0]['cpf']).to eq '15756448506'
-      expect(json_response[0]['card_number']).to eq '98765432165432198765'
-      expect(json_response[0]['code']).to eq payment.code
-      expect(json_response[0]['status']).to eq 'pending'
+      expect(json_response.is_a?(Array)).to eq(false)
+      expect(json_response['order_number']).to eq '852369'
+      expect(json_response['total_value']).to eq 500
+      expect(json_response['descount_amount']).to eq 50
+      expect(json_response['final_value']).to eq 450
+      expect(json_response['cpf']).to eq '15756448506'
+      expect(json_response['card_number']).to eq '98765432165432198765'
+      expect(json_response['code']).to eq payment.code
+      expect(json_response['status']).to eq 'pending'
     end
 
     it 'retonar erro caso não encontre um código informado' do
@@ -74,7 +73,7 @@ describe 'API de consulta do pagamento' do
                                   payment_date: Date.current)
       code = 'DW4NWMSBWJ'
 
-      get "/api/v1/payments?code=#{code}"
+      get "/api/v1/payments/#{code}"
 
       expect(response.status).to eq 404
       expect(response.content_type).to include 'application/json'
@@ -93,7 +92,7 @@ describe 'API de consulta do pagamento' do
                                             card_number: '98765432165432198765',
                                             payment_date: Date.current)
 
-      get "/api/v1/payments?#{payment.code}"
+      get "/api/v1/payments/#{payment.code}"
 
       expect(response.status).to eq 500
     end
