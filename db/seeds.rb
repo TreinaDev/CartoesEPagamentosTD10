@@ -90,3 +90,23 @@ Admin.create!(
   password_confirmation: 'password',
   cpf: '41115338684'
 )
+
+ErrorMessage.create!(
+  code: '001',
+  description: 'Cartão informado não existe'
+)
+
+ErrorMessage.create!(
+  code: '002',
+  description: 'Cartão não está ativo'
+)
+
+ErrorMessage.create!(
+  code: '003',
+  description: 'Cartão não pertence ao CPF informado'
+)
+
+ErrorMessage.create!(
+  code: '004',
+  description: 'Valor da compra é maior que o saldo do cartão'
+)
