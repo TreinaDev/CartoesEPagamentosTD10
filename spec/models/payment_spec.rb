@@ -110,7 +110,7 @@ RSpec.describe Payment, type: :model do
     it 'para cartão inexistente' do
       FactoryBot.create(:error_message, description: 'Cartão informado não existe')
       payment = FactoryBot.create(:payment)
-      
+
       errors = payment.errors_associations
 
       expect(errors.length).to eq 1
@@ -120,8 +120,9 @@ RSpec.describe Payment, type: :model do
     it 'para cartão não ativo' do
       FactoryBot.create(:error_message, description: 'Cartão informado não existe')
       FactoryBot.create(:error_message, code: '002', description: 'Cartão não está ativo')
+      FactoryBot.create(:company_card_type)
       allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
-      FactoryBot.create(:card, status: 'inactive', cpf: '66268563670')
+      Card.create!(cpf: '66268563670', company_card_type_id: 1, status: 'inactive')
       allow(SecureRandom).to receive(:alphanumeric).and_return('4521547859')
       payment = FactoryBot.create(:payment, card_number: '12345678912345678912', cpf: '02310635049')
 
@@ -135,8 +136,9 @@ RSpec.describe Payment, type: :model do
       FactoryBot.create(:error_message, description: 'Cartão informado não existe')
       FactoryBot.create(:error_message, code: '002', description: 'Cartão não está ativo')
       FactoryBot.create(:error_message, code: '003', description: 'Cartão não pertence ao CPF informado')
+      FactoryBot.create(:company_card_type)
       allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
-      FactoryBot.create(:card, cpf: '66268563670')
+      Card.create!(cpf: '66268563670', company_card_type_id: 1)
       allow(SecureRandom).to receive(:alphanumeric).and_return('4521547859')
       payment = FactoryBot.create(:payment, card_number: '12345678912345678912', cpf: '02310635049')
 
@@ -151,8 +153,9 @@ RSpec.describe Payment, type: :model do
       FactoryBot.create(:error_message, code: '002', description: 'Cartão não está ativo')
       FactoryBot.create(:error_message, code: '003', description: 'Cartão não pertence ao CPF informado')
       FactoryBot.create(:error_message, code: '004', description: 'Valor da compra é maior que o saldo do cartão')
+      FactoryBot.create(:company_card_type)
       allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
-      FactoryBot.create(:card, cpf: '66268563670', points: 50)
+      Card.create!(cpf: '66268563670', company_card_type_id: 1)
       allow(SecureRandom).to receive(:alphanumeric).and_return('4521547859')
       payment = FactoryBot.create(:payment, card_number: '12345678912345678912', cpf: '66268563670', final_value: 500)
 
@@ -167,8 +170,9 @@ RSpec.describe Payment, type: :model do
       FactoryBot.create(:error_message, code: '002', description: 'Cartão não está ativo')
       FactoryBot.create(:error_message, code: '003', description: 'Cartão não pertence ao CPF informado')
       FactoryBot.create(:error_message, code: '004', description: 'Valor da compra é maior que o saldo do cartão')
+      FactoryBot.create(:company_card_type)
       allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
-      FactoryBot.create(:card, cpf: '66268563670', points: 50)
+      Card.create!(cpf: '66268563670', company_card_type_id: 1)
       allow(SecureRandom).to receive(:alphanumeric).and_return('4521547859')
       payment = FactoryBot.create(:payment, card_number: '12345678912345678912', cpf: '02310635049', final_value: 500)
 
