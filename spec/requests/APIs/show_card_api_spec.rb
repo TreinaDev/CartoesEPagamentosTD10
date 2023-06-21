@@ -5,8 +5,12 @@ describe 'API de consulta de cartão' do
     it 'e retorna dados do cartão com sucesso' do
       card = FactoryBot.create(:card)
 
-      card_type = FactoryBot.create(:card_type, name: 'Black',
-                                                icon: 'cartaoblack')
+      card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 210)
+      card_type.icon.attach(
+        io: Rails.root.join('spec/support/images/black.svg').open,
+        filename: 'black.svg',
+        content_type: 'image/svg+xml'
+      )
 
       company = FactoryBot.create(:company_card_type, status: :active,
                                                       cnpj: '71.223.406/0001-81',
