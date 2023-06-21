@@ -24,11 +24,7 @@ class Api::V1::ApiController < ActionController::API
   end
 
   def valid_api_key?(api_key)
-    if api_key.present?
-      api_key = api_key.sub(/^Token token="/, '').chomp('"')
-      ActiveSupport::SecurityUtils.secure_compare(api_key, Rails.application.credentials.api_key)
-    else
-      false
-    end
+    api_key.present? ? api_key = api_key.sub(/^Token token="/, '').chomp('"') : return
+    ActiveSupport::SecurityUtils.secure_compare(api_key, Rails.application.credentials.api_key)
   end
 end
