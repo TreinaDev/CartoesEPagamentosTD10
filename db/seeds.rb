@@ -1,12 +1,27 @@
-card_type = CardType.create!(name: 'Gold', start_points: 100,
-                             icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg',
-                             emission: true)
-card_type2 = CardType.create!(name: 'Platinum', start_points: 200,
-                              icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/platinum.svg',
-                              emission: true)
-other_card_type = CardType.create!(name: 'Black', start_points: 300,
-                                   icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/black.svg',
-                                   emission: true)
+card_type = CardType.new(name: 'Gold', start_points: 100, emission: true)
+card_type.icon.attach(
+  io: Rails.root.join('spec/support/images/gold.svg').open,
+  filename: 'gold.svg',
+  content_type: 'image/svg+xml'
+)
+card_type.save
+
+card_type2 = CardType.new(name: 'Platinum', start_points: 200, emission: true)
+card_type2.icon.attach(
+  io: Rails.root.join('spec/support/images/premium.svg').open,
+  filename: 'premium.svg',
+  content_type: 'image/svg+xml'
+)
+card_type2.save
+
+other_card_type = CardType.new(name: 'Black', start_points: 300, emission: true)
+other_card_type.icon.attach(
+  io: Rails.root.join('spec/support/images/black.svg').open,
+  filename: 'black.svg',
+  content_type: 'image/svg+xml'
+)
+other_card_type.save
+
 CompanyCardType.create!(
   status: :active,
   cnpj: '02423374000145',
@@ -71,7 +86,6 @@ Admin.create!(
   email: 'luana@punti.com',
   password: '123456',
   password_confirmation: '123456',
-
   cpf: '33134090082'
 )
 

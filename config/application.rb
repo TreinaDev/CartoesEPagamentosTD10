@@ -34,5 +34,9 @@ module CardsPayments
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.active_storage.content_types_to_serve_as_binary.delete('image/svg+xml')
+    config.active_storage.content_types_allowed_inline << 'image/svg+xml'
+    config.active_storage.routes_prefix = '/images'
   end
 end
