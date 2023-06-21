@@ -105,7 +105,6 @@ describe 'API do tipo de cartão' do
         card_type: card_type2,
         conversion_tax: 12.00
       )
-      key = ActionController::HttpAuthentication::Token.encode_credentials('324143gfdaf-f34ggs-gsgf')
       key = ActionController::HttpAuthentication::Token.encode_credentials(Rails.application.credentials.api_key)
       get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}", headers: { 'Api-Key' => key }
 

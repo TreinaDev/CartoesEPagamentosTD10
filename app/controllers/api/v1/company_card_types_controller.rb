@@ -20,6 +20,4 @@ class Api::V1::CompanyCardTypesController < Api::V1::ApiController
       }
     end
   end
-
-
 end
