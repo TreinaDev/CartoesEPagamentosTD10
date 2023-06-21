@@ -9,14 +9,14 @@ describe 'Administrador tenta registar um novo tipo de cartão' do
       click_on 'Novo tipo de cartão'
     end
     fill_in('Nome', with: 'Premium')
-    fill_in('Ícone', with: 'https://i.imgur.com/YmQ9jRN.png')
+    attach_file('Ícone', Rails.root.join('spec/support/images/premium.svg'))
     fill_in('Pontos iniciais', with: '67')
     click_on 'Salvar'
 
     expect(page).to have_content('Novo tipo de cartão criado com sucesso')
     expect(page).to have_content('Cartão Premium')
     expect(page).to have_content('Pontos iniciais: 67')
-    expect(page).to have_css("img[src*='YmQ9jRN.png']")
+    expect(page).to have_css("img[src*='premium.svg']")
   end
 
   it 'com falha, pois o tipo de cartão já existe' do
@@ -29,7 +29,7 @@ describe 'Administrador tenta registar um novo tipo de cartão' do
       click_on 'Novo tipo de cartão'
     end
     fill_in('Nome', with: 'Premium')
-    fill_in('Ícone', with: 'https://i.imgur.com/YmQ9jRN.png')
+    attach_file('Ícone', Rails.root.join('spec/support/images/premium.svg'))
     fill_in('Pontos iniciais', with: '50')
     click_on 'Salvar'
 

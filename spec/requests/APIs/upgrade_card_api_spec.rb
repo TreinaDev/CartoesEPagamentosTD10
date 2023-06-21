@@ -34,7 +34,12 @@ describe 'API para upgrade de cartão' do
 
     it 'não altera o status do cartão anterior em caso de falha' do
       card_type1 = FactoryBot.create(:card_type)
-      card_type2 = FactoryBot.create(:card_type, name: 'Black', icon: 'icone', start_points: 120)
+      card_type2 = FactoryBot.create(:card_type, name: 'Black', start_points: 120)
+      card_type2.icon.attach(
+        io: Rails.root.join('spec/support/images/black.svg').open,
+        filename: 'black.svg',
+        content_type: 'image/svg+xml'
+      )
 
       CompanyCardType.create!(
         cnpj: '12193448000158',
@@ -97,7 +102,12 @@ describe 'API para upgrade de cartão' do
 
     it 'com sucesso' do
       card_type1 = FactoryBot.create(:card_type)
-      card_type2 = FactoryBot.create(:card_type, name: 'Black', icon: 'icone', start_points: 120)
+      card_type2 = FactoryBot.create(:card_type, name: 'Black', start_points: 120)
+      card_type2.icon.attach(
+        io: Rails.root.join('spec/support/images/black.svg').open,
+        filename: 'black.svg',
+        content_type: 'image/svg+xml'
+      )
 
       company_card_type1 = CompanyCardType.create!(
         cnpj: '12193448000158',
