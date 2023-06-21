@@ -3,8 +3,13 @@ require 'rails_helper'
 describe 'Administrador vincula um tipo de cartão a uma empresa' do
   it 'com sucesso' do
     admin = FactoryBot.create(:admin)
-    FactoryBot.create(:card_type, name: 'Premium', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/premium.svg')
-    gold_card = FactoryBot.create(:card_type, name: 'Gold', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/gold.svg')
+    FactoryBot.create(:card_type)
+    gold_card = FactoryBot.create(:card_type, name: 'Gold')
+    gold_card.icon.attach(
+      io: Rails.root.join('spec/support/images/gold.svg').open,
+      filename: 'gold.svg',
+      content_type: 'image/svg+xml'
+    )
     company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81', active: true)
 
     allow(Company).to receive(:all).and_return([company])
