@@ -28,7 +28,7 @@ class Payment < ApplicationRecord
   end
 
   def check_status(status)
-    ErrorsAssociation.create(payment_id: id, error_message_id: 2) if status != 'active' && status != 'pending'
+    ErrorsAssociation.create(payment_id: id, error_message_id: 2) if status != 'active'
   end
 
   def check_cpf(card_cpf, order_cpf)
