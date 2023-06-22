@@ -1,4 +1,10 @@
 class Api::V1::PaymentsController < Api::V1::ApiController
+  def show
+    payment = Payment.find_by!(code: params[:id])
+    json_payment = format_created_payment(payment)
+    render status: :ok, json: json_payment
+  end
+
   def create
     payment_params = params.require(:payment).permit(:order_number, :total_value, :descount_amount, :final_value,
                                                      :cpf, :card_number, :payment_date)

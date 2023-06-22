@@ -32,6 +32,7 @@ describe 'API de consulta de empresas' do
       json_response = JSON.parse(fake_response.body)
 
       expect(json_response['id']).to eq id
+      expect(json_response.is_a?(Array)).to eq false
     end
 
     it 'deve retornar um status 500 se a resposta da API for um Internal Server Error' do
