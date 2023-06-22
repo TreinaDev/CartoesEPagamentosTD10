@@ -8,6 +8,6 @@ class CompaniesController < ApplicationController
     @card_types = CardType.enabled
     @company_card_types = CompanyCardType.where(cnpj: @company.registration_number)
     @linked_card_types = @company_card_types.to_a.map(&:card_type)
-    @cashback_rules = CashbackRule.all
+    @cashback_rules = CashbackRule.order(:minimum_amount_points)
   end
 end

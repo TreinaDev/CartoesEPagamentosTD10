@@ -12,8 +12,14 @@ class CashbackRule < ApplicationRecord
     I18n.t(
       '.activerecord.functions.description',
       minimum_amount_points:,
-      cashback_percentage:,
+      cashback_percentage: strip_trailing_zero(cashback_percentage),
       days_to_use:
     )
+  end
+
+  private
+
+  def strip_trailing_zero(number)
+    number.to_s.sub(/\.?0+$/, '')
   end
 end

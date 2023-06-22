@@ -24,7 +24,7 @@ describe 'Administrador tenta editar um tipo de cartão vinculado a uma empresa'
     click_on 'Samsung'
 
     within '#card_type_1' do
-      select 'Valor mínimo de 300 pontos - cashback de 15.0% válido por 25 dia(s)', from: 'Regra de cashback'
+      select 'Valor mínimo de 300 pontos - cashback de 15% válido por 25 dia(s)', from: 'Regra de cashback'
       fill_in 'Taxa de conversão', with: 20
       click_on 'Salvar regra e taxa'
     end
@@ -33,7 +33,7 @@ describe 'Administrador tenta editar um tipo de cartão vinculado a uma empresa'
     expect(page).to have_content 'Taxa e regra atualizadas com sucesso.'
     within '#card_type_1' do
       expect(page).to have_css 'option[selected="selected"]',
-                               text: 'Valor mínimo de 300 pontos - cashback de 15.0% válido por 25 dia(s)'
+                               text: 'Valor mínimo de 300 pontos - cashback de 15% válido por 25 dia(s)'
       expect(page).to have_field 'Taxa de conversão', with: '20.0'
       expect(page).to have_button 'Salvar regra e taxa'
     end

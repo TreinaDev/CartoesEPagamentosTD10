@@ -17,7 +17,7 @@ describe 'Administrador vincula um tipo de cartão a uma empresa' do
     end
     click_on 'Samsung'
     within '#card_type_2' do
-      select 'Valor mínimo de 300 pontos - cashback de 10.0% válido por 5 dia(s)', from: 'Regra de cashback'
+      select 'Valor mínimo de 300 pontos - cashback de 10% válido por 5 dia(s)', from: 'Regra de cashback'
       fill_in 'Taxa de conversão', with: 10
       click_on 'Vincular a empresa'
     end
@@ -44,7 +44,7 @@ describe 'Administrador vincula um tipo de cartão a uma empresa' do
     end
     click_on 'Samsung'
     within '#card_type_2' do
-      select 'Valor mínimo de 300 pontos - cashback de 10.0% válido por 5 dia(s)', from: 'Regra de cashback'
+      select 'Valor mínimo de 300 pontos - cashback de 10% válido por 5 dia(s)', from: 'Regra de cashback'
       fill_in 'Taxa de conversão', with: ''
       click_on 'Vincular a empresa'
     end

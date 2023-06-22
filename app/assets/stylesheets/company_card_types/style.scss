@@ -11,7 +11,17 @@
   transition: all .3s ease-in-out;
 }
 
+.company-types-card > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.company-types-card > div.linked {
+  justify-content: space-between;
+}
+
 .company-types-card > form {
+  width: 100%;
   display: flex;
   gap: 1rem;
   align-items: end;
@@ -36,10 +46,6 @@
   font-size: 24px;
 }
 
-.card-info .active {
-  color: #0D6EFD;
-}
-
-.card-info .inactive {
-  color: #F99245;
+.company-types-card .unlinked-color {
+  color: #fd7e14;
 }

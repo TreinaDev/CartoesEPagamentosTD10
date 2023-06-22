@@ -10,3 +10,5 @@ pt-BR:
       status:
         active: 'Ativo'
         inactive: 'Inativo'
+        unlinked: 'Não vinculado'
+
