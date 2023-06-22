@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_15_222743) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_22_192232) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_222743) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+    t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -81,6 +81,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_222743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cashback_percentage", "minimum_amount_points", "days_to_use"], name: "index_cashback_rules_on_minimum_amount_points_and_days_to_use", unique: true
+  end
+
+  create_table "cashbacks", force: :cascade do |t|
+    t.integer "amount"
+    t.boolean "used", default: false, null: false
+    t.integer "card_id", null: false
+    t.integer "cashback_rule_id", null: false
+    t.integer "payment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_cashbacks_on_card_id"
+    t.index ["cashback_rule_id"], name: "index_cashbacks_on_cashback_rule_id"
+    t.index ["payment_id"], name: "index_cashbacks_on_payment_id"
   end
 
   create_table "company_card_types", force: :cascade do |t|
@@ -147,6 +160,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_222743) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cards", "company_card_types"
+  add_foreign_key "cashbacks", "cards"
+  add_foreign_key "cashbacks", "cashback_rules"
+  add_foreign_key "cashbacks", "payments"
   add_foreign_key "company_card_types", "card_types"
   add_foreign_key "deposits", "cards"
 end
