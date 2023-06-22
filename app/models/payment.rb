@@ -6,7 +6,6 @@ class Payment < ApplicationRecord
             :card_number, :cpf, :status, :code, :payment_date, presence: true
   validates :code, uniqueness: true
   validates :code, length: { is: 10 }
-  validates :card_number, length: { is: 20 }
 
   before_validation :generate_code, on: :create
   after_create :check_errors

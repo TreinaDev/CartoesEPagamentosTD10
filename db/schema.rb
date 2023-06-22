@@ -132,6 +132,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_192232) do
     t.index ["card_id"], name: "index_deposits_on_card_id"
   end
 
+  create_table "error_messages", force: :cascade do |t|
+    t.string "code"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_error_messages_on_code", unique: true
+  end
+
+  create_table "errors_associations", force: :cascade do |t|
+    t.integer "payment_id", null: false
+    t.integer "error_message_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["error_message_id"], name: "index_errors_associations_on_error_message_id"
+    t.index ["payment_id"], name: "index_errors_associations_on_payment_id"
+  end
+
   create_table "extracts", force: :cascade do |t|
     t.datetime "date"
     t.string "operation_type"
@@ -144,6 +161,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_192232) do
 
   create_table "payments", force: :cascade do |t|
     t.string "order_number"
+    t.string "code"
     t.integer "total_value"
     t.integer "descount_amount"
     t.integer "final_value"
@@ -153,7 +171,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_192232) do
     t.datetime "updated_at", null: false
     t.date "payment_date"
     t.integer "status", default: 0
-    t.string "code"
     t.index ["code"], name: "index_payments_on_code", unique: true
   end
 
@@ -165,4 +182,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_192232) do
   add_foreign_key "cashbacks", "payments"
   add_foreign_key "company_card_types", "card_types"
   add_foreign_key "deposits", "cards"
+  add_foreign_key "errors_associations", "error_messages"
+  add_foreign_key "errors_associations", "payments"
 end
