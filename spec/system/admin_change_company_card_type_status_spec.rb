@@ -10,10 +10,11 @@ describe 'Administrador muda status de um tipo de cartão vinculado a uma empres
       content_type: 'image/svg+xml'
     )
     premium_card = FactoryBot.create(:card_type)
-    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
+    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81', active: true)
     FactoryBot.create(:company_card_type, card_type: premium_card, status: :active)
     FactoryBot.create(:company_card_type, card_type: gold_card, status: :active)
 
+    allow(Company).to receive(:all).and_return([company])
     allow(Company).to receive(:find).and_return(company)
 
     login_as admin
@@ -39,10 +40,11 @@ describe 'Administrador muda status de um tipo de cartão vinculado a uma empres
       content_type: 'image/svg+xml'
     )
     premium_card = FactoryBot.create(:card_type)
-    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
+    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81', active: true)
     FactoryBot.create(:company_card_type, card_type: premium_card, status: :inactive)
     FactoryBot.create(:company_card_type, card_type: gold_card, status: :inactive)
 
+    allow(Company).to receive(:all).and_return([company])
     allow(Company).to receive(:find).and_return(company)
 
     login_as admin

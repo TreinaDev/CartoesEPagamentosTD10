@@ -10,8 +10,9 @@ describe 'Administrador vincula um tipo de cartão a uma empresa' do
       filename: 'gold.svg',
       content_type: 'image/svg+xml'
     )
-    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
+    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81', active: true)
 
+    allow(Company).to receive(:all).and_return([company])
     allow(Company).to receive(:find).and_return(company)
 
     login_as admin

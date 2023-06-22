@@ -4,6 +4,7 @@ pt-BR:
       provide_card_types: 'Disponibilizar tipos de cartões'
       registration_number: 'CNPJ'
       not_found_message: 'Não existem empresas disponíveis'
+      inactive_company: 'Empresa Inativa'
     show:
       registration_number: 'CNPJ'
       link_card_type: 'Vincular a empresa'

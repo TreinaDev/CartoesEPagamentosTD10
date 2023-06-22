@@ -3,3 +3,4 @@ pt-BR:
     failed_to_create_card_type: Não foi possível criar um novo tipo de cartão
     card_type_changes_not_saved: Não foi possível salvar as alterações
     failed_to_create_cashback_rule: Não foi possível criar uma nova regra de cashback
+    company_connection_error: Não foi possível buscar dados das empresas
