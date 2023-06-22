@@ -1,0 +1,2 @@
+class CompanyConnectionError < StandardError
+end

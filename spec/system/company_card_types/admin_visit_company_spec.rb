@@ -65,4 +65,15 @@ describe 'Admin visita tela de uma empresa' do
     expect(page).to have_content 'Black'
     expect(page).to have_button 'Vincular a empresa'
   end
+
+  it 'e endpoint está fora do ar' do
+    admin = FactoryBot.create(:admin)
+    allow(Faraday).to receive(:get).with('http://localhost:3000/api/v1/companies/1').and_raise(CompanyConnectionError)
+
+    login_as admin
+    visit company_path(1)
+
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Não foi possível buscar dados das empresas'
+  end
 end

@@ -11,13 +11,14 @@ class Company
   def self.all
     companies = []
     response = Faraday.get('http://localhost:3000/api/v1/companies')
-
     if response.status == 200
       data = JSON.parse(response.body)
       data.each { |d| companies << build_company(d) }
     end
 
     companies
+  rescue Faraday::ConnectionFailed
+    raise CompanyConnectionError
   end
 
   def self.find(id)
@@ -28,6 +29,8 @@ class Company
     data = JSON.parse(response.body)
 
     build_company(data)
+  rescue Faraday::ConnectionFailed
+    raise CompanyConnectionError
   end
 
   class << self
