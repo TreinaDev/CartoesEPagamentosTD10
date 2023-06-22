@@ -40,7 +40,8 @@ payment = Payment.create!(
   descount_amount: 10,
   final_value: 46,
   cpf: card.cpf,
-  status: 1,
+  status: 0,
+  payment_date: Date.current,
   card_number: card.number
 )
 Extract.create!(

@@ -1,7 +1,9 @@
 pt-BR:
   activerecord:
-    models:
-      company_card_type: Cartões da empresa
+    
     attributes:
         company_card_type:
           cnpj: CNPJ
+        status:
+          active: 'Ativo'
+          inactive: 'Inativo'

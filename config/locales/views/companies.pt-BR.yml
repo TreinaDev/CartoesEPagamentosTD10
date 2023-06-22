@@ -7,5 +7,9 @@ pt-BR:
     show:
       registration_number: 'CNPJ'
       link_card_type: 'Vincular a empresa'
+    linked_card_type:
       activate_card_type: 'Ativar disponibilidade'
       inactivate_card_type: 'Desativar disponibilidade'
+    unlinked_card_type:
+      cashback_rule: 'Regra de cashback'
+      conversion_tax: 'Taxa de conversão'
