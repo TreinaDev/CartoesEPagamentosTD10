@@ -1,9 +1,8 @@
 class Api::V1::CardsController < Api::V1::ApiController
   def recharge
-    return if params[:request].nil?
-    return update_one_card(params[:request][0]) if params[:request].one?
+    return render status: :bad_request, json: { errors: t('.empty_request') } if params[:request].nil?
 
-    update_multiple_cards(params[:request])
+    recharge_transaction(params[:request])
   end
 
   def show
@@ -46,43 +45,33 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   private
 
-  def convert_to_points(card, request)
-    conversion = card.company_card_type.conversion_tax * request[:value].to_f
-    conversion + card.points
+  def recharge_transaction(request)
+    Card.transaction do
+      request.each do |r|
+        card = Card.find_by(cpf: r[:cpf])
+        raise ActiveRecord::RecordInvalid if card.blank?
+
+        conversion = convert_to_points(card, r[:value])
+        result = create_deposit(card, conversion) if card.update!(points: conversion + card.points)
+      end
+    end
+    render status: :ok, json: { message: t('.recharge_successful') }
+  rescue ActiveRecord::RecordInvalid
+    render status: :bad_request, json: { errors: t('.recharge_failed') }
   end
 
-  def create_deposit(value)
-    deposit = Deposit.create(amount: value, description: 'Recarga feita pela empresa')
+  def convert_to_points(card, value)
+    return unless value =~ /^[0-9]+(\.[0-9]{0,2})?$/
+
+    card_conversion_tax = card.company_card_type.conversion_tax
+    conversion = value.to_f - (value.to_f * (card_conversion_tax/100)).round
+    conversion
+  end
+
+  def create_deposit(card, value)
+    deposit = Deposit.create(amount: value, description: 'Recarga feita pela empresa', card:)
     Extract.create(date: deposit.created_at, operation_type: 'Depósito', value: deposit.amount,
-                   description: "Recarga #{deposit.deposit_code}")
-  end
-
-  def update_one_card(request)
-    card = Card.find_by(cpf: request[:cpf])
-    if !card.nil? && card.active?
-      update_card(card, request)
-      render status: :ok, json: { message: 'Recarga efetuada com sucesso' }
-    else
-      render status: :bad_request, json: { errors: 'CPF inválido ou cartão inativo' }
-    end
-  end
-
-  def update_multiple_cards(request)
-    messages = []
-    request.each do |r|
-      card = Card.find_by(cpf: r[:cpf])
-      messages << (!card.nil? && card.active? ? update_card(card, r) : { message: 'Cartão indisponível para recarga' })
-    end
-    render status: :ok, json: messages
-  end
-
-  def update_card(card, request)
-    conversion = convert_to_points(card, request)
-    if card.update(points: conversion)
-      create_deposit(conversion)
-      return { message: 'Recarga efetuada com sucesso' }
-    end
-    { message: 'Não foi possível concluir a recarga' }
+                             description: "Recarga #{deposit.deposit_code}", card_number: card.number)
   end
 
   def format_created_card(card)

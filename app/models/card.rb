@@ -6,6 +6,7 @@ class Card < ApplicationRecord
   validate :unique_cpf_active_card, on: :create
   validate :valid_available_card_type, on: :create
   validate :check_block, on: :update
+  validate :check_recharge_permission, on: :update
 
   before_validation :generate_number, on: :create
   before_validation :set_initial_points, on: :create
@@ -28,6 +29,10 @@ class Card < ApplicationRecord
   def check_block
     card = Card.find(id)
     errors.add(:status, 'bloqueado não permite alterações no cartão') if card.status == 'blocked'
+  end
+
+  def check_recharge_permission
+    errors.add(:status, 'inativo não permite recargas') if status == 'inactive'
   end
 
   def generate_number

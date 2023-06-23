@@ -1,0 +1,8 @@
+pt-BR:
+  api:
+    v1:
+      cards:
+        recharge:
+          empty_request: Requisição vazia
+          recharge_successful: Recargas finalizadas com sucesso
+          recharge_failed: Falha ao realizar as recargas, verifique as informações enviadas
