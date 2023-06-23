@@ -1,3 +1,28 @@
+ErrorMessage.create!(
+  code: '001',
+  description: 'Cartão informado não existe'
+)
+
+ErrorMessage.create!(
+  code: '002',
+  description: 'Cartão não está ativo'
+)
+
+ErrorMessage.create!(
+  code: '003',
+  description: 'Cartão não pertence ao CPF informado'
+)
+
+ErrorMessage.create!(
+  code: '004',
+  description: 'Valor da compra maior que o saldo do cartão'
+)
+
+ErrorMessage.create!(
+  code: '005',
+  description: 'Administrador não aprovou a compra'
+)
+
 card_type = CardType.new(name: 'Gold', start_points: 100, emission: true)
 card_type.icon.attach(
   io: Rails.root.join('spec/support/images/gold.svg').open,
@@ -59,6 +84,31 @@ payment = Payment.create!(
   card_number: card.number,
   payment_date: Date.current
 )
+
+Payment.create!(
+  order_number: '35241568212',
+  code: '456789',
+  total_value: 20,
+  descount_amount: 10,
+  final_value: 46,
+  cpf: card.cpf,
+  status: :pending,
+  card_number: card.number,
+  payment_date: Date.current
+)
+
+Payment.create!(
+  order_number: '35241568212',
+  code: '456789',
+  total_value: 20,
+  descount_amount: 10,
+  final_value: 46,
+  cpf: card.cpf,
+  status: :pending,
+  card_number: '512456521645221',
+  payment_date: Date.current
+)
+
 Extract.create!(
   date: payment.created_at, operation_type: 'débito', value: payment.final_value,
   description: "Pedido #{payment.order_number}", card_number: payment.card_number
@@ -103,24 +153,4 @@ Admin.create!(
   password: 'password',
   password_confirmation: 'password',
   cpf: '41115338684'
-)
-
-ErrorMessage.create!(
-  code: '001',
-  description: 'Cartão informado não existe'
-)
-
-ErrorMessage.create!(
-  code: '002',
-  description: 'Cartão não está ativo'
-)
-
-ErrorMessage.create!(
-  code: '003',
-  description: 'Cartão não pertence ao CPF informado'
-)
-
-ErrorMessage.create!(
-  code: '004',
-  description: 'Valor da compra é maior que o saldo do cartão'
 )

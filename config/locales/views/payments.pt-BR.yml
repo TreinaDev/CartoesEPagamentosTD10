@@ -1,0 +1,29 @@
+pt-BR:
+  payments:
+    pending: 
+      pending: Pendentes
+      home: Início
+      pre_approved: Pré Aprovados
+      pre_reproved: Pré Reprovados
+      waiting: Pagamentos Aguardando Finalização
+      no_pre_approved_payments: Nenhum pagamento aguardando aprovação
+      no_pre_reproved_payments: Nenhum pagamento aguardando reprovação
+    payment_info:
+      order: Pedido
+      card_number: Número do cartão
+      client_cpf: CPF do cliente
+      total_value: Valor total
+      discounts: Valor do desconto
+      final_value: Valor final
+      balance: Saldo atual
+      final_balance: Saldo após a compra
+      points: pontos
+      approve: Aprovar pagamento
+      reprove: Reprovar pagamento
+      approved: APROVADO
+      reproved: REPROVADO
+    finished:
+      finished: Finalizados
+      finished_payments: Pagamentos finalizados
+      home: Início
+      no_finished_payments: Nenhum pagamento finalizado
