@@ -18,9 +18,12 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :company_card_types, only: [:index]
       resources :extracts, only: [:index]
-      resources :payments, only: [:create]
-      resources :cards, only: [:create, :update, :destroy, :show] do
+      resources :payments, only: [:create, :show]
+      resources :cards, only: [:create, :destroy, :show] do
         delete 'block', on: :member
+        patch 'activate', on: :member
+        patch 'deactivate', on: :member
+        post 'upgrade', on: :collection
         patch 'recharge', on: :collection
       end
     end

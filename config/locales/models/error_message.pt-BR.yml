@@ -1,0 +1,8 @@
+pt-BR:
+  activerecord:
+    models:
+      error_message: Mensagem de erro
+    attributes:
+        error_message:
+          code: Código
+          description: Descrição

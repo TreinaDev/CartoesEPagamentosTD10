@@ -33,7 +33,6 @@ describe 'Administrador tenta editar um tipo de cartão' do
     click_on 'Cartão Premium'
     click_on 'Editar'
     fill_in 'Nome', with: 'Cartão Platinum'
-    fill_in 'Ícone', with: ''
     fill_in 'Pontos iniciais', with: ''
     click_on 'Salvar'
 
