@@ -6,7 +6,9 @@ class Api::V1::RechargesController < Api::V1::ApiController
     messages = []
     request.each do |r|
       card = Card.find_by(cpf: r[:cpf])
-      messages << (!card.nil? && card.active? ? update_card(card, r) : { cpf: r[:cpf], errors: t('.unsucessful_recharge') })
+      messages << (
+        !card.nil? && card.active? ? update_card(card, r) : { cpf: r[:cpf], errors: t('.unsucessful_recharge') }
+      )
     end
     render status: :ok, json: messages
   end
@@ -16,7 +18,7 @@ class Api::V1::RechargesController < Api::V1::ApiController
   def convert_to_points(card, value)
     return unless value =~ /^[0-9]+(\.[0-9]{0,2})?$/
 
-    reais_to_points(card, value)
+    reais_to_points(card, value.to_f)
   end
 
   def create_deposit(card, points)
@@ -28,7 +30,7 @@ class Api::V1::RechargesController < Api::V1::ApiController
   def update_card(card, request)
     card = Card.find_by(cpf: card[:cpf])
     recharge_points = convert_to_points(card, request[:value])
-    
+
     if card.update(points: card.points + recharge_points)
       create_deposit(card, recharge_points)
       return { cpf: card.cpf, message: t('.sucessful_recharge') }
