@@ -39,11 +39,12 @@ class Payment < ApplicationRecord
     card = Card.find_by(number: card_number)
     if card.nil?
       ErrorsAssociation.create(payment_id: id, error_message_id: 1)
-      self.update(status: 4)
-    elsif check_status(card.status) || check_cpf(card.cpf, cpf) || check_card_balance(card, final_value)
-      self.update(status: 4)
+      pre_rejected!
     else
-      self.update(status: 2)
+      c_status = check_status(card.status)
+      c_cpf = check_cpf(card.cpf, cpf)
+      c_balance = check_card_balance(card, final_value)
+      c_status || c_cpf || c_balance ? pre_rejected! : pre_approved!
     end
   end
 
