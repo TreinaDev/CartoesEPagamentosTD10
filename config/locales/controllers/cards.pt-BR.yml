@@ -4,8 +4,3 @@ pt-BR:
       cards:
         show:
           card_not_found: Cartão não encontrado
-        recharge:
-          recharge_successful: Recargas finalizadas com sucesso
-          recharge_failed: Cartão não encontrado ou inativo
-          sucessful_recharge: Recarga efetuada com sucesso
-          unsucessful_recharge: Não foi possível concluir a recarga

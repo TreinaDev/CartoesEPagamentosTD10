@@ -1,0 +1,7 @@
+pt-BR:
+  api:
+    v1:
+      recharges:
+        update:
+          sucessful_recharge: Recarga efetuada com sucesso
+          unsucessful_recharge: Cartão não encontrado ou inativo

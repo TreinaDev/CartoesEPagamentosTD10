@@ -24,7 +24,7 @@ Rails.application.routes.draw do
         patch 'activate', on: :member
         patch 'deactivate', on: :member
         post 'upgrade', on: :collection
-        patch 'recharge', on: :collection
+        patch 'recharge', on: :collection, to: 'recharges#update'
       end
     end
   end
