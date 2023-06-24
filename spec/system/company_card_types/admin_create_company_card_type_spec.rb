@@ -28,7 +28,7 @@ describe 'Administrador vincula um tipo de cartão a uma empresa' do
     expect(page).not_to have_button 'Ativar disponibilidade'
   end
 
-  it 'e falha pois a taxa de conversão não foi preenchida' do
+  it 'e falha pois utilizou dados inválidos' do
     admin = FactoryBot.create(:admin)
     FactoryBot.create(:cashback_rule, minimum_amount_points: 300, cashback_percentage: 10, days_to_use: 5)
     FactoryBot.create(:card_type, name: 'Premium', icon: 'https://raw.githubusercontent.com/GA9BR1/card_type_images/main/premium.svg')
@@ -50,7 +50,7 @@ describe 'Administrador vincula um tipo de cartão a uma empresa' do
     end
 
     expect(current_path).to eq company_path(company.id)
-    expect(page).to have_content 'Taxa de conversão é obrigatória.'
+    expect(page).to have_content 'Taxa de conversão não pode ficar em branco.Taxa de conversão não é um número'
     expect(page).not_to have_button 'Desativar disponibilidade'
     expect(page).not_to have_button 'Ativar disponibilidade'
   end

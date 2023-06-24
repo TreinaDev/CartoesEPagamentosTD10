@@ -7,14 +7,16 @@ class CompanyCardTypesController < ApplicationController
     if company_card_type.save
       redirect_to company_path(params[:company_id]), notice: I18n.t('.notices.company_card_type_created')
     else
-      redirect_to company_path(params[:company_id]), notice: I18n.t('.notices.company_card_type_creation_failed')
+      redirect_to company_path(params[:company_id]), alert: company_card_type.errors.full_messages.join('.')
     end
   end
 
   def update
-    return unless @company_card_type.update(company_card_type_params)
-
-    redirect_to company_path(params[:company_id]), notice: I18n.t('.notices.company_card_type_updated')
+    if @company_card_type.update(company_card_type_params)
+      redirect_to company_path(params[:company_id]), notice: I18n.t('.notices.company_card_type_updated')
+    else
+      redirect_to company_path(params[:company_id]), alert: @company_card_type.errors.full_messages.join('.')
+    end
   end
 
   def enable
