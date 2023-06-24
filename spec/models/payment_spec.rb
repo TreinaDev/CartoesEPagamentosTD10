@@ -172,15 +172,15 @@ RSpec.describe Payment, type: :model do
       FactoryBot.create(:error_message, code: '004', description: 'Valor da compra é maior que o saldo do cartão')
       FactoryBot.create(:company_card_type)
       allow(SecureRandom).to receive(:random_number).and_return('12345678912345678912')
-      Card.create!(cpf: '66268563670', company_card_type_id: 1)
+      Card.create!(cpf: '66268563670', company_card_type_id: 1, status: 'inactive')
       allow(SecureRandom).to receive(:alphanumeric).and_return('4521547859')
-      payment = FactoryBot.create(:payment, card_number: '12345678912345678912', cpf: '02310635049', final_value: 500)
+      payment = FactoryBot.create(:payment, card_number: '12345678912345678912', cpf: '02310635049')
 
       errors = payment.errors_associations
 
       expect(errors.length).to eq 2
       expect(errors[0].error_message.description).to eq 'Cartão não pertence ao CPF informado'
-      expect(errors[1].error_message.description).to eq 'Valor da compra é maior que o saldo do cartão'
+      expect(errors[1].error_message.description).to eq 'Cartão não está ativo'
     end
   end
 end

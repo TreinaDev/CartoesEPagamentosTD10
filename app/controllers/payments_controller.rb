@@ -5,29 +5,21 @@ class PaymentsController < ApplicationController
   end
 
   def finished
-    @finished_payments = Payment.where("status = 3 or status = 5")
+    @finished_payments = Payment.where('status = 3 or status = 5')
   end
 
   def approve
     payment = Payment.find(params[:id])
-    
-    if payment.approved!
-      return redirect_to pending_payments_path, notice: I18n.t('notices.payment_approved')
-    end
 
-    flash.now.alert = I18n.t('alerts.payment_approved_error')
-    render :pending, status: :unprocessable_entity
+    payment.approved!
+    redirect_to pending_payments_path, notice: I18n.t('notices.payment_approved')
   end
 
   def reprove
     payment = Payment.find(params[:id])
-    
-    if payment.rejected!
-      ErrorsAssociation.create(payment: payment, error_message_id: 5) 
-      return redirect_to pending_payments_path, notice: I18n.t('notices.payment_rejected')
-    end
 
-    flash.now.alert = I18n.t('alerts.payment_rejected_error')
-    render :pending, status: :unprocessable_entity
+    payment.rejected!
+    ErrorsAssociation.create(payment_id: payment.id, error_message_id: 5)
+    redirect_to pending_payments_path, notice: I18n.t('notices.payment_rejected')
   end
 end

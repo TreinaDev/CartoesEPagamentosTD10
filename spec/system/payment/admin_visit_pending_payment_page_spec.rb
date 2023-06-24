@@ -19,10 +19,10 @@ describe 'Administrador entra na tela de pagamentos pendentes' do
       end
 
       within '#pre-approved-payments' do
-        expect(page).to have_content "Nenhum pagamento aguardando aprovação"
+        expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
       end
       within '#pre-reproved-payments' do
-        expect(page).to have_content "Nenhum pagamento aguardando reprovação"
+        expect(page).to have_content 'Nenhum pagamento aguardando reprovação'
       end
     end
 
@@ -68,10 +68,10 @@ describe 'Administrador entra na tela de pagamentos pendentes' do
 
       within '#pre-reproved-payments' do
         expect(page).to have_content "Pedido #{payment.order_number}"
-        expect(page).to have_content "Cartão não pertence ao CPF informado"
+        expect(page).to have_content 'Cartão não pertence ao CPF informado'
         expect(page).to have_button 'Reprovar pagamento'
         expect(page).not_to have_button 'Aprovar pagamento'
-      end 
-    end   
+      end
+    end
   end
 end
