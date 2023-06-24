@@ -1,11 +1,12 @@
 class Api::V1::CardsController < Api::V1::ApiController
-  def recharge
-    messages = []
-    return if params[:request].nil?
+  include ReaisToPointsConversionHelper
 
-    params[:request].each do |r|
+  def recharge
+    request = params.require(:recharge)
+    messages = []
+    request.each do |r|
       card = Card.find_by(cpf: r[:cpf])
-      messages << (!card.nil? && card.active? ? update_card(card, r) : { message: 'Cartão indisponível para recarga' })
+      messages << (!card.nil? && card.active? ? update_card(card, r) : { cpf: r[:cpf], errors: t('.recharge_failed') })
     end
     render status: :ok, json: messages
   end
@@ -13,7 +14,7 @@ class Api::V1::CardsController < Api::V1::ApiController
   def show
     card = Card.find_by(cpf: params[:id])
     if card.nil?
-      render status: :not_found, json: { errors: 'Cartão não encontrado' }
+      render status: :not_found, json: { errors: t('.card_not_found') }
     else
       render status: :ok, json: format_created_card(card)
     end
@@ -50,28 +51,27 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   private
 
-  def recharge_transaction(request)
-    Card.transaction do
-      request.each do |r|
-        card = Card.find_by(cpf: r[:cpf])
-        raise ActiveRecord::RecordInvalid if card.blank?
-      end
-    end
+  def convert_to_points(card, value)
+    return unless value =~ /^[0-9]+(\.[0-9]{0,2})?$/
+
+    reais_to_points(card, value.to_f)
   end
-  
-  def create_deposit(value)
-    deposit = Deposit.create(amount: value, description: 'Recarga feita pela empresa')
+
+  def create_deposit(card, points)
+    deposit = Deposit.create(amount: points, description: 'Recarga feita pela empresa', card:)
     Extract.create(date: deposit.created_at, operation_type: 'Depósito', value: deposit.amount,
-                   description: "Recarga #{deposit.deposit_code}")
+                   description: "Recarga #{deposit.deposit_code}", card_number: card.number)
   end
 
   def update_card(card, request)
-    conversion = convert_to_points(card, request)
-    if card.update(points: conversion)
-      create_deposit(conversion)
-      return { message: 'Recarga efetuada com sucesso' }
+    card = Card.find_by(cpf: card[:cpf])
+    recharge_points = convert_to_points(card, request[:value])
+    if card.update(points: card.points + recharge_points)
+      create_deposit(card, recharge_points)
+      return { cpf: card.cpf, message: t('.sucessful_recharge') }
     end
-    { message: 'Não foi possível concluir a recarga' }
+
+    { cpf: card.cpf, errors: t('.unsucessful_recharge') }
   end
 
   def format_created_card(card)

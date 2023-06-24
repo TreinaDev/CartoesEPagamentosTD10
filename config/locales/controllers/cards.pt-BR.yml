@@ -2,7 +2,10 @@ pt-BR:
   api:
     v1:
       cards:
+        show:
+          card_not_found: Cartão não encontrado
         recharge:
-          empty_request: Requisição vazia
           recharge_successful: Recargas finalizadas com sucesso
-          recharge_failed: Falha ao realizar as recargas, verifique as informações enviadas
+          recharge_failed: Cartão não encontrado ou inativo
+          sucessful_recharge: Recarga efetuada com sucesso
+          unsucessful_recharge: Não foi possível concluir a recarga
