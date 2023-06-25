@@ -3,5 +3,7 @@ pt-BR:
     v1:
       recharges:
         update:
-          sucessful_recharge: Recarga efetuada com sucesso
-          unsucessful_recharge: Cartão não encontrado ou inativo
+          successful_recharge: Recarga efetuada com sucesso
+          unsuccessful_recharge: Não foi possível concluir a recarga. Erro interno
+          inactive_card_or_not_found: Cartão não encontrado ou inativo
+          check_your_value: Não foi possível concluir a recarga. Valor monetário inválido
