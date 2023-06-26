@@ -4,7 +4,7 @@ class Api::V1::CardsController < Api::V1::ApiController
   def show
     card = Card.find_by(cpf: params[:id])
     if card.nil?
-      render status: :not_found, json: { errors: 'Cartão não encontrado' }
+      render status: :not_found, json: { errors: t('.card_not_found') }
     else
       render status: :ok, json: format_created_card(card)
     end
@@ -80,12 +80,9 @@ class Api::V1::CardsController < Api::V1::ApiController
 
   def format_created_card(card)
     {
-      id: card.id,
-      cpf: card.cpf,
-      number: card.number,
-      points: card.points,
-      status: card.status,
-      name: card.company_card_type.card_type.name,
+      id: card.id, cpf: card.cpf,
+      number: card.number, points: card.points,
+      status: card.status, name: card.company_card_type.card_type.name,
       conversion_tax: card.company_card_type.conversion_tax
     }
   end

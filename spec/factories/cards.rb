@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :card do
-    number { '12345678912345678912' }
+    number { '31088319132162400813' }
     cpf { '66268563670' }
-    points { 20 }
+    points { 100 }
     status { 0 }
     association :company_card_type
   end

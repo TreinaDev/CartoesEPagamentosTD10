@@ -34,10 +34,10 @@ describe 'API de consulta do extrato de um cartão' do
 
       get "/api/v1/extracts?card_number=#{card.number}"
 
-      expect(response.status).to eq 200
-      expect(response.content_type).to include 'application/json'
       json_response = response.parsed_body
       expect(json_response['message']).to eq('Nenhuma transação registrada')
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
     end
   end
 end

@@ -1,0 +1,6 @@
+pt-BR:
+  api:
+    v1:
+      cards:
+        show:
+          card_not_found: Cartão não encontrado
