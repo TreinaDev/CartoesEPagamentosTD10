@@ -2,4 +2,13 @@ pt-BR:
   activerecord:
     attributes:
       company_card_type:
+        cnpj: CNPJ
         card_type: Tipo de cartão
+        cashback_rule: Regra de cashback
+        cashback_rule_id: Regra de cashback
+        conversion_tax: Taxa de conversão
+      status:
+        active: 'Ativo'
+        inactive: 'Inativo'
+        unlinked: 'Não vinculado'
+

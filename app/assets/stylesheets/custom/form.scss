@@ -16,14 +16,20 @@ main form > div {
 main form input[type="text"],
 main form input[type="number"],
 main form input[type="email"],
-main form input[type="password"] {
+main form input[type="password"],
+select {
   height: 48px;
   width: 100%;
-  padding: 1rem;
+  padding-inline: 1rem;
   color: #FFFFFF;
   background-color: #18181B;
   border: none;
   border-radius: 8px;
+}
+
+main form input[type="submit"],
+button {
+  height: 48px;
 }
 
 input:-webkit-autofill,

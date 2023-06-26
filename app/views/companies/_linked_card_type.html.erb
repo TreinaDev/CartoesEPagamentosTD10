@@ -1,0 +1,41 @@
+<div class='linked'>
+  <div class='card-section'>
+    <%= image_tag card_type.icon, alt: card_type.name, class: 'card-icon' %>
+
+    <div class='card-info'>
+      <span class='title'><%= card_type.name %></span>
+
+      <% status_color = company_card_type.active? ? 'text-primary' : 'text-danger' %>
+      <span class=<%= status_color %>><%= CompanyCardType.human_attribute_name("status.#{company_card_type.status}") %></span>
+    </div>
+  </div>
+
+  <% if company_card_type.active? %>
+    <%= button_to t('.inactivate_card_type'), disable_company_card_type_path,
+        method: :patch, class: 'btn btn-danger',
+        params: params %>
+  <% else %>
+    <%= button_to t('.activate_card_type'), enable_company_card_type_path,
+        method: :patch, class: 'btn btn-primary',
+        params: params %>
+  <% end %>
+</div>
+
+<%= form_with model: company_card_type do |f| %>
+  <div class='w-100'>
+    <%= f.label :cashback_rule_id %>
+    <%= f.collection_select :cashback_rule_id, @cashback_rules, :id, :description, prompt: t('.choose_cashback_rule') %>
+  </div>
+
+  <div class='w-50'>
+    <%= f.label :conversion_tax %>
+    <%= f.number_field :conversion_tax, step: 0.01, placeholder: t('.whats_the_conversion_tax') %>
+  </div>
+
+  <%= f.hidden_field :card_type_id, value: card_type.id %>
+  <%= f.hidden_field :cnpj, value: @company.registration_number %>
+  <%= hidden_field_tag :company_id, @company.id %>
+  
+  <%= f.submit t('.save_rule_and_tax'), class: 'btn btn-secondary' %>
+
+<% end %>

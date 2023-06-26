@@ -4,19 +4,18 @@ describe 'API de consulta de cartão' do
   context 'GET /api/v1/card/card_number' do
     it 'e retorna dados do cartão com sucesso' do
       card = FactoryBot.create(:card)
-
       card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 210)
       card_type.icon.attach(
         io: Rails.root.join('spec/support/images/black.svg').open,
         filename: 'black.svg',
         content_type: 'image/svg+xml'
       )
-
+      cashback = FactoryBot.create(:cashback_rule, minimum_amount_points: 10, days_to_use: 10, cashback_percentage: 20)
       company = FactoryBot.create(:company_card_type, status: :active,
                                                       cnpj: '71.223.406/0001-81',
                                                       card_type:,
-                                                      conversion_tax: '9.99')
-
+                                                      conversion_tax: '9.99',
+                                                      cashback_rule: cashback)
       FactoryBot.create(:card, cpf: '91795928050',
                                company_card_type_id: company.id)
 

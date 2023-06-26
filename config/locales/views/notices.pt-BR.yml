@@ -4,10 +4,6 @@ pt-BR:
     card_type_disabled: Emissão do cartão desabilitada com sucesso
     card_type_enabled: Emissão do cartão habilitada com sucesso
     company_card_type_created: Cartão vinculado a empresa com sucesso.
-    company_card_type_creation_failed: Taxa de conversão é obrigatória e deve ser maior que 0
-    company_card_type_updated: Taxa e regra salvas com sucesso.
     company_card_type_enabled: Cartão habilitado para a empresa com sucesso.
     company_card_type_disabled: Cartão desabilitado para a empresa com sucesso.
     cashback_rule_created: Regra de cashback criada com sucesso.
-    payment_approved: Pagamento aprovado com sucesso
-    payment_rejected: Pagamento reprovado com sucesso
