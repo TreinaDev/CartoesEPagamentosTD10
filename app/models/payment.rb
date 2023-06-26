@@ -1,5 +1,6 @@
 class Payment < ApplicationRecord
   include ReaisToPointsConversionHelper
+  include QueryValidCashbackHelper
   has_many :errors_associations, dependent: :restrict_with_exception
   enum status: { pending: 0, approved: 3, rejected: 5, pre_approved: 2, pre_rejected: 4 }
 
@@ -9,7 +10,7 @@ class Payment < ApplicationRecord
   validates :code, length: { is: 10 }
 
   before_validation :generate_code, on: :create
-  after_create :check_errors
+  after_create :pre_approve
 
   def format_cpf(cpf)
     cpf.gsub(/\A(\d{3})(\d{3})(\d{3})(\d{2})\Z/, '\\1.\\2.\\3-\\4')
@@ -35,40 +36,49 @@ class Payment < ApplicationRecord
     self.code = SecureRandom.alphanumeric(10).upcase
   end
 
-  def check_errors
+  def check_card_valid
     card = Card.find_by(number: card_number)
     if card.nil?
       ErrorsAssociation.create(payment_id: id, error_message_id: 1)
-      pre_rejected!
-    else
-      c_status = check_status(card.status)
-      c_cpf = check_cpf(card.cpf, cpf)
-      c_balance = check_card_balance(card, final_value)
-      c_status || c_cpf || c_balance ? pre_rejected! : pre_approved!
+      return false
     end
+    true
+  end
+
+  def pre_approve
+    card = Card.find_by(number: card_number)
+    c_cv = check_card_valid
+    if c_cv
+      c_cpf = check_cpf(card.cpf, cpf)
+      c_cs = check_status(card.status)
+      c_cb = check_card_balance(card, final_value)
+      return pre_approved! if c_cpf && c_cs && c_cb
+    end
+    pre_rejected!
   end
 
   def check_status(status)
     if status != 'active'
       ErrorsAssociation.create(payment_id: id, error_message_id: 2)
-      return true
+      return false
     end
-    false
+    true
   end
 
   def check_cpf(card_cpf, order_cpf)
     if card_cpf != order_cpf
       ErrorsAssociation.create(payment_id: id, error_message_id: 3)
-      return true
+      return false
     end
-    false
+    true
   end
 
   def check_card_balance(card, value)
-    if card.points < reais_to_points(card, value)
-      ErrorsAssociation.create(payment_id: id, error_message_id: 4)
-      return true
-    end
-    false
+    conversion_for_points = reais_to_points(card, value)
+    cashback = query_valid_cashback(cpf)
+    conversion_for_points -= cashback.amount if cashback.present?
+    return true if card.points >= conversion_for_points
+
+    false if ErrorsAssociation.create(payment_id: id, error_message_id: 4)
   end
 end

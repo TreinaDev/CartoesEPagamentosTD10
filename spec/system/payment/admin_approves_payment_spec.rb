@@ -2,56 +2,201 @@ require 'rails_helper'
 
 describe 'Administrador entra na tela de pagamentos' do
   context 'e aprova' do
-    it 'um pagamento pré aprovado com sucesso' do
-      admin = FactoryBot.create(:admin)
-      card = FactoryBot.create(:card)
-      payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 5)
+    describe 'um pagamento pré aprovado' do
+      it 'sem usar cashback pois não existe nenhum' do
+        admin = FactoryBot.create(:admin)
+        card = FactoryBot.create(:card)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 5)
 
-      login_as admin
-      visit root_path
-      within '#payment' do
-        click_on 'Pendentes'
-      end
-      within "##{payment.order_number}" do
-        click_on 'Aprovar pagamento'
-      end
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
 
-      expect(page).to have_content 'Pagamento aprovado com sucesso'
-      within '#pre-approved-payments' do
-        expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
-        expect(page).not_to have_content "Pedido #{payment.order_number}"
-      end
-    end
-
-    it 'um pagamento sem modificar outro' do
-      FactoryBot.create(:error_message, description: 'Cartão informado não existe')
-      FactoryBot.create(:error_message, code: '002', description: 'Cartão não está ativo')
-      FactoryBot.create(:error_message, code: '003', description: 'Cartão não pertence ao CPF informado')
-      FactoryBot.create(:error_message, code: '004', description: 'Valor da compra é maior que o saldo do cartão')
-      admin = FactoryBot.create(:admin)
-      card = FactoryBot.create(:card, cpf: '22253043001')
-      first_pay = FactoryBot.create(:payment, cpf: '22253043001', card_number: card.number, order_number: '1234567')
-      second_pay = FactoryBot.create(:payment, cpf: '19261109004', card_number: card.number, order_number: '7845123')
-
-      login_as admin
-      visit root_path
-      within '#payment' do
-        click_on 'Pendentes'
-      end
-      within "##{first_pay.order_number}" do
-        click_on 'Aprovar pagamento'
+        expect(page).to have_content 'Pagamento aprovado com sucesso'
+        within '#pre-approved-payments' do
+          expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
+          expect(page).not_to have_content "Pedido #{payment.order_number}"
+        end
       end
 
-      expect(page).to have_content 'Pagamento aprovado com sucesso'
-      within '#pre-reproved-payments' do
-        expect(page).to have_content "Pedido #{second_pay.order_number}"
-        expect(page).to have_content 'Cartão não pertence ao CPF informado'
-        expect(page).to have_button 'Reprovar pagamento'
+      it 'usando cashback com sucesso' do
+        admin = FactoryBot.create(:admin)
+        cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
+                                                          minimum_amount_points: 50)
+        company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
+        card = FactoryBot.create(:card, company_card_type:, points: 100)
+
+        other_payment = FactoryBot.create(:payment, order_number: 465_452, cpf: card.cpf, card_number: card.number,
+                                                    final_value: 100)
+        FactoryBot.create(:cashback, amount: 5, payment: other_payment, card:, cashback_rule:)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+
+        expect(page).to have_content 'Pagamento aprovado com sucesso'
+        within '#pre-approved-payments' do
+          expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
+          expect(page).not_to have_content "Pedido #{payment.order_number}"
+        end
+
+        expect(Cashback.first.used).to eq(true)
+        expect(Card.first.points).to eq(45)
       end
 
-      within '#pre-approved-payments' do
-        expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
-        expect(page).not_to have_content "Pedido #{first_pay.order_number}"
+      it 'sem usar cashback pois o cashback que existia já expirou' do
+        admin = FactoryBot.create(:admin)
+        cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
+                                                          minimum_amount_points: 50)
+        company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
+        card = FactoryBot.create(:card, company_card_type:, points: 100)
+
+        other_payment = FactoryBot.create(:payment, order_number: 465_452, cpf: card.cpf, card_number: card.number,
+                                                    final_value: 100)
+        FactoryBot.create(:cashback, amount: 5, payment: other_payment, card:, cashback_rule:, created_at: 11.days.ago)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+
+        expect(page).to have_content 'Pagamento aprovado com sucesso'
+        within '#pre-approved-payments' do
+          expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
+          expect(page).not_to have_content "Pedido #{payment.order_number}"
+        end
+        expect(Cashback.first.used).to eq(false)
+        expect(Card.first.points).to eq(40)
+      end
+
+      it 'e tenta aprovar outro, porém falha pois não há saldo suficiente no cartão' do
+        admin = FactoryBot.create(:admin)
+        cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
+                                                          minimum_amount_points: 50)
+        company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
+        card = FactoryBot.create(:card, company_card_type:, points: 100)
+
+        other_payment = FactoryBot.create(:payment, order_number: 465_452, cpf: card.cpf, card_number: card.number,
+                                                    final_value: 50)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+        expect(page).to have_content 'Pagamento aprovado com sucesso'
+        within '#pre-approved-payments' do
+          expect(page).not_to have_content "Pedido #{payment.order_number}"
+        end
+        within "##{other_payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+        expect(page).to have_content 'Não foi possível aprovar o pagamento'
+        expect(other_payment.status).to eq('pre_approved')
+      end
+
+      it 'e gera um cashback corretamente' do
+        admin = FactoryBot.create(:admin)
+        cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
+                                                          minimum_amount_points: 50)
+        company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
+        card = FactoryBot.create(:card, company_card_type:)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+
+        expect(page).to have_content 'Pagamento aprovado com sucesso'
+        within '#pre-approved-payments' do
+          expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
+          expect(page).not_to have_content "Pedido #{payment.order_number}"
+        end
+
+        expect(Cashback.all.first.amount).to eq(2)
+      end
+
+      it 'e não gera um cashback pois o valor em pontos da compra não satisfaz o mínimo' do
+        admin = FactoryBot.create(:admin)
+        cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
+                                                          minimum_amount_points: 50)
+        company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
+        card = FactoryBot.create(:card, company_card_type:)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 10)
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+
+        expect(page).to have_content 'Pagamento aprovado com sucesso'
+        within '#pre-approved-payments' do
+          expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
+          expect(page).not_to have_content "Pedido #{payment.order_number}"
+        end
+
+        expect(Cashback.count).to eq(0)
+      end
+
+      it 'um pagamento sem modificar outro' do
+        FactoryBot.create(:error_message, description: 'Cartão informado não existe')
+        FactoryBot.create(:error_message, code: '002', description: 'Cartão não está ativo')
+        FactoryBot.create(:error_message, code: '003', description: 'Cartão não pertence ao CPF informado')
+        FactoryBot.create(:error_message, code: '004', description: 'Valor da compra é maior que o saldo do cartão')
+        admin = FactoryBot.create(:admin)
+        card = FactoryBot.create(:card, cpf: '22253043001')
+        first_pay = FactoryBot.create(:payment, cpf: '22253043001', card_number: card.number, order_number: '1234567')
+        second_pay = FactoryBot.create(:payment, cpf: '19261109004', card_number: card.number, order_number: '7845123')
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{first_pay.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+
+        expect(page).to have_content 'Pagamento aprovado com sucesso'
+        within '#pre-reproved-payments' do
+          expect(page).to have_content "Pedido #{second_pay.order_number}"
+          expect(page).to have_content 'Cartão não pertence ao CPF informado'
+          expect(page).to have_button 'Reprovar pagamento'
+        end
+
+        within '#pre-approved-payments' do
+          expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
+          expect(page).not_to have_content "Pedido #{first_pay.order_number}"
+        end
       end
     end
   end

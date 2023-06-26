@@ -183,4 +183,56 @@ RSpec.describe Payment, type: :model do
       expect(errors[1].error_message.description).to eq 'Valor da compra é maior que o saldo do cartão'
     end
   end
+
+  describe 'pré-aprova' do
+    it 'caso o pagamento passe em todas as validações' do
+      card = FactoryBot.create(:card, cpf: '80921383037')
+      card_number = card.number
+      payment = FactoryBot.create(:payment, card_number:,
+                                            final_value: 5,
+                                            cpf: '80921383037')
+
+      expect(payment.status).to eq('pre_approved')
+    end
+  end
+
+  describe 'pré-rejeita' do
+    it 'caso o valor do pagamento seja maior que o saldo do cartão' do
+      card = FactoryBot.create(:card, cpf: '80921383037')
+      card_number = card.number
+      payment = FactoryBot.create(:payment, card_number:,
+                                            final_value: 100_000,
+                                            cpf: '80921383037')
+
+      expect(payment.status).to eq('pre_rejected')
+    end
+
+    it 'caso o status do cartão não esteja ativo' do
+      card = FactoryBot.create(:card, cpf: '80921383037', status: :inactive)
+      card_number = card.number
+      payment = FactoryBot.create(:payment, card_number:,
+                                            final_value: 5,
+                                            cpf: '80921383037')
+
+      expect(payment.status).to eq('pre_rejected')
+    end
+
+    it 'caso o CPF do cartão não seja o mesmo do pedido de pagamento' do
+      card = FactoryBot.create(:card, cpf: '80921383037')
+      card_number = card.number
+      payment = FactoryBot.create(:payment, card_number:,
+                                            final_value: 5,
+                                            cpf: '24517900088')
+
+      expect(payment.status).to eq('pre_rejected')
+    end
+
+    it 'caso o cartão informado não exista' do
+      payment = FactoryBot.create(:payment)
+
+      expect(payment.status).to eq('pre_rejected')
+    end
+  end
+
+  describe ''
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_21_215203) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_26_170710) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -83,6 +83,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_21_215203) do
     t.index ["cashback_percentage", "minimum_amount_points", "days_to_use"], name: "index_cashback_rules_on_minimum_amount_points_and_days_to_use", unique: true
   end
 
+  create_table "cashbacks", force: :cascade do |t|
+    t.integer "amount", null: false
+    t.boolean "used", default: false, null: false
+    t.integer "card_id", null: false
+    t.integer "cashback_rule_id", null: false
+    t.integer "payment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_cashbacks_on_card_id"
+    t.index ["cashback_rule_id"], name: "index_cashbacks_on_cashback_rule_id"
+    t.index ["payment_id"], name: "index_cashbacks_on_payment_id"
+  end
+
   create_table "company_card_types", force: :cascade do |t|
     t.integer "status", default: 1
     t.string "cnpj"
@@ -150,7 +163,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_21_215203) do
 
   create_table "payments", force: :cascade do |t|
     t.string "order_number"
-    t.string "code"
     t.integer "total_value"
     t.integer "descount_amount"
     t.integer "final_value"
@@ -160,12 +172,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_21_215203) do
     t.datetime "updated_at", null: false
     t.date "payment_date"
     t.integer "status", default: 0
+    t.string "code"
     t.index ["code"], name: "index_payments_on_code", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cards", "company_card_types"
+  add_foreign_key "cashbacks", "cards"
+  add_foreign_key "cashbacks", "cashback_rules"
+  add_foreign_key "cashbacks", "payments"
   add_foreign_key "company_card_types", "card_types"
   add_foreign_key "company_card_types", "cashback_rules"
   add_foreign_key "deposits", "cards"
