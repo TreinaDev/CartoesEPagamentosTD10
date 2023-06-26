@@ -1,0 +1,19 @@
+pt-BR:
+  activerecord:
+    models:
+      card: Cartão
+    attributes:
+        card:
+          number: Número do cartão
+          cpf: CPF
+          points: Pontos
+          status: Status
+          company_card_type: Tipo de cartão da empresa
+          company_card_type_id: Tipo de cartão da empresa
+          card_type_id: 'Tipo de cartão'
+    errors:
+      models:
+          card:
+            unavaliable_card: não está disponível
+            card_is_already_in_use: já possui um cartão ativo
+            blocked_card_cant_change: bloqueado não permite alterações no cartão

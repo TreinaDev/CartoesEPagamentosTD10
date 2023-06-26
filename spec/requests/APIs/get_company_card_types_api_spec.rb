@@ -28,19 +28,29 @@ describe 'API do tipo de cartão' do
     end
 
     it 'com status disponível' do
-      card_type = CardType.create!(name: 'Black', icon: 'icone', start_points: 210)
-      other_card_type = CardType.create!(name: 'Premium', icon: 'icone1', start_points: 170)
-      company_card_type = CompanyCardType.create!(
+      card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 210)
+      card_type.icon.attach(
+        io: Rails.root.join('spec/support/images/black.svg').open,
+        filename: 'black.svg',
+        content_type: 'image/svg+xml'
+      )
+      other_card_type = FactoryBot.create(:card_type)
+      cashback = FactoryBot.create(:cashback_rule, minimum_amount_points: 10, days_to_use: 10, cashback_percentage: 20)
+      company_card_type = FactoryBot.create(
+        :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type:,
-        conversion_tax: 20.00
+        conversion_tax: 20.00,
+        cashback_rule: cashback
       )
-      CompanyCardType.create!(
+      FactoryBot.create(
+        :company_card_type,
         status: :inactive,
-        cnpj: '02423374000145',
+        cnpj: '12423374000146',
         card_type: other_card_type,
-        conversion_tax: 10.00
+        conversion_tax: 10.00,
+        cashback_rule: cashback
       )
 
       get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}"
@@ -50,54 +60,80 @@ describe 'API do tipo de cartão' do
       json_response = response.parsed_body
       expect(json_response.length).to eq 1
       expect(json_response[0]['name']).to eq 'Black'
-      expect(json_response[0]['icon']).to eq 'icone'
-      expect(json_response[0]['id']).to eq 1
+      expect(json_response[0]['icon']).to eq url_for(card_type.icon)
+      expect(json_response[0]['company_card_type_id']).to eq 1
       expect(json_response[0]['start_points']).to eq 210
       expect(json_response[0]['conversion_tax']).to eq 20.00
     end
 
     it 'apenas os tipos daquela empresa' do
-      card_type = CardType.create!(name: 'Black', icon: 'icone', start_points: 210)
-      company_card_type = CompanyCardType.create!(
+      card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 210)
+      card_type.icon.attach(
+        io: Rails.root.join('spec/support/images/black.svg').open,
+        filename: 'black.svg',
+        content_type: 'image/svg+xml'
+      )
+      cashback = FactoryBot.create(:cashback_rule, minimum_amount_points: 10, days_to_use: 10, cashback_percentage: 20)
+      company_card_type = FactoryBot.create(
+        :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type:,
-        conversion_tax: 20.00
+        conversion_tax: 20.00,
+        cashback_rule: cashback
       )
-      CompanyCardType.create!(
+      FactoryBot.create(
+        :company_card_type,
         status: :active,
         cnpj: '12423374000146',
         card_type:,
-        conversion_tax: 15.00
+        conversion_tax: 15.00,
+        cashback_rule: cashback
       )
 
       get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}"
-
       expect(response.status).to eq 200
       expect(response.content_type).to include 'application/json'
       json_response = response.parsed_body
       expect(json_response.length).to eq 1
       expect(json_response[0]['name']).to eq 'Black'
-      expect(json_response[0]['icon']).to eq 'icone'
-      expect(json_response[0]['id']).to eq 1
+      expect(json_response[0]['icon']).to eq url_for(card_type.icon)
+      expect(json_response[0]['company_card_type_id']).to eq 1
       expect(json_response[0]['start_points']).to eq 210
       expect(json_response[0]['conversion_tax']).to eq 20.00
     end
 
     it 'com sucesso' do
-      card_type = CardType.create!(name: 'Black', icon: 'icone', start_points: 210)
-      card_type2 = CardType.create!(name: 'Starter', icon: 'icone2', start_points: 150)
-      company_card_type = CompanyCardType.create!(
+      card_type = FactoryBot.create(:card_type, name: 'Black', start_points: 210)
+      black_img = Rails.root.join('spec/support/images/black.svg')
+      card_type.icon.attach(
+        io: black_img.open,
+        filename: 'black.svg',
+        content_type: 'image/svg+xml'
+      )
+      card_type2 = FactoryBot.create(:card_type, name: 'Gold', start_points: 150)
+      gold_img = Rails.root.join('spec/support/images/gold.svg')
+      card_type.icon.attach(
+        io: gold_img.open,
+        filename: 'gold.svg',
+        content_type: 'image/svg+xml'
+      )
+      cashback = FactoryBot.create(:cashback_rule, minimum_amount_points: 10, days_to_use: 10, cashback_percentage: 20)
+      company_card_type = FactoryBot.create(
+        :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type:,
-        conversion_tax: 20.00
+        conversion_tax: 20.00,
+        cashback_rule: cashback
       )
-      CompanyCardType.create!(
+      FactoryBot.create(
+        :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type: card_type2,
-        conversion_tax: 12.00
+        conversion_tax: 12.00,
+        cashback_rule: cashback
       )
 
       get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}"
@@ -107,13 +143,13 @@ describe 'API do tipo de cartão' do
       json_response = response.parsed_body
       expect(json_response.length).to eq 2
       expect(json_response[0]['name']).to eq 'Black'
-      expect(json_response[0]['icon']).to eq 'icone'
-      expect(json_response[0]['id']).to eq 1
+      expect(json_response[0]['icon']).to eq url_for(card_type.icon)
+      expect(json_response[0]['company_card_type_id']).to eq 1
       expect(json_response[0]['start_points']).to eq 210
       expect(json_response[0]['conversion_tax']).to eq 20.00
-      expect(json_response[1]['name']).to eq 'Starter'
-      expect(json_response[1]['icon']).to eq 'icone2'
-      expect(json_response[1]['id']).to eq 2
+      expect(json_response[1]['name']).to eq 'Gold'
+      expect(json_response[1]['icon']).to eq url_for(card_type2.icon)
+      expect(json_response[1]['company_card_type_id']).to eq 2
       expect(json_response[1]['start_points']).to eq 150
       expect(json_response[1]['conversion_tax']).to eq 12.00
     end

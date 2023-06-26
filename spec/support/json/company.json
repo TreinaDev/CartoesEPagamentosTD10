@@ -1,5 +1,6 @@
 {
   "id": 1,
   "brand_name": "Samsung",
-  "registration_number": "71.223.406/0001-81"
+  "registration_number": "71.223.406/0001-81",
+  "active": true
 }

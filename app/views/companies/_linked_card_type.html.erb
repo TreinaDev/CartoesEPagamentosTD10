@@ -30,7 +30,6 @@
   <div class='w-50'>
     <%= f.label :conversion_tax %>
     <%= f.number_field :conversion_tax, step: 0.01, placeholder: t('.whats_the_conversion_tax') %>
-    <p><%= company_card_type.errors.inspect %></p>
   </div>
 
   <%= f.hidden_field :card_type_id, value: card_type.id %>

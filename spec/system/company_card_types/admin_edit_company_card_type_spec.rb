@@ -11,9 +11,10 @@ describe 'Administrador tenta editar um tipo de cartão vinculado a uma empresa'
       :cashback_rule,
       minimum_amount_points: 300, cashback_percentage: 15, days_to_use: 25
     )
-    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
+    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81', active: true)
     FactoryBot.create(:company_card_type, conversion_tax: 10, cashback_rule:)
 
+    allow(Company).to receive(:all).and_return([company])
     allow(Company).to receive(:find).and_return(company)
 
     login_as admin
@@ -49,9 +50,11 @@ describe 'Administrador tenta editar um tipo de cartão vinculado a uma empresa'
       :cashback_rule,
       minimum_amount_points: 300, cashback_percentage: 15, days_to_use: 25
     )
-    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81')
+
+    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81', active: true)
     FactoryBot.create(:company_card_type, conversion_tax: 10, cashback_rule:)
 
+    allow(Company).to receive(:all).and_return([company])
     allow(Company).to receive(:find).and_return(company)
 
     login_as admin
