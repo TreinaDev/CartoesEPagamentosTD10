@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_22_192232) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_26_170710) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -84,7 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_192232) do
   end
 
   create_table "cashbacks", force: :cascade do |t|
-    t.integer "amount"
+    t.integer "amount", null: false
     t.boolean "used", default: false, null: false
     t.integer "card_id", null: false
     t.integer "cashback_rule_id", null: false

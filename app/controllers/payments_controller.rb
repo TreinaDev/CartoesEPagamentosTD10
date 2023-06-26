@@ -1,5 +1,6 @@
 class PaymentsController < ApplicationController
   include QueryValidCashbackHelper
+  include ReaisToPointsConversionHelper
   def pending
     @pre_approved = Payment.pre_approved
     @pre_reproved = Payment.pre_rejected
@@ -11,17 +12,15 @@ class PaymentsController < ApplicationController
 
   def approve
     payment = Payment.find(params[:id])
-    card = Card.find_by(number: payment.card_number)
-    card_points = card.points
-    cashback = query_valid_cashback(cpf)
-    card_points -= cashback.amount if cashback.present?
-    if card_points >= reais_to_points(card, payment.final_value)
-      payment.approved!
-      cashback.used = true
-      cashback.save!
-      Cashback.create!(amount: card_points, payment:, cashback_rule: )
+    card = get_payment_card(payment)
+    cashback = query_valid_cashback(payment.cpf)
+    final_value = subtract_cashback_if_possible(card, payment, cashback)
+
+    if can_approve_payment?(card, final_value)
+      process_payment_approval(card, cashback, payment, final_value)
+      return redirect_to pending_payments_path, notice: I18n.t('notices.payment_approved')
     end
-    redirect_to pending_payments_path, notice: I18n.t('notices.payment_approved')
+    redirect_to pending_payments_path, alert: I18n.t('alerts.payment_approved_error')
   end
 
   def reprove
@@ -30,5 +29,44 @@ class PaymentsController < ApplicationController
     payment.rejected!
     ErrorsAssociation.create(payment_id: payment.id, error_message_id: 5)
     redirect_to pending_payments_path, notice: I18n.t('notices.payment_rejected')
+  end
+
+  private
+
+  def change_cashback_used(cashback)
+    cashback.used = true
+    cashback.save!
+  end
+
+  def create_cashback_if_possible(final_value, card, payment)
+    return unless final_value >= card.company_card_type.cashback_rule.minimum_amount_points
+
+    cashback_amount = (final_value * card.company_card_type.cashback_rule.cashback_percentage / 100).round
+    Cashback.create!(amount: cashback_amount, payment:, cashback_rule: card.company_card_type.cashback_rule, card:)
+  end
+
+  def process_payment_approval(card, cashback, payment, final_value)
+    change_cashback_used(cashback) if cashback.present?
+
+    card.points -= final_value
+    card.save!
+    payment.approved!
+    return if card.company_card_type.cashback_rule.blank?
+
+    create_cashback_if_possible(final_value, card, payment)
+  end
+
+  def can_approve_payment?(card, final_value)
+    card.points >= final_value
+  end
+
+  def subtract_cashback_if_possible(card, payment, cashback)
+    final_value = reais_to_points(card, payment.final_value)
+    final_value -= cashback.amount if cashback.present?
+    final_value
+  end
+
+  def get_payment_card(payment)
+    Card.find_by(number: payment.card_number)
   end
 end
