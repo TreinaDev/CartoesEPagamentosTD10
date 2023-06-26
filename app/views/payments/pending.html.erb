@@ -1,0 +1,32 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to t('.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('.pending') %></li>
+  </ol>
+</nav>
+
+<h1 class="title-style"><%= t('.waiting') %></h1>
+
+<section class='d-md-flex p-2'>
+    <div id='pre-approved-payments' class='container m-2'>
+        <h2 class='title-style'><%= t('.pre_approved') %>:</h2>
+        <% if @pre_approved.empty? %>
+            <span><%= t('.no_pre_approved_payments') %></span>
+        <% else %>
+          <%@pre_approved.each do |payment|%>
+            <%= render partial: 'payment_info', locals: {payment: payment}%>
+          <%end%>
+        <% end %>
+  </div>
+
+  <div id='pre-reproved-payments' class='container m-2'>
+        <h2 class='title-style'><%= t('.pre_reproved') %>:</h2>
+        <% if @pre_reproved.empty? %>
+            <span><%= t('.no_pre_reproved_payments') %></span>
+        <% else %>
+            <%@pre_reproved.each do |payment|%>
+              <%= render partial: 'payment_info', locals: {payment: payment}%>
+            <%end%>
+        <% end %>
+    </div>
+</section>

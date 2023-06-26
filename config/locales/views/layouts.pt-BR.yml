@@ -11,3 +11,6 @@ pt-BR:
       index_cashback_rules: 'Regras de cashback'
       new_cashback_rule: 'Criar regra de cashback'
       edit_cashback_rule: 'Editar regra de cashback'
+      payment: 'Pagamentos'
+      pending: 'Pendentes'
+      finished: 'Finalizados'
