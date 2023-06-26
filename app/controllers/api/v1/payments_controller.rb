@@ -27,7 +27,7 @@ class Api::V1::PaymentsController < Api::V1::ApiController
       cpf: payment.cpf,
       card_number: payment.card_number,
       payment_date: payment.payment_date,
-      status: payment.status,
+      status: payment.status == 'pre_rejected' || payment.status == 'pre_approved' ? :pending : payment.status,
       code: payment.code }
   end
 end
