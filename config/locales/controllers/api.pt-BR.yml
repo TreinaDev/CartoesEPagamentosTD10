@@ -1,0 +1,5 @@
+pt-BR:
+  controllers:
+    internet_server_error: Erro interno da Aplicação
+    not_found: Erro de entidade não encontrada
+    bad_request: Erro nos parâmetros enviados

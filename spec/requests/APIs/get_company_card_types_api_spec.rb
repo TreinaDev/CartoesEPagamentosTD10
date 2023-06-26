@@ -35,19 +35,22 @@ describe 'API do tipo de cartão' do
         content_type: 'image/svg+xml'
       )
       other_card_type = FactoryBot.create(:card_type)
+      cashback = FactoryBot.create(:cashback_rule, minimum_amount_points: 10, days_to_use: 10, cashback_percentage: 20)
       company_card_type = FactoryBot.create(
         :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type:,
-        conversion_tax: 20.00
+        conversion_tax: 20.00,
+        cashback_rule: cashback
       )
       FactoryBot.create(
         :company_card_type,
         status: :inactive,
         cnpj: '12423374000146',
         card_type: other_card_type,
-        conversion_tax: 10.00
+        conversion_tax: 10.00,
+        cashback_rule: cashback
       )
 
       get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}"
@@ -70,19 +73,22 @@ describe 'API do tipo de cartão' do
         filename: 'black.svg',
         content_type: 'image/svg+xml'
       )
+      cashback = FactoryBot.create(:cashback_rule, minimum_amount_points: 10, days_to_use: 10, cashback_percentage: 20)
       company_card_type = FactoryBot.create(
         :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type:,
-        conversion_tax: 20.00
+        conversion_tax: 20.00,
+        cashback_rule: cashback
       )
       FactoryBot.create(
         :company_card_type,
         status: :active,
         cnpj: '12423374000146',
         card_type:,
-        conversion_tax: 15.00
+        conversion_tax: 15.00,
+        cashback_rule: cashback
       )
 
       get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}"
@@ -112,19 +118,22 @@ describe 'API do tipo de cartão' do
         filename: 'gold.svg',
         content_type: 'image/svg+xml'
       )
+      cashback = FactoryBot.create(:cashback_rule, minimum_amount_points: 10, days_to_use: 10, cashback_percentage: 20)
       company_card_type = FactoryBot.create(
         :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type:,
-        conversion_tax: 20.00
+        conversion_tax: 20.00,
+        cashback_rule: cashback
       )
       FactoryBot.create(
         :company_card_type,
         status: :active,
         cnpj: '02423374000145',
         card_type: card_type2,
-        conversion_tax: 12.00
+        conversion_tax: 12.00,
+        cashback_rule: cashback
       )
 
       get "/api/v1/company_card_types?cnpj=#{company_card_type.cnpj}"
