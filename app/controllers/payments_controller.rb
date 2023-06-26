@@ -1,4 +1,5 @@
 class PaymentsController < ApplicationController
+  include QueryValidCashbackHelper
   def pending
     @pre_approved = Payment.pre_approved
     @pre_reproved = Payment.pre_rejected
@@ -10,8 +11,16 @@ class PaymentsController < ApplicationController
 
   def approve
     payment = Payment.find(params[:id])
-
-    payment.approved!
+    card = Card.find_by(number: payment.card_number)
+    card_points = card.points
+    cashback = query_valid_cashback(cpf)
+    card_points -= cashback.amount if cashback.present?
+    if card_points >= reais_to_points(card, payment.final_value)
+      payment.approved!
+      cashback.used = true
+      cashback.save!
+      Cashback.create!(amount: card_points, payment:, cashback_rule: )
+    end
     redirect_to pending_payments_path, notice: I18n.t('notices.payment_approved')
   end
 

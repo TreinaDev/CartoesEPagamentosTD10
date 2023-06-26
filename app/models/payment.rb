@@ -1,5 +1,6 @@
 class Payment < ApplicationRecord
   include ReaisToPointsConversionHelper
+  include QueryValidCashbackHelper
   has_many :errors_associations, dependent: :restrict_with_exception
   enum status: { pending: 0, approved: 3, rejected: 5, pre_approved: 2, pre_rejected: 4 }
 
@@ -74,16 +75,10 @@ class Payment < ApplicationRecord
 
   def check_card_balance(card, value)
     conversion_for_points = reais_to_points(card, value)
-    cashback = query_valid_cashback
+    cashback = query_valid_cashback(cpf)
     conversion_for_points -= cashback.amount if cashback.present?
     return true if card.points >= conversion_for_points
 
     false if ErrorsAssociation.create(payment_id: id, error_message_id: 4)
-  end
-
-  def query_valid_cashback
-    Cashback.joins(:cashback_rule)
-            .where("DATE(cashbacks.created_at, '+' || cashback_rules.days_to_use || ' days') >= ?", DateTime.now)
-            .where(used: false)
   end
 end
