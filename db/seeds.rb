@@ -1,3 +1,23 @@
+ErrorMessage.create!(
+  code: '001',
+  description: 'Cartão informado não existe'
+)
+
+ErrorMessage.create!(
+  code: '002',
+  description: 'Cartão não está ativo'
+)
+
+ErrorMessage.create!(
+  code: '003',
+  description: 'Cartão não pertence ao CPF informado'
+)
+
+ErrorMessage.create!(
+  code: '004',
+  description: 'Valor da compra é maior que o saldo do cartão'
+)
+
 card_type = CardType.new(name: 'Gold', start_points: 100, emission: true)
 card_type.icon.attach(
   io: Rails.root.join('spec/support/images/gold.svg').open,
@@ -103,24 +123,4 @@ Admin.create!(
   password: 'password',
   password_confirmation: 'password',
   cpf: '41115338684'
-)
-
-ErrorMessage.create!(
-  code: '001',
-  description: 'Cartão informado não existe'
-)
-
-ErrorMessage.create!(
-  code: '002',
-  description: 'Cartão não está ativo'
-)
-
-ErrorMessage.create!(
-  code: '003',
-  description: 'Cartão não pertence ao CPF informado'
-)
-
-ErrorMessage.create!(
-  code: '004',
-  description: 'Valor da compra é maior que o saldo do cartão'
 )

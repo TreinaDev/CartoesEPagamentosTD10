@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :cashback do
-    amount { 1 }
+    amount { 10 }
     used { false }
-    card { nil }
-    cashback_rule { nil }
-    payment { nil }
+    card { 1 }
+    cashback_rule { 1 }
+    association :payment
   end
 end
