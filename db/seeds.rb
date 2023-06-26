@@ -15,7 +15,12 @@ ErrorMessage.create!(
 
 ErrorMessage.create!(
   code: '004',
-  description: 'Valor da compra é maior que o saldo do cartão'
+  description: 'Valor da compra maior que o saldo do cartão'
+)
+
+ErrorMessage.create!(
+  code: '005',
+  description: 'Administrador não aprovou a compra'
 )
 
 card_type = CardType.new(name: 'Gold', start_points: 100, emission: true)
@@ -73,12 +78,37 @@ payment = Payment.create!(
   code: '456789',
   total_value: 20,
   descount_amount: 10,
-  final_value: 46,
+  final_value: 10,
   cpf: card.cpf,
   status: :pending,
   card_number: card.number,
   payment_date: Date.current
 )
+
+Payment.create!(
+  order_number: '35241568212',
+  code: '456789',
+  total_value: 5,
+  descount_amount: 0,
+  final_value: 5,
+  cpf: card.cpf,
+  status: :pending,
+  card_number: card.number,
+  payment_date: Date.current
+)
+
+Payment.create!(
+  order_number: '35241568212',
+  code: '456789',
+  total_value: 500,
+  descount_amount: 10,
+  final_value: 450,
+  cpf: card.cpf,
+  status: :pending,
+  card_number: '512456521645221',
+  payment_date: Date.current
+)
+
 Extract.create!(
   date: payment.created_at, operation_type: 'débito', value: payment.final_value,
   description: "Pedido #{payment.order_number}", card_number: payment.card_number

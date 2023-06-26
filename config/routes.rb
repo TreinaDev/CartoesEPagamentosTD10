@@ -12,6 +12,14 @@ Rails.application.routes.draw do
     patch 'enable', on: :member
     patch 'disable', on: :member
   end
+
+  resources :payments, only: [] do
+    patch 'approve', on: :member
+    patch 'reprove', on: :member
+    get 'pending', on: :collection
+    get 'finished', on: :collection
+  end
+
   resources :cashback_rules, only: [:index, :new, :create, :edit, :update]
 
   namespace :api do

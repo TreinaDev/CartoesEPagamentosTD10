@@ -49,6 +49,15 @@
                     <li><%= link_to t('.new_cashback_rule'), new_cashback_rule_path, class: 'dropdown-item' %></li>
                   </ul>
                 </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <%= t('.payment') %>
+                  </a>
+                  <ul id='payment' class="dropdown-menu">
+                    <li><%= link_to t('.pending'), pending_payments_path, class: 'dropdown-item' %></li>
+                    <li><%= link_to t('.finished'), finished_payments_path, class: 'dropdown-item' %></li>
+                  </ul>
+                </li>
               </ul>
             <% end %>
 

@@ -11,6 +11,24 @@ class Payment < ApplicationRecord
   before_validation :generate_code, on: :create
   after_create :pre_approve
 
+  def format_cpf(cpf)
+    cpf.gsub(/\A(\d{3})(\d{3})(\d{3})(\d{2})\Z/, '\\1.\\2.\\3-\\4')
+  end
+
+  def format_money(value)
+    format('%.2f', value).sub('.', ',')
+  end
+
+  def check_balance(card_number)
+    Card.find_by(number: card_number).points
+  end
+
+  def get_final_balance(payment)
+    card = Card.find_by(number: payment.card_number)
+    points = check_balance(card_number)
+    points - reais_to_points(card, final_value)
+  end
+
   private
 
   def generate_code

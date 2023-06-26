@@ -7,3 +7,5 @@ pt-BR:
     company_card_type_enabled: Cartão habilitado para a empresa com sucesso.
     company_card_type_disabled: Cartão desabilitado para a empresa com sucesso.
     cashback_rule_created: Regra de cashback criada com sucesso.
+    payment_approved: Pagamento aprovado com sucesso
+    payment_rejected: Pagamento reprovado com sucesso
