@@ -7,7 +7,7 @@
 
 <h1 class="title-style"><%= t('.finished_payments') %></h1>
 
-<section class='d-flex p-2 justify-content-between'>
+<section class='container-grid'>
     <% if @finished_payments.empty? %>
         <span><%= t('.no_finished_payments') %></span>
     <% else %>
