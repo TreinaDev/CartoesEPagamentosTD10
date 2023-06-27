@@ -27,6 +27,33 @@ describe 'API de consulta do pagamento' do
       expect(json_response['status']).to eq 'pending'
     end
 
+    it 'com sucesso um pagamento reprovado com uma mensagem de erro' do
+      payment = FactoryBot.create(:payment, order_number: '852369',
+                                            total_value: 500,
+                                            descount_amount: 50,
+                                            final_value: 450,
+                                            status: 'pending',
+                                            cpf: '15756448506',
+                                            card_number: '98765432165432198765',
+                                            payment_date: Date.current)
+      payment.status = :rejected
+      payment.save
+      get "/api/v1/payments/#{payment.code}"
+
+      expect(response.status).to eq 200
+      expect(response.content_type).to include 'application/json'
+      json_response = response.parsed_body
+      expect(json_response['order_number']).to eq '852369'
+      expect(json_response['total_value']).to eq 500
+      expect(json_response['descount_amount']).to eq 50
+      expect(json_response['final_value']).to eq 450
+      expect(json_response['cpf']).to eq '15756448506'
+      expect(json_response['card_number']).to eq '98765432165432198765'
+      expect(json_response['code']).to eq payment.code
+      expect(json_response['status']).to eq 'rejected'
+      expect(json_response['error']).to eq 'O pagamento não pode ser concluído, contate o seu banco emissior'
+    end
+
     it 'retorna apenas o pagamento do codigo informado' do
       payment = FactoryBot.create(:payment, order_number: '852369',
                                             total_value: 500,
