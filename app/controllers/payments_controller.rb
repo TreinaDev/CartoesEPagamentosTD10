@@ -42,7 +42,15 @@ class PaymentsController < ApplicationController
     return unless final_value >= card.company_card_type.cashback_rule.minimum_amount_points
 
     cashback_amount = (final_value * card.company_card_type.cashback_rule.cashback_percentage / 100).round
-    Cashback.create!(amount: cashback_amount, payment:, cashback_rule: card.company_card_type.cashback_rule, card:)
+    cashback = Cashback.create!(amount: cashback_amount, payment:,
+                                cashback_rule: card.company_card_type.cashback_rule, card:)
+    generate_cashback_extract(cashback, payment, card)
+  end
+
+  def generate_cashback_extract(cashback, payment, card)
+    venc = card.company_card_type.cashback_rule.days_to_use
+    Extract.create(date: cashback.created_at, operation_type: 'crédito', value: cashback.amount,
+                   description: "Cashback #{payment.order_number} Válido por #{venc} dia(s)", card_number: card.number)
   end
 
   def process_payment_approval(card, cashback, payment, final_value)
@@ -51,6 +59,8 @@ class PaymentsController < ApplicationController
     card.points -= final_value
     card.save!
     payment.approved!
+    Extract.create(date: payment.payment_date, operation_type: 'débito', value: payment.final_value,
+                   description: "Pedido #{payment.order_number}", card_number: card.number)
     return if card.company_card_type.cashback_rule.blank?
 
     create_cashback_if_possible(final_value, card, payment)

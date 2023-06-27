@@ -47,11 +47,15 @@ other_card_type.icon.attach(
 )
 other_card_type.save
 
+cashback_rule = CashbackRule.create!(cashback_percentage: 3, days_to_use: 10,
+                                     minimum_amount_points: 50)
+
 CompanyCardType.create!(
   status: :active,
   cnpj: '02423374000145',
   card_type:,
-  conversion_tax: 20.00
+  conversion_tax: 20.00,
+  cashback_rule_id: 1
 )
 CompanyCardType.create!(
   status: :inactive,
@@ -109,9 +113,17 @@ Payment.create!(
   payment_date: Date.current
 )
 
+cashback = Cashback.create!(amount: 4, payment:,
+                            cashback_rule:, card:)
+
 Extract.create!(
   date: payment.created_at, operation_type: 'débito', value: payment.final_value,
   description: "Pedido #{payment.order_number}", card_number: payment.card_number
+)
+
+Extract.create!(
+  date: cashback.created_at, operation_type: 'crédito', value: cashback.amount,
+  description: "Cashback #{payment.order_number} Válido por 10 dia(s)", card_number: card.number
 )
 deposit = Deposit.create!(
   card:,
@@ -121,7 +133,7 @@ deposit = Deposit.create!(
 )
 Extract.create!(
   date: deposit.created_at, operation_type: 'depósito', value: deposit.amount,
-  description: deposit.description, card_number: deposit.card.number
+  description: "Recarga #{deposit.deposit_code}", card_number: deposit.card.number
 )
 Admin.create!(
   name: 'Luiz da Silva',
