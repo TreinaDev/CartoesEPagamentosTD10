@@ -283,7 +283,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  actionpack (~> 7.0.5.1)
   bootsnap
   capybara
   cssbundling-rails
@@ -295,7 +294,7 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   puma (~> 5.0)
-  rails (~> 7.0.4, >= 7.0.4.3)
+  rails (~> 7.0.5.1)
   rspec-rails
   rubocop
   rubocop-rails
