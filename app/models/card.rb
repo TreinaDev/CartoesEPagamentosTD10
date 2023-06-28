@@ -3,6 +3,8 @@ class Card < ApplicationRecord
   enum status: { active: 0, inactive: 5, blocked: 10 }
   attribute :status, default: :active
   validates :cpf, :number, :points, presence: true
+  validates :number, uniqueness: true
+  validates :number, length: { is: 20 }
   validate :unique_cpf_active_card, on: :create
   validate :valid_available_card_type, on: :create
   validate :check_block, on: :update
