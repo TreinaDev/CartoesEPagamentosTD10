@@ -30,6 +30,25 @@ class Payment < ApplicationRecord
     points - reais_to_points(card, final_value)
   end
 
+  def subtract_cashback_if_possible(card, cashback)
+    new_final_value = reais_to_points(card, final_value)
+    new_final_value -= cashback.amount if cashback.present?
+    new_final_value
+  end
+
+  def process_payment_approval(card, cashback, final_value)
+    ActiveRecord::Base.transaction do
+      debit_points(card, cashback, final_value)
+      Extract.create(date: payment_date, operation_type: 'débito', value: final_value,
+                     description: "Pedido #{order_number}", card_number: card.number)
+      next if card.company_card_type.cashback_rule.blank?
+
+      Cashback.create_cashback_if_possible(final_value, card, self)
+    rescue ActiveRecord::RecordInvalid
+      render status: :precondition_failed, json: { errors: card.errors.full_messages }
+    end
+  end
+
   private
 
   def generate_code
@@ -80,5 +99,13 @@ class Payment < ApplicationRecord
     return true if card.points >= conversion_for_points
 
     false if ErrorsAssociation.create(payment_id: id, error_message_id: 4)
+  end
+
+  def debit_points(card, cashback, final_value)
+    cashback.change_cashback_used if cashback.present?
+
+    card.points -= final_value
+    card.save!
+    approved!
   end
 end
