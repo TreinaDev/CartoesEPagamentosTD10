@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_admin!
   before_action :configure_permitted_parameters, if: :devise_controller?
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from Faraday::ConnectionFailed, with: :internal_server_error
   rescue_from CompanyConnectionError, with: :company_connection_error
 

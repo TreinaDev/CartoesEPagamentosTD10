@@ -41,7 +41,6 @@ describe 'API de recarga de cartões' do
           card = FactoryBot.create(:card, cpf: '66268563670', points: 100, company_card_type: company)
           request = { recharge: [{ cpf: card.cpf, value: 15 }] }
           allow_any_instance_of(Card).to receive(:update).and_return(false)
-
           patch '/api/v1/cards/recharge', params: request
 
           expect(response.status).to eq 200
