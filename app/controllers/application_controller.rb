@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def company_connection_error
-    redirect_to root_path, notice: I18n.t('.alerts.company_connection_error')
+    redirect_to root_path, alert: I18n.t('.alerts.company_connection_error')
   end
 
   protected

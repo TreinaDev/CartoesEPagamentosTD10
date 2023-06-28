@@ -1,18 +1,33 @@
 <%= form_with model: @card_type, class: 'form' do |f| %>
   
-  <div>
+  <div class='field'>
     <%= f.label :name %>
     <%= f.text_field :name %>
+      <% if @card_type.errors.where(:name) %>
+        <% @card_type.errors.where(:name).each do |e| %>
+          <span class='text-danger errors'><%= "#{CardType.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
+      <% end %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :start_points %>
     <%= f.number_field :start_points %>
+    <% if @card_type.errors.where(:start_points) %>
+        <% @card_type.errors.where(:start_points).each do |e| %>
+          <span class='text-danger errors'><%= "#{CardType.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
+    <% end %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :icon %>
     <%= f.file_field :icon, class: 'form-control', accept: 'image/jpeg, image/gif, image/png, image/svg+xml' %>
+    <% if @card_type.errors.where(:icon) %>
+        <% @card_type.errors.where(:icon).each do |e| %>
+          <span class='text-danger errors'><%= "#{CardType.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
+    <% end %>
   </div>
 
   <%= f.submit 'Salvar', :class => 'btn btn-primary mt-1' %>

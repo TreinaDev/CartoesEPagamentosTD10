@@ -19,27 +19,33 @@
 
   <%= form_with model: @cashback_rule, class:'form' do |f| %>
   
-    <div class='form-attributes'>
+    <div class='field'>
       <%= f.label :minimum_amount_points %>
       <%= f.number_field :minimum_amount_points, placeholder: t('.minimum_amount_points_placeholder') %>
-      <% if @cashback_rule.errors[:minimum_amount_points].present? %>
-        <span class='text-danger errors'><%= @cashback_rule.errors[:minimum_amount_points].join(', ') %></span>
+      <% if @cashback_rule.errors.where(:minimum_amount_points) %>
+        <% @cashback_rule.errors.where(:minimum_amount_points).each do |e| %>
+          <span class='text-danger errors'><%= "#{CashbackRule.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
       <% end %>
     </div>
-    <div class='form-attributes'>
+    <div class='field'>
       <%= f.label :cashback_percentage %>
       <%= f.number_field :cashback_percentage, step: 0.01, placeholder: t('.cashback_percentage_placeholder') %>
-      <% unless @cashback_rule.errors[:cashback_percentage].include?(t('.cashback_rule_alredy_exists')) %>
-        <span class='text-danger errors'><%= @cashback_rule.errors[:cashback_percentage].join(', ') %></span>
+      <% unless @cashback_rule.errors.where(:cashback_percentage).include?(t('.cashback_rule_alredy_exists')) %>
+        <% @cashback_rule.errors.where(:cashback_percentage).each do |e| %>
+          <span class='text-danger errors'><%= "#{CashbackRule.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
       <% end %>
     </div>
-    <div class='form-attributes'>
+    <div class='field'>
       <%= f.label :days_to_use %>
       <%= f.number_field :days_to_use, placeholder: t('.days_to_use_placeholder') %>
-      <% if @cashback_rule.errors[:days_to_use].present? %>
-        <span class='text-danger errors'><%= @cashback_rule.errors[:days_to_use].join(', ') %></span>
+      <% if @cashback_rule.errors.where(:days_to_use) %>
+        <% @cashback_rule.errors.where(:days_to_use).each do |e| %>
+          <span class='text-danger errors'><%= "#{CashbackRule.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
       <% end %>
     </div>
-    <%= f.submit 'Criar regra', class: 'btn btn-primary w-100 mt-1' %>
+    <%= f.submit 'Criar regra', class: 'btn btn-primary btn-submit w-100', formnovalidate: true %>
   <% end %>
 </section>

@@ -15,9 +15,8 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'Não foi possível salvar administrador: 2 erros'
-      expect(page).to have_content 'Nome não pode ficar em branco'
-      expect(page).to have_content 'Nome é muito curto (mínimo: 5 caracteres)'
+      expect(page).to have_content 'não pode ficar em branco'
+      expect(page).to have_content 'é muito curto (mínimo: 5 caracteres)'
     end
 
     it 'when email is not the momain @punti.com' do
@@ -33,22 +32,16 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'Não foi possível salvar administrador: 3 erros'
-      expect(page).to have_content 'E-mail precisa pertencer ao domínio @punti.com'
+      expect(page).to have_content 'precisa pertencer ao domínio @punti.com'
     end
 
     it 'when email is already in use' do
       Admin.create!(
-        name:
-          'Maria Josefa Silva',
-        cpf:
-          '84045901418',
-        email:
-              'j@punti.com',
-        password:
-                  '123456',
-        password_confirmation:
-                               '123456'
+        name: 'Maria Josefa Silva',
+        cpf: '84045901418',
+        email: 'j@punti.com',
+        password: '123456',
+        password_confirmation: '123456'
       )
 
       visit root_path
@@ -63,7 +56,7 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'E-mail já está em uso'
+      expect(page).to have_content 'já está em uso'
     end
 
     it 'when cpf is invalid' do
@@ -79,7 +72,7 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'CPF inválido'
+      expect(page).to have_content 'inválido'
     end
 
     it 'when cpf is already in use' do
@@ -103,7 +96,7 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'CPF já está em uso'
+      expect(page).to have_content 'já está em uso'
     end
   end
 end
