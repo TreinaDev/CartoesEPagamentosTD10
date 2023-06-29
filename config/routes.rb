@@ -26,7 +26,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :company_card_types, only: [:index]
       resources :extracts, only: [:index]
-      resources :payments, only: [:create, :show]
+      resources :payments, only: [:create, :show] do
+        get 'by_cpf', on: :collection, to: 'payments#all_by_cpf'
+      end
       resources :cards, only: [:create, :destroy, :show] do
         delete 'block', on: :member
         patch 'activate', on: :member

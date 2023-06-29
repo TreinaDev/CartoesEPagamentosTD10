@@ -17,7 +17,20 @@ class Api::V1::PaymentsController < Api::V1::ApiController
     end
   end
 
+  def all_by_cpf
+    Card.find_by!(cpf: params[:cpf])
+    payments = Payment.where(cpf: params[:cpf])
+    json_payments = format_created_payments(payments)
+    render status: :ok, json: json_payments
+  end
+
   private
+
+  def format_created_payments(payments)
+    payments.map do |payment|
+      format_created_payment(payment)
+    end
+  end
 
   def format_created_payment(payment)
     { order_number: payment.order_number,
@@ -28,6 +41,7 @@ class Api::V1::PaymentsController < Api::V1::ApiController
       card_number: payment.card_number,
       payment_date: payment.payment_date,
       status: payment.status == 'pre_rejected' || payment.status == 'pre_approved' ? :pending : payment.status,
-      code: payment.code }
+      code: payment.code,
+      error: payment.status == 'rejected' ? 'O pagamento não pode ser concluído, contate a aplicação de cartões' : '' }
   end
 end
