@@ -33,7 +33,7 @@
   align-items: center;
 }
 
-.card-icon {
+.card-section .card-icon {
   height: 68px;
 }
 
@@ -48,4 +48,9 @@
 
 .company-types-card .unlinked-color {
   color: #fd7e14;
+}
+
+.btn-company-card-type {
+  width: 216px;
+  height: 48px;
 }

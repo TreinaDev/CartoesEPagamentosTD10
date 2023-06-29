@@ -39,7 +39,7 @@ RSpec.describe CashbackRule, type: :model do
         result = cashback_rule.valid?
 
         expect(result).to eq false
-        expect(cashback_rule.errors.full_messages).to include 'Deve ser válido por quantos dias? não é um número'
+        expect(cashback_rule.errors.full_messages).to include 'Quantidade de dias não é um número'
       end
     end
 
@@ -68,7 +68,7 @@ RSpec.describe CashbackRule, type: :model do
         result = cashback_rule.valid?
 
         expect(result).to eq false
-        expect(cashback_rule.errors.full_messages).to include 'Deve ser válido por quantos dias? deve ser maior que 0'
+        expect(cashback_rule.errors.full_messages).to include 'Quantidade de dias deve ser maior que 0'
       end
 
       it 'deve retornar falso caso days_to_use não seja um número inteiro' do
@@ -78,7 +78,7 @@ RSpec.describe CashbackRule, type: :model do
 
         expect(result).to eq false
         expect(cashback_rule.errors.full_messages)
-          .to include 'Deve ser válido por quantos dias? não é um número inteiro'
+          .to include 'Quantidade de dias não é um número inteiro'
       end
 
       it 'deve retornar falso caso cashback_percentage seja um número menor que zero' do

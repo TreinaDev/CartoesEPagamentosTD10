@@ -1,0 +1,10 @@
+pt-BR:
+  breadcrumb:
+    home: Início
+    card_types: Tipos de cartões
+    new_card_type: Novo tipo de cartão
+    edit_card_type: Editar tipo de cartão
+    card: "Cartão %{name}"
+    cashback_rules: Regras de cashback
+    new_cashback_rule: Nova regra de cashback
+    companies: Empresas

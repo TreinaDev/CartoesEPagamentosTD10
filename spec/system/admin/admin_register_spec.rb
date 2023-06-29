@@ -15,8 +15,8 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'não pode ficar em branco'
-      expect(page).to have_content 'é muito curto (mínimo: 5 caracteres)'
+      expect(page).to have_content 'Nome não pode ficar em branco'
+      expect(page).to have_content 'Nome é muito curto (mínimo: 5 caracteres)'
     end
 
     it 'when email is not the momain @punti.com' do
@@ -32,7 +32,7 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'precisa pertencer ao domínio @punti.com'
+      expect(page).to have_content 'E-mail precisa pertencer ao domínio @punti.com'
     end
 
     it 'when email is already in use' do
@@ -56,7 +56,7 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'já está em uso'
+      expect(page).to have_content 'E-mail já está em uso'
     end
 
     it 'when cpf is invalid' do
@@ -72,7 +72,7 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'inválido'
+      expect(page).to have_content 'CPF inválido'
     end
 
     it 'when cpf is already in use' do
@@ -96,7 +96,7 @@ describe 'Admin do create a count', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'já está em uso'
+      expect(page).to have_content 'CPF já está em uso'
     end
   end
 end

@@ -1,7 +1,6 @@
 pt-BR:
   cashback_rules:
     index:
-      home: Início
       cashback_rules: Regras de cashback
       minimum_value: Valor mínimo
       points: Pontos
@@ -10,10 +9,10 @@ pt-BR:
       return_percentage: Porcentagem de retorno
       no_cashback_rules_registered: Ainda não existem regras de cashback cadastradas
     new:
-      home: Início
-      create_bachback_rule: Criar regra de cashback
+      new_cashback_rule: Nova regra de cashback
       verify_the_following_error: Verifique o erro abaixo
-      cashback_rule_alredy_exists: A regra de cashback já existe
+      cashback_rule_already_exists: A regra de cashback já existe
       minimum_amount_points_placeholder: Valor mínimo em pontos
       cashback_percentage_placeholder: Quanto deseja retornar ao cliente?
       days_to_use_placeholder: Quantidade de dias
+      create_rule: Criar regra

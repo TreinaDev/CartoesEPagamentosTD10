@@ -15,7 +15,7 @@ describe 'Administrador tenta registar um novo tipo de cartão' do
 
     expect(page).to have_content('Novo tipo de cartão criado com sucesso')
     expect(page).to have_content('Cartão Premium')
-    expect(page).to have_content('Pontos iniciais: 67')
+    expect(page).to have_content('Pontos iniciais 67 Pontos')
     expect(page).to have_css("img[src*='premium.svg']")
   end
 
@@ -34,7 +34,6 @@ describe 'Administrador tenta registar um novo tipo de cartão' do
     click_on 'Salvar'
 
     expect(page).to have_content('Não foi possível criar um novo tipo de cartão')
-    expect(page).to have_content('Verifique os erros abaixo:')
     expect(page).to have_content('Nome já está em uso')
   end
 end

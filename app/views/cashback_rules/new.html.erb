@@ -1,18 +1,18 @@
 <nav aria-label="breadcrumb" >
   <ol class="breadcrumb" >
-    <li class="breadcrumb-item fw-bold"><%= link_to t('.home'), root_path %></li>
-    <li class="breadcrumb-item active" aria-current="page"><%= t('.create_bachback_rule') %></li>
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.new_cashback_rule') %></li>
   </ol>
 </nav>
 
+<h1 class='title-style'><%= t('.new_cashback_rule') %></h1>
+
 <section>
-  <h1 class='title-style'><%= t('.create_bachback_rule') %></h1>
-  
   <div class='cashback-rules-form'>
-    <% if @cashback_rule.errors[:cashback_percentage].include?(t('.cashback_rule_alredy_exists')) %>
+    <% if @cashback_rule.errors[:cashback_percentage].include?(t('.cashback_rule_already_exists')) %>
       <h4><%= t('.verify_the_following_error') %>:</h4>
       <div id='errors-div'>
-        <p><%= t('.cashback_rule_alredy_exists') %></p>
+        <p><%= t('.cashback_rule_already_exists') %></p>
       </div>
     <% end %>
   </div>
@@ -31,14 +31,16 @@
     <div class='field'>
       <%= f.label :cashback_percentage %>
       <%= f.number_field :cashback_percentage, step: 0.01, placeholder: t('.cashback_percentage_placeholder') %>
-      <% unless @cashback_rule.errors.where(:cashback_percentage).include?(t('.cashback_rule_alredy_exists')) %>
-        <% @cashback_rule.errors.where(:cashback_percentage).each do |e| %>
-          <span class='text-danger errors'><%= "#{CashbackRule.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% if @cashback_rule.errors.where(:cashback_percentage) %>
+          <% @cashback_rule.errors.where(:cashback_percentage).each do |e| %>
+            <% next if e.message == 'A regra de cashback já existe' %>
+
+            <span class='text-danger errors'><%= "#{CashbackRule.human_attribute_name(e.attribute)} #{e.message}" %></span>
+          <% end %>
         <% end %>
-      <% end %>
     </div>
     <div class='field'>
-      <%= f.label :days_to_use %>
+      <%= f.label CashbackRule.human_attribute_name(:days_to_use, count: 2) %>
       <%= f.number_field :days_to_use, placeholder: t('.days_to_use_placeholder') %>
       <% if @cashback_rule.errors.where(:days_to_use) %>
         <% @cashback_rule.errors.where(:days_to_use).each do |e| %>
@@ -46,6 +48,6 @@
         <% end %>
       <% end %>
     </div>
-    <%= f.submit 'Criar regra', class: 'btn btn-primary btn-submit w-100', formnovalidate: true %>
+    <%= f.submit t('.create_rule'), class: 'btn btn-primary btn-submit', formnovalidate: true %>
   <% end %>
 </section>
