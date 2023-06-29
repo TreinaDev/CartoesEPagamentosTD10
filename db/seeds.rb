@@ -79,7 +79,7 @@ card = Card.create!(cpf: '30383993024', company_card_type_id: 1)
 
 card2 = Card.create!(cpf: '40247099090', company_card_type_id: 3)
 
-card3 = Card.create!(cpf: '52399436059', company_card_type_id: 3)
+card3 = Card.create!(cpf: '52399436059', company_card_type_id: 3, status: 'blocked')
 
 card4 = Card.create!(cpf: '62222694000', company_card_type_id: 4, status: 'inactive')
 

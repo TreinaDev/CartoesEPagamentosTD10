@@ -42,7 +42,8 @@ Esta é a terceira aplicação do projeto Clube de Compras que envolve mais 2 ap
     * ✔️ [Consulta do extrato do cartão](#consulta-do-extrato-do-cartão)
     * ✔️ [Recarga de cartões](#recarga-de-cartões)
     * ✔️ [Gerar Pedido de pagamento](#gerar-pedido-de-pagamento)
-    * ✔️ [Consulta pagamento](#consulta-pagamento)
+    * ✔️ [Consulta de pagamento pelo código](#consulta-de-pagamento-pelo-código)
+    * ✔️ [Consulta de pagamentos pelo cpf](#consulta-de-pagamentos-pelo-cpf)
 4. [Equipe 🤓](#equipe)
 
 ## Configurações
@@ -89,7 +90,7 @@ As seeds irão popular a aplicação com dados já prontos para facilitar a inte
     |--|---|------|
     |1|30383993024|Ativo|
     |2|40247099090|Ativo|
-    |3|52399436059|Ativo|
+    |3|52399436059|Bloqueado|
     |4|62222694000|Inativo|
 4. Pagamentos Pré Cadastrados:
 
@@ -97,10 +98,12 @@ As seeds irão popular a aplicação com dados já prontos para facilitar a inte
     |------------|----------------|
     |1|12345678912|
     |1|35241568212|
-    |Inexistente|56812547891|
+    |X|56812547891|
     |4|87512456988|
     |2|92548741589|
     |4|41589925487|
+    
+    **Obs:** No terceiro pagamento foi utilizado um cartão que não existe no banco de dados.
 
 <br>
 
@@ -141,7 +144,7 @@ https://github.com/TreinaDev/GestaoEmpresasTD10.git
 A aplicação tem um único perfil administrador responsável por todas as operações e deve ter e-mail com domínio ``punti.com``.
 ### **Gestão de Tipos de Cartão**
 
-Um administrador pode gerenciar ``tipos diferentes de cartões`` que contém um ``nome``, um ``ícone`` e um ``total de pontos pré-estabelecido``. O administrador é capaz de indicar quais tipos de cartões devem estar disponíveis para cada uma das empresas parceiras do clube.
+Um administrador pode gerenciar ``tipos diferentes de cartões`` que contém um ``nome``, um ``ícone`` e um ``total de pontos pré-estabelecido``. O administrador é capaz de selecionar quais tipos de cartões devem estar disponíveis para cada uma das empresas parceiras do clube.
 
 Um tipo de cartão pode ser desativado para novas emissões e os cartões já emitidos para este tipo não devem sofreram nenhum tipo de mudança. Somente a emissão de novos cartões fica suspensa.
 
@@ -417,7 +420,7 @@ POST http://localhost:4000/api/v1/payments
 </details>
 <br>
 
-### **Consulta pagamento**
+### **Consulta de pagamento pelo código**
 <details>
 <summary>📄</summary>
 
@@ -430,6 +433,25 @@ GET http://localhost:4000/api/v1/payments/code
 <summary>Imagem ilustrativa da resposta</summary>
 <br>
 <img src='https://i.imgur.com/HVgsO0J.png'/>
+</details>
+<br>
+
+</details>
+<br>
+
+### **Consulta de pagamentos pelo cpf**
+<details>
+<summary>📄</summary>
+
+* Exemplo de chamada da API
+```
+GET http://localhost:4000/api/v1/payments/by_cpf?cpf=cpf_funcionario
+```
+<details>
+<summary>Imagem ilustrativa da resposta</summary>
+<br>
+<img src='https://i.imgur.com/yI0ocJP.png'/>
+
 </details>
 <br>
 
