@@ -42,6 +42,6 @@ class Api::V1::PaymentsController < Api::V1::ApiController
       payment_date: payment.payment_date,
       status: payment.status == 'pre_rejected' || payment.status == 'pre_approved' ? :pending : payment.status,
       code: payment.code,
-      error: 'O pagamento não pode ser concluído, contate a aplicação de cartões' }
+      error: payment.status == 'rejected' ? 'O pagamento não pode ser concluído, contate a aplicação de cartões' : '' }
   end
 end
