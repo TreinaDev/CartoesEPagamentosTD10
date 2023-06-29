@@ -64,7 +64,7 @@ CompanyCardType.create!(
 CompanyCardType.create!(
   status: :active,
   cnpj: '12423374000146',
-  card_type: card_type,
+  card_type:,
   conversion_tax: 15.00
 )
 
@@ -83,7 +83,7 @@ card3 = Card.create!(cpf: '52399436059', company_card_type_id: 3)
 
 card4 = Card.create!(cpf: '62222694000', company_card_type_id: 4, status: 'inactive')
 
-payment = Payment.create!(
+Payment.create!(
   order_number: '12345678912',
   total_value: 60,
   descount_amount: 10,
@@ -146,7 +146,7 @@ Payment.create!(
 deposit = Deposit.create!(
   card: card3,
   amount: 20,
-  description: 'Recarga feita pela empresa', 
+  description: 'Recarga feita pela empresa',
   deposit_code: '216846513'
 )
 
