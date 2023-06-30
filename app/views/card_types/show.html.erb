@@ -20,7 +20,7 @@
   <div class='card-footer'>
     <%=link_to t('.edit'), edit_card_type_path(@card_type), class: 'btn btn-secondary'%>
     <% if @card_type.emission %>
-      <%= button_to t('btn_disable_emission'), disable_card_type_path(@card_type), class: 'btn btn-danger', method: :patch %>
+      <%= button_to t('.btn_disable_emission'), disable_card_type_path(@card_type), class: 'btn btn-danger', method: :patch %>
     <% else %>
       <%= button_to t('.btn_enable_emission'), enable_card_type_path(@card_type), class: 'btn btn-success', method: :patch %>
     <% end %>
