@@ -14,7 +14,7 @@
             <%@cards_emission_enabled.each do |type|%>
                 <div class='row align-items-center my-2'>
                     <%= link_to type.name, type, :class => 'col' %>
-                    <%= image_tag type.icon, alt: "Ícone cartão #{type.name}", :class => 'col', width: 25, height: 25 %>
+                    <%= image_tag type.icon, alt: type.name, :class => 'col', width: 25, height: 25 %>
                 </div>
              <%end%>
          <% end %>
@@ -28,7 +28,7 @@
             <%@cards_emission_disabled.each do |type|%>
                 <div class='row align-items-center'>
                     <%= link_to type.name, type , :class => 'col'%>
-                    <%= image_tag type.icon, alt: "Ícone cartão #{type.name}", :class => 'col', width: 25, height: 25%>
+                    <%= image_tag type.icon, alt: type.name, :class => 'col', width: 25, height: 25%>
                 </div>
             <%end%>
         <% end %>

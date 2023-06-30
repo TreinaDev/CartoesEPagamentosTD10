@@ -103,7 +103,15 @@ pt-BR:
         update: Atualizar
         we_need_your_current_password_to_confirm_your_changes: precisamos da sua senha atual para confirmar suas mudanças
       new:
-        sign_up: Inscrever-se
+        title: Cadastrar Administrador
+        sign_up: Cadastrar
+        placeholder_name: Digite seu nome completo
+        placeholder_cpf: Digite seu cpf. Apenas números
+        placeholder_email: Digite um email
+        placeholder_password: Crie uma senha
+        placeholder_confirm: Confirme a senha
+        minimum_password_length:
+          other: "mínimo de %{count} caracteres"
       signed_up: Boas vindas! Você realizou seu registro com sucesso.
       signed_up_but_inactive: Você se inscreveu com sucesso, porém nós não podemos autenticá-lo porque sua conta ainda não foi ativada.
       signed_up_but_locked: Você se inscreveu com sucesso. Porém nós não podemos autenticá-lo porque sua conta está bloqueada.
@@ -123,9 +131,9 @@ pt-BR:
         didn_t_receive_confirmation_instructions: Não recebeu instruções de confirmação?
         didn_t_receive_unlock_instructions: Não recebeu instruções de desbloqueio?
         forgot_your_password: Esqueceu sua senha?
-        sign_in: Login
+        sign_in: Entrar
         sign_in_with_provider: Entrar com %{provider}
-        sign_up: Inscrever-se
+        sign_up: Cadastrar
       minimum_password_length:
         one: "(Mínimo de %{count} caractere)"
         other: "(Mínimo de %{count} caracteres)"

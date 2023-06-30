@@ -40,6 +40,6 @@
         <span class='text-danger errors'><%= @cashback_rule.errors[:days_to_use].join(', ') %></span>
       <% end %>
     </div>
-    <%= f.submit 'Criar regra', class: 'btn btn-primary w-100 mt-1' %>
+    <%= f.submit t('.submit'), class: 'btn btn-primary w-100 mt-1' %>
   <% end %>
 </section>
