@@ -10,6 +10,10 @@ class Card < ApplicationRecord
   before_validation :generate_number, on: :create
   before_validation :set_initial_points, on: :create
 
+  def can_approve_payment?(final_value)
+    points >= final_value
+  end
+
   private
 
   def valid_available_card_type
