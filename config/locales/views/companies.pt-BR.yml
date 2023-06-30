@@ -8,6 +8,7 @@ pt-BR:
     show:
       registration_number: 'CNPJ'
       link_card_type: 'Vincular a empresa'
+      no_card_type_with_issuance_enabled: Nenhum tipo de cartão com emissão habilitada 
     linked_card_type:
       activate_card_type: 'Ativar disponibilidade'
       inactivate_card_type: 'Desativar disponibilidade'

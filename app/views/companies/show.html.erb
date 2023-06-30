@@ -13,18 +13,22 @@
 </div>
 
 <section class='d-flex flex-column gap-3'>
-  <% @card_types.each do |card_type| %>
-    <div id=<%= dom_id(card_type) %> class='company-types-card'>
-      <% params = { company_id: @company.id, company_card_type: {
-                    card_type_id: card_type.id, cnpj: @company.registration_number } } %>
+  <% if @card_types.blank? %>
+    <p><%= t('.no_card_type_with_issuance_enabled') %></p>
+  <% else %>
+    <% @card_types.each do |card_type| %>
+      <div id=<%= dom_id(card_type) %> class='company-types-card'>
+        <% params = { company_id: @company.id, company_card_type: {
+                      card_type_id: card_type.id, cnpj: @company.registration_number } } %>
 
-      <% if @linked_card_types.include? card_type %>
-        <% company_card_type = @company_card_types.find { |company_card_type| company_card_type.card_type == card_type } %>
+        <% if @linked_card_types.include? card_type %>
+          <% company_card_type = @company_card_types.find { |company_card_type| company_card_type.card_type == card_type } %>
 
-        <%= render partial: 'linked_card_type', locals: { company_card_type:, card_type:, params: } %>
-      <% else %>
-        <%= render partial: 'unlinked_card_type', locals: { card_type: } %>
-      <% end %>
-    </div>
-  <% end %> 
+          <%= render partial: 'linked_card_type', locals: { company_card_type:, card_type:, params: } %>
+        <% else %>
+          <%= render partial: 'unlinked_card_type', locals: { card_type: } %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
 </section>
