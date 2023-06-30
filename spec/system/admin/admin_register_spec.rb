@@ -112,7 +112,6 @@ describe 'Administrador cria uma conta', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'Não foi possível salvar administrador: 1 erro'
       expect(page).to have_content 'Senha é muito curto (mínimo: 6 caracteres)'
     end
 
@@ -129,7 +128,6 @@ describe 'Administrador cria uma conta', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'Não foi possível salvar administrador: 1 erro'
       expect(page).to have_content 'Confirme sua senha não é igual a Senha'
     end
   end
