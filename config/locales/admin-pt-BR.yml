@@ -1,0 +1,20 @@
+pt-BR:
+  activerecord:
+    models:
+      admin: Administrador
+    attributes:
+      admin:
+        name: Nome
+        email: E-mail
+        password: Senha
+        cpf: CPF
+        password_confirmation: Confirmação de senha
+    errors:
+      models:
+        admin:
+          attributes:
+            cpf:
+              cpf_invalid: inválido
+              cpf_minimum_character: precisa ter 11 dígitos
+              email_domain: precisa pertencer ao domínio @punti.com
+

@@ -1,5 +1,5 @@
 <% if @card_type.errors.present? %>
-  <h4>Verifique os erros abaixo:</h4>
+  <h4><%=t('.check_errors')%>:</h4>
   <div id='errors-div'>
     <% @card_type.errors.full_messages.each do |message| %>
       <span><%= message %></span>

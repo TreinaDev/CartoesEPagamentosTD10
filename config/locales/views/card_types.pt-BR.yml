@@ -12,8 +12,16 @@ pt-BR:
       card_types: Tipos de cartões
       card: Cartão
       initial_points: Pontos iniciais
+      btn_enable_emission: Habilitar emissão
+      btn_disable_emission: Desabilitar emissão
+      edit: Editar
     new:
       create_new_card_type: Criar tipo de cartão
       new_card_type: Novo tipo de cartão
+      home: Início
+    form:
+      button: Salvar
     edit:
       edit_card_type: Editar tipo de cartão
+    errors_full_messages:
+      check_errors: Verifique os erros abaixo 

@@ -1,8 +1,8 @@
 <nav aria-label="breadcrumb" >
   <ol class="breadcrumb" >
-    <li class="breadcrumb-item fw-bold"><%= link_to 'Inicio', root_path %></li>
-    <li class="breadcrumb-item fw-bold" aria-current="page"><%= link_to 'Empresas', companies_path %></li>
-    <li class="breadcrumb-item active" aria-current="page">Tipos de cartões</li>
+    <li class="breadcrumb-item fw-bold"><%= link_to t('.home'), root_path %></li>
+    <li class="breadcrumb-item fw-bold" aria-current="page"><%= link_to t('.companies'), companies_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%=t('.card_types')%></li>
   </ol>
 </nav>
 

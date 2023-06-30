@@ -8,7 +8,7 @@ pt-BR:
         cashback_rule_id: Regra de cashback
         conversion_tax: Taxa de conversão
       status:
-        active: 'Ativo'
-        inactive: 'Inativo'
-        unlinked: 'Não vinculado'
+        active: Ativo
+        inactive: Inativo
+        unlinked: Não vinculado
 

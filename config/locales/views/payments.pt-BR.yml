@@ -22,6 +22,7 @@ pt-BR:
       reprove: Reprovar pagamento
       approved: APROVADO
       reproved: REPROVADO
+      money: R$
     finished:
       finished: Finalizados
       finished_payments: Pagamentos finalizados
