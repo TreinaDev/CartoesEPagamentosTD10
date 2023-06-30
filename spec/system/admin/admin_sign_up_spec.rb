@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe 'Admin do login', type: :system do
-  it 'sucessfully' do
+describe 'Administrador faz login', type: :system do
+  it 'com sucesso' do
     Admin.create!(
       name:
         'Maria Josefa Silva',
@@ -29,7 +29,7 @@ describe 'Admin do login', type: :system do
     expect(page).to have_button 'Sair'
   end
 
-  it 'and do logout' do
+  it 'e faz logout' do
     Admin.create!(
       name: 'Maria Josefa Silva',
       cpf: '88151478373',
@@ -51,7 +51,7 @@ describe 'Admin do login', type: :system do
     expect(page).to have_content 'Logout efetuado com sucesso.'
   end
 
-  it 'and can not access' do
+  it 'e não tem acesso' do
     visit root_path
     click_on 'Entrar'
     within('form') do

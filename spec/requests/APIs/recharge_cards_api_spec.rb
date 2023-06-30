@@ -35,6 +35,20 @@ describe 'API de recarga de cartões' do
           expect(card_deposit.amount).to eq 17
           expect(card_extract.value).to eq 17
         end
+
+        it 'retorne um erro caso a atualização não tenha sucesso' do
+          company = FactoryBot.create(:company_card_type, conversion_tax: 10)
+          card = FactoryBot.create(:card, cpf: '66268563670', points: 100, company_card_type: company)
+          request = { recharge: [{ cpf: card.cpf, value: 15 }] }
+          allow_any_instance_of(Card).to receive(:update).and_return(false)
+          patch '/api/v1/cards/recharge', params: request
+
+          expect(response.status).to eq 200
+          expect(response.content_type).to include 'application/json'
+          json_response = response.parsed_body
+          expect(json_response[0]['cpf']).to eq '66268563670'
+          expect(json_response[0]['errors']).to eq 'Não foi possível concluir a recarga. Erro interno'
+        end
       end
       context 'e caso ele esteja inativo: ' do
         it 'não atualiza os pontos, não gera um deposito, não gera um extrato e retorna mensagem de falha' do

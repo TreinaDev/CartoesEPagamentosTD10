@@ -16,10 +16,11 @@ class PaymentsController < ApplicationController
     cashback = query_valid_cashback(payment.cpf)
     final_value = payment.subtract_cashback_if_possible(card, cashback)
 
-    if card.can_approve_payment?(final_value)
-      payment.process_payment_approval(card, cashback, final_value)
+    if card.can_approve_payment?(final_value) && payment.process_payment_approval(card, cashback, final_value)
       return redirect_to pending_payments_path, notice: I18n.t('notices.payment_approved')
+
     end
+
     redirect_to pending_payments_path, alert: I18n.t('alerts.payment_approved_error')
   end
 
