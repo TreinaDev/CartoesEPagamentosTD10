@@ -10,10 +10,7 @@
 <section>
   <div class='cashback-rules-form'>
     <% if @cashback_rule.errors[:cashback_percentage].include?(t('.cashback_rule_already_exists')) %>
-      <h4><%= t('.verify_the_following_error') %>:</h4>
-      <div id='errors-div'>
-        <p><%= t('.cashback_rule_already_exists') %></p>
-      </div>
+      <% flash.now[:warning] = t('.cashback_rule_already_exists') %>
     <% end %>
   </div>
 

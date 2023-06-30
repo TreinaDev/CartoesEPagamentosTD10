@@ -76,14 +76,9 @@
       </nav>
     </header>
 
-    <main class="container my-5">
-      <% if notice %>
-        <p class="alert alert-primary w-75 mx-auto"><%= notice %></p>
-      <% end %>
-      <% if alert %>
-        <p class="alert alert-warning w-75 mx-auto"><%= alert %></p>
-      <% end %>
-    
+    <main class="container my-5 position-relative">
+      <%= render 'layouts/flash' %>
+
       <%= yield %>
     </main>
   </body>
