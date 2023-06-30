@@ -1,15 +1,18 @@
 pt-BR:
   companies:
     index:
+      home: Início
       provide_card_types: Disponibilizar tipos de cartões
       registration_number: CNPJ
       not_found_message: Não existem empresas disponíveis
       inactive_company: Empresa Inativa
       companies: Empresas 
     show:
+      home: Início
       registration_number: CNPJ
       link_card_type: Vincular a empresa
       card_types: Tipos de cartões
+      companies: Empresas
     linked_card_type:
       activate_card_type: Ativar disponibilidade
       inactivate_card_type: Desativar disponibilidade

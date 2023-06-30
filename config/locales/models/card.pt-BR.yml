@@ -10,7 +10,7 @@ pt-BR:
           status: Status
           company_card_type: Tipo de cartão da empresa
           company_card_type_id: Tipo de cartão da empresa
-          card_type_id: 'Tipo de cartão'
+          card_type_id: Tipo de cartão
     errors:
       models:
           card:

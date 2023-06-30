@@ -18,6 +18,7 @@ pt-BR:
     new:
       create_new_card_type: Criar tipo de cartão
       new_card_type: Novo tipo de cartão
+      home: Início
     form:
       button: Salvar
     edit:

@@ -1,9 +1,0 @@
-pt-BR:
-  activerecord:
-    
-    attributes:
-        company_card_type:
-          cnpj: CNPJ
-        status:
-          active: 'Ativo'
-          inactive: 'Inativo'
