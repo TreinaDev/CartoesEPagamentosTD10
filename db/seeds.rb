@@ -47,11 +47,15 @@ other_card_type.icon.attach(
 )
 other_card_type.save
 
+cashback_rule = CashbackRule.create!(cashback_percentage: 3, days_to_use: 10,
+                                     minimum_amount_points: 50)
+
 CompanyCardType.create!(
   status: :active,
   cnpj: '02423374000145',
   card_type:,
-  conversion_tax: 20.00
+  conversion_tax: 20.00,
+  cashback_rule_id: 1
 )
 
 CompanyCardType.create!(

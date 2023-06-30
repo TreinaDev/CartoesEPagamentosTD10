@@ -3,12 +3,18 @@ class Card < ApplicationRecord
   enum status: { active: 0, inactive: 5, blocked: 10 }
   attribute :status, default: :active
   validates :cpf, :number, :points, presence: true
+  validates :number, uniqueness: true
+  validates :number, length: { is: 20 }
   validate :unique_cpf_active_card, on: :create
   validate :valid_available_card_type, on: :create
   validate :check_block, on: :update
 
   before_validation :generate_number, on: :create
   before_validation :set_initial_points, on: :create
+
+  def can_approve_payment?(final_value)
+    points >= final_value
+  end
 
   private
 
