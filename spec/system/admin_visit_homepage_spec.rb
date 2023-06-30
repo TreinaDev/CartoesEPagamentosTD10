@@ -36,6 +36,8 @@ describe 'Administrador acessa a home page' do
 
   it 'e acessa a tela de Disponibilizar tipos de cartões' do
     admin = FactoryBot.create(:admin)
+    companies = []
+    allow(Company).to receive(:all).and_return(companies)
 
     login_as admin
     visit root_path
