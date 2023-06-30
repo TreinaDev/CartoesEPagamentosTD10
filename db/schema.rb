@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_26_170710) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_28_132050) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -72,6 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_26_170710) do
     t.datetime "updated_at", null: false
     t.integer "company_card_type_id", null: false
     t.index ["company_card_type_id"], name: "index_cards_on_company_card_type_id"
+    t.index ["number"], name: "index_cards_on_number", unique: true
   end
 
   create_table "cashback_rules", force: :cascade do |t|

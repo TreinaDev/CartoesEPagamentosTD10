@@ -17,6 +17,12 @@ describe Company do
       expect(result[1].id).to eq 2
       expect(result[2].id).to eq 3
     end
+
+    it 'e gerar erro quando não for possível conectar a API' do
+      allow(Faraday).to receive(:get).with('http://localhost:3000/api/v1/companies').and_raise(Faraday::ConnectionFailed)
+
+      expect { Company.all }.to raise_error(CompanyConnectionError)
+    end
   end
 
   context '.find' do
@@ -31,6 +37,12 @@ describe Company do
         expect(result.brand_name).to eq 'Samsung'
         expect(result.registration_number).to eq '71.223.406/0001-81'
         expect(result.active).to eq true
+      end
+
+      it 'e gerar erro quando não for possível conectar a API' do
+        allow(Faraday).to receive(:get).with('http://localhost:3000/api/v1/companies/1').and_raise(Faraday::ConnectionFailed)
+
+        expect { Company.find(1) }.to raise_error(CompanyConnectionError)
       end
     end
   end

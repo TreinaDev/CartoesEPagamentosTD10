@@ -10,12 +10,15 @@ describe 'API de consulta de cartão' do
         filename: 'black.svg',
         content_type: 'image/svg+xml'
       )
-      cashback = FactoryBot.create(:cashback_rule, minimum_amount_points: 10, days_to_use: 10, cashback_percentage: 20)
+      payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
+      cashback_rule = FactoryBot.create(:cashback_rule, minimum_amount_points: 10, days_to_use: 10,
+                                                        cashback_percentage: 20)
+      FactoryBot.create(:cashback, amount: 5, payment:, card:, cashback_rule:)
       company = FactoryBot.create(:company_card_type, status: :active,
                                                       cnpj: '71.223.406/0001-81',
                                                       card_type:,
                                                       conversion_tax: '9.99',
-                                                      cashback_rule: cashback)
+                                                      cashback_rule:)
       FactoryBot.create(:card, cpf: '91795928050',
                                company_card_type_id: company.id)
 
@@ -32,6 +35,7 @@ describe 'API de consulta de cartão' do
       expect(json_response['status']).to eq card.status
       expect(json_response['name']).to eq card.company_card_type.card_type.name
       expect(json_response['conversion_tax']).to eq card.company_card_type.conversion_tax.to_s
+      expect(json_response['cashback']).to eq 5
     end
 
     it 'e não encontra nenhum resultado' do

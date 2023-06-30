@@ -1,4 +1,5 @@
 class Api::V1::CardsController < Api::V1::ApiController
+  include QueryValidCashbackHelper
   before_action :set_new_card, only: %i[create upgrade]
 
   def show
@@ -79,11 +80,13 @@ class Api::V1::CardsController < Api::V1::ApiController
   end
 
   def format_created_card(card)
+    cashback = query_valid_cashback(card.cpf)
     {
       id: card.id, cpf: card.cpf,
       number: card.number, points: card.points,
       status: card.status, name: card.company_card_type.card_type.name,
-      conversion_tax: card.company_card_type.conversion_tax
+      conversion_tax: card.company_card_type.conversion_tax,
+      cashback: cashback.present? ? cashback.amount : 0
     }
   end
 end

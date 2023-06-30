@@ -115,6 +115,27 @@ describe 'Administrador entra na tela de pagamentos' do
         expect(other_payment.status).to eq('pre_approved')
       end
 
+      it 'e tenta aprovar, porém houve erro durante a transação' do
+        admin = FactoryBot.create(:admin)
+        cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
+                                                          minimum_amount_points: 50)
+        company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
+        card = FactoryBot.create(:card, company_card_type:, points: 100)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
+        allow(Extract).to receive(:create).and_raise(ActiveRecord::RecordInvalid)
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+
+        expect(page).to have_content 'Não foi possível aprovar o pagamento'
+      end
+
       it 'e gera um cashback corretamente' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
@@ -197,6 +218,58 @@ describe 'Administrador entra na tela de pagamentos' do
           expect(page).to have_content 'Nenhum pagamento aguardando aprovação'
           expect(page).not_to have_content "Pedido #{first_pay.order_number}"
         end
+      end
+
+      it 'e gera um extrato de pagamento' do
+        admin = FactoryBot.create(:admin)
+        card = FactoryBot.create(:card)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 5)
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+
+        extract = Extract.first
+        expect(Extract.all.length).to eq 1
+        expect(extract.date).to eq payment.payment_date
+        expect(extract.value).to eq 5
+        expect(extract.card_number).to eq card.number
+        expect(extract.description).to eq "Pedido #{payment.order_number}"
+        expect(extract.operation_type).to eq 'débito'
+      end
+
+      it 'e gera um extrato de cashback' do
+        admin = FactoryBot.create(:admin)
+        cashback_rule = FactoryBot.create(:cashback_rule, cashback_percentage: 3, days_to_use: 10,
+                                                          minimum_amount_points: 50)
+        company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20)
+        card = FactoryBot.create(:card, company_card_type:)
+        card.update!(points: 200)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 100)
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+
+        extract = Extract.last
+        cashback = Cashback.first
+        venc = card.company_card_type.cashback_rule.days_to_use
+        expect(Extract.all.length).to eq 2
+        expect(extract.date).to eq cashback.created_at
+        expect(extract.value).to eq 4
+        expect(extract.card_number).to eq card.number
+        expect(extract.description).to eq "Cashback #{payment.order_number} Válido por #{venc} dia(s)"
+        expect(extract.operation_type).to eq 'crédito'
       end
     end
   end
