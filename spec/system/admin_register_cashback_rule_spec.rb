@@ -7,7 +7,7 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     login_as admin
     visit root_path
     within '#cashback' do
-      click_on 'Criar regra de cashback'
+      click_on 'Nova regra de cashback'
     end
     fill_in 'Valor mínimo', with: 300
     fill_in 'Porcentagem de retorno', with: 10
@@ -27,7 +27,7 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     login_as admin
     visit root_path
     within '#cashback' do
-      click_on 'Criar regra de cashback'
+      click_on 'Nova regra de cashback'
     end
     fill_in 'Valor mínimo', with: 300
     fill_in 'Porcentagem de retorno', with: 9.99
@@ -44,7 +44,7 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     login_as admin
     visit root_path
     within '#cashback' do
-      click_on 'Criar regra de cashback'
+      click_on 'Nova regra de cashback'
     end
     fill_in 'Valor mínimo', with: -300
     fill_in 'Porcentagem de retorno', with: -10
@@ -61,7 +61,7 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     login_as admin
     visit root_path
     within '#cashback' do
-      click_on 'Criar regra de cashback'
+      click_on 'Nova regra de cashback'
     end
     fill_in 'Valor mínimo', with: ''
     fill_in 'Porcentagem de retorno', with: ''
