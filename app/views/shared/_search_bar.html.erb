@@ -1,0 +1,9 @@
+<div class="d-flex justify-content-between">
+  <h1 class="title-style"><%= t("#{i18n_path}") %></h1>
+  <%= form_with(url: especific_search_path, method: :get, class: 'search-body') do |f| %>
+    <%= f.text_field :search, placeholder: placeholder, class: 'bg-black search-field' %>
+    <%= button_tag :submit, class: 'search-btn' do %>
+      <i class="bi bi-search search-icon"></i>
+    <% end %>
+  <% end %>
+</div>
