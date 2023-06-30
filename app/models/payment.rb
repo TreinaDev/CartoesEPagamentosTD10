@@ -39,13 +39,14 @@ class Payment < ApplicationRecord
   def process_payment_approval(card, cashback, final_value)
     ActiveRecord::Base.transaction do
       debit_points(card, cashback, final_value)
-      Extract.create(date: payment_date, operation_type: 'débito', value: final_value,
-                     description: "Pedido #{order_number}", card_number: card.number)
+      Extract.create!(date: payment_date, operation_type: 'débito', value: final_value,
+                      description: "Pedido #{order_number}", card_number: card.number)
       next if card.company_card_type.cashback_rule.blank?
 
       Cashback.create_cashback_if_possible(final_value, card, self)
+      true
     rescue ActiveRecord::RecordInvalid
-      render status: :precondition_failed, json: { errors: card.errors.full_messages }
+      false
     end
   end
 
