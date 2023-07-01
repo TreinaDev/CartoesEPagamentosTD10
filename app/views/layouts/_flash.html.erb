@@ -1,0 +1,16 @@
+<% if flash.present? %>
+  <% flash_location = admin_signed_in? ? 'flash-authenticated-area' : 'flash-unauthenticated-area' %>
+
+  <div class='d-flex flex-column <%= flash_location %>'>
+    <% flash.each do |type, message| %>
+      <% icon_class = 'bi bi-exclamation-diamond-fill me-2' if type == 'alert' || type == 'warning' %>
+      <% icon_class = 'bi bi-check-circle-fill me-2' if type == 'notice' %>
+
+      <div class="alert flash alert-<%= type %> alert-dismissible fade show">
+        <i class="<%= icon_class %>"></i>
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+  </div>
+<% end %>

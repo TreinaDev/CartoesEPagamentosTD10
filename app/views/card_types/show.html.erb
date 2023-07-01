@@ -1,28 +1,29 @@
-<nav aria-label="breadcrumb" >
-  <ol class="breadcrumb" >
-    <li class="breadcrumb-item fw-bold"><%= link_to 'Inicio', root_path %></li>
-    <li class="breadcrumb-item fw-bold" aria-current="page"><%= link_to t('.card_types'), card_types_path %></li>
-    <li class="breadcrumb-item active" aria-current="page"><%= t('.card') %> <%= @card_type.name %></li>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.card_types'), card_types_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.card', name: @card_type.name) %></li>
   </ol>
 </nav>
 
-<section class='card w-25 mx-auto'>
-  <h1 class='card-header'>Cartão <%= @card_type.name %></h1>
+<section class='show-card-type'>
+  <h1 class='title-style m-0'><%= t('.card', name: @card_type.name) %></h1>
 
   <% if @card_type.icon.attached? %>
-    <%= image_tag @card_type.icon, alt: "Ícone cartão #{@card_type.name}", class: 'card-img-top p-3' %>
+    <%= image_tag @card_type.icon, alt: "Ícone cartão #{@card_type.name}", class: 'w-100' %>
   <% end %>
   
-  <div class='card-body'>
-    <span class='card-text'><%= t('.initial_points') %>: <%= @card_type.start_points %></span>
+  <div class='body'>
+    <span class='card-text'><%= t('.initial_points') %></span>
+    <span class='card-text'><%= t('.points', points: @card_type.start_points) %></span>
   </div>
   
-  <div class='card-footer'>
-    <%=link_to 'Editar', edit_card_type_path(@card_type), class: 'btn btn-secondary'%>
+  <div class='card-footer w-100'>
+    <%=link_to 'Editar', edit_card_type_path(@card_type), class: 'btn btn-secondary btn-show-card-type w-25'%>
     <% if @card_type.emission %>
-      <%= button_to 'Desabilitar emissão', disable_card_type_path(@card_type), class: 'btn btn-danger', method: :patch %>
+      <%= button_to 'Desabilitar emissão', disable_card_type_path(@card_type), form_class: 'w-75', class: 'btn btn-danger btn-show-card-type', method: :patch %>
     <% else %>
-      <%= button_to 'Habilitar emissão', enable_card_type_path(@card_type), class: 'btn btn-success', method: :patch %>
+      <%= button_to 'Habilitar emissão', enable_card_type_path(@card_type), form_class: 'w-75', class: 'btn btn-success btn-show-card-type', method: :patch %>
     <% end %>
   </div>
 </section>

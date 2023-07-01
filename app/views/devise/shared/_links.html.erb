@@ -1,9 +1,9 @@
 <% if controller_name != 'sessions' %>
-  <%= link_to 'Entrar', new_session_path(resource_name) %>
+  <span><%= t('.have_an_account') %> <%= link_to 'Entrar', new_session_path(resource_name) %></span>
 <% end %>
 
 <% if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to 'Cadastrar', new_registration_path(resource_name) %>
+  <span><%= t('.dont_have_an_account') %> <%= link_to 'Cadastrar', new_registration_path(resource_name) %></span>
 <% end %>
 
 <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>

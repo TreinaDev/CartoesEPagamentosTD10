@@ -1,43 +1,68 @@
-<div class="d-flex flex-column align-items-center">
-  <h1>Cadastrar Administrador</h1>
-
+<div class="session-card signup-card">
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form' }) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
+    <h1 class='title-style text-center'>Cadastrar Administrador</h1>
 
     <div class="field">
       <%= f.label :name %>
       <%= f.text_field :name, autofocus: true, placeholder: 'Digite seu nome completo' %>
+      <% if resource.errors.where(:name) %>
+        <% resource.errors.where(:name).each do |e| %>
+          <span class='text-danger errors'><%= "#{Admin.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
+      <% end %>
     </div>
 
-      <div class="field">
+    <div class="field">
       <%= f.label :cpf%>
       <%= f.text_field :cpf, autofocus: true, placeholder: 'Digite seu cpf. Apenas números.' %>
+      <% if resource.errors.where(:cpf) %>
+        <% resource.errors.where(:cpf).each do |e| %>
+          <span class='text-danger errors'><%= "#{Admin.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
+      <% end %>
     </div>
 
     <div class="field">
       <%= f.label :email%>
       <%= f.email_field :email, autofocus: true, autocomplete: 'email', placeholder: 'Digite um email' %>
+      <% if resource.errors.where(:email) %>
+        <% resource.errors.where(:email).each do |e| %>
+          <span class='text-danger errors'><%= "#{Admin.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
+      <% end %>
     </div>
 
     <div class="field">
       <div>
-        <%= f.label :password %>
-        <% if @minimum_password_length %>
-          <em>: mínimo de (<%= @minimum_password_length %>) caracteres</em>
+        <%= f.label :password %> <i class="bi bi-info-circle info" title='Senha mínima de 6 caracteres'></i>
+        <% if resource.errors.where(:minimum_password_length) %>
+          <% resource.errors.where(:minimum_password_length).each do |e| %>
+            <span class='text-danger errors'><%= "#{Admin.human_attribute_name(e.attribute)} #{e.message}" %></span>
+          <% end %>
         <% end %>
       </div>
+      
       <%= f.password_field :password, autocomplete: 'new-password', placeholder: 'Crie uma senha' %>
+      <% if resource.errors.where(:password) %>
+        <% resource.errors.where(:password).each do |e| %>
+          <span class='text-danger errors'><%= "#{Admin.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
+      <% end %>
     </div>
 
     <div class="field">
       <%= f.label :password_confirmation %>
       <%= f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: 'Confirme a senha' %>
+      <% if resource.errors.where(:password_confirmation) %>
+        <% resource.errors.where(:password_confirmation).each do |e| %>
+          <span class='text-danger errors'><%= "#{Admin.human_attribute_name(e.attribute)} #{e.message}" %></span>
+        <% end %>
+      <% end %>
     </div>
-
     <div class="actions">
-      <%= f.submit 'Cadastrar', class: 'btn btn-primary'%>
+      <%= f.submit 'Cadastrar', class: 'btn btn-primary btn-submit'%>
     </div>
-    
+  
     <div class="gap-0">
       <%= render 'devise/shared/links' %>
     </div>

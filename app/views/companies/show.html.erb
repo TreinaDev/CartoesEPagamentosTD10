@@ -1,29 +1,34 @@
+
 <nav aria-label="breadcrumb" >
   <ol class="breadcrumb" >
-    <li class="breadcrumb-item fw-bold"><%= link_to 'Inicio', root_path %></li>
-    <li class="breadcrumb-item fw-bold" aria-current="page"><%= link_to 'Empresas', companies_path %></li>
-    <li class="breadcrumb-item active" aria-current="page">Tipos de cartões</li>
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.companies'), companies_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.card_types') %></li>
   </ol>
 </nav>
 
-<div class='my-4 d-flex justify-content-between align-items-center'>
-  <h1 class='m-0 fs-2'><%= @company.brand_name %></h1>
-  <h2 class='m-0 fs-3 fst-italic'><%= t('.registration_number') %>: <%= @company.registration_number %></h2>
+<div class='company-header'>
+  <h1 class='title-style m-0'><%= @company.brand_name %></h1>
+  <h2><%= t('.registration_number') %>: <%= cnpj_formatter(@company.registration_number) %></h2>
 </div>
 
 <section class='d-flex flex-column gap-3'>
-  <% @card_types.each do |card_type| %>
-    <div id=<%= dom_id(card_type) %> class='company-types-card'>
-      <% params = { company_id: @company.id, company_card_type: {
-                    card_type_id: card_type.id, cnpj: @company.registration_number } } %>
+  <% if @card_types.blank? %>
+    <p><%= t('.no_card_type_with_issuance_enabled') %></p>
+  <% else %>
+    <% @card_types.each do |card_type| %>
+      <div id=<%= dom_id(card_type) %> class='company-types-card'>
+        <% params = { company_id: @company.id, company_card_type: {
+                      card_type_id: card_type.id, cnpj: @company.registration_number } } %>
 
-      <% if @linked_card_types.include? card_type %>
-        <% company_card_type = @company_card_types.find { |company_card_type| company_card_type.card_type == card_type } %>
+        <% if @linked_card_types.include? card_type %>
+          <% company_card_type = @company_card_types.find { |company_card_type| company_card_type.card_type == card_type } %>
 
-        <%= render partial: 'linked_card_type', locals: { company_card_type:, card_type:, params: } %>
-      <% else %>
-        <%= render partial: 'unlinked_card_type', locals: { card_type: } %>
-      <% end %>
-    </div>
-  <% end %> 
+          <%= render partial: 'linked_card_type', locals: { company_card_type:, card_type:, params: } %>
+        <% else %>
+          <%= render partial: 'unlinked_card_type', locals: { card_type: } %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
 </section>

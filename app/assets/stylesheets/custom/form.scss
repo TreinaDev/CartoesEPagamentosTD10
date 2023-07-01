@@ -13,6 +13,16 @@ main form > div {
   gap: .5rem;
 }
 
+.field_with_errors {
+  display: inline;
+}
+
+.info {
+  cursor: help;
+  margin-left: .2rem;
+  transition: all .3s ease-in-out;
+}
+
 main form input[type="text"],
 main form input[type="number"],
 main form input[type="email"],
@@ -27,8 +37,8 @@ select {
   border-radius: 8px;
 }
 
-main form input[type="submit"],
-button {
+.btn-submit {
+  margin-block: 1rem;
   height: 48px;
 }
 
@@ -43,6 +53,6 @@ input:-webkit-autofill:focus {
   display: none;
 }
 
-form:has(.field_with_errors) .errors {
+form > .field > .field_with_errors ~ .errors {
   display: block;
 }

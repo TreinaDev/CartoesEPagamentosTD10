@@ -15,7 +15,6 @@ describe 'Administrador cria uma conta', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'Não foi possível salvar administrador: 2 erros'
       expect(page).to have_content 'Nome não pode ficar em branco'
       expect(page).to have_content 'Nome é muito curto (mínimo: 5 caracteres)'
     end
@@ -33,22 +32,16 @@ describe 'Administrador cria uma conta', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'Não foi possível salvar administrador: 3 erros'
       expect(page).to have_content 'E-mail precisa pertencer ao domínio @punti.com'
     end
 
     it 'quando email já esta em uso' do
       Admin.create!(
-        name:
-          'Maria Josefa Silva',
-        cpf:
-          '84045901418',
-        email:
-              'j@punti.com',
-        password:
-                  '123456',
-        password_confirmation:
-                               '123456'
+        name: 'Maria Josefa Silva',
+        cpf: '84045901418',
+        email: 'j@punti.com',
+        password: '123456',
+        password_confirmation: '123456'
       )
 
       visit root_path
@@ -119,7 +112,6 @@ describe 'Administrador cria uma conta', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'Não foi possível salvar administrador: 1 erro'
       expect(page).to have_content 'Senha é muito curto (mínimo: 6 caracteres)'
     end
 
@@ -136,7 +128,6 @@ describe 'Administrador cria uma conta', type: :system do
         click_on 'Cadastrar'
       end
 
-      expect(page).to have_content 'Não foi possível salvar administrador: 1 erro'
       expect(page).to have_content 'Confirme sua senha não é igual a Senha'
     end
   end

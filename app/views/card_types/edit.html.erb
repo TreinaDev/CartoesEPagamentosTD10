@@ -1,5 +1,13 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.card_types'), card_types_path %></li>
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.card', name: @card_type.name), card_type_path(@card_type) %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.edit_card_type') %></li>
+  </ol>
+</nav>
+
 <section id='card-type-form'>
   <h1 class='title-style'><%= t('.edit_card_type') %></h1>
-  <%= render 'errors_full_messages', locals: {card_type: @card_type} %>
   <%= render 'form'%>
 </section>
