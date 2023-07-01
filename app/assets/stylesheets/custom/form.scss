@@ -13,10 +13,6 @@ main form > div {
   gap: .5rem;
 }
 
-.field_with_errors {
-  display: inline;
-}
-
 .info {
   cursor: help;
   margin-left: .2rem;
@@ -37,6 +33,16 @@ select {
   border-radius: 8px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"]{
+  -moz-appearance: textfield;
+}
+
 .btn-submit {
   margin-block: 1rem;
   height: 48px;
@@ -53,6 +59,5 @@ input:-webkit-autofill:focus {
   display: none;
 }
 
-form > .field > .field_with_errors ~ .errors {
-  display: block;
-}
+.field_with_errors { display: inline; }
+.field_with_errors ~ .errors { display: block; }
