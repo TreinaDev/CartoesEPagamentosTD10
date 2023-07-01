@@ -9,7 +9,8 @@ export default class extends Controller {
         searchText: 'Sem resultados',
         searchPlaceholder: 'Busque por uma regra de cashback',
         allowDeselect: true,
-        hideSelected: true
+        hideSelected: true,
+        searchHighlight: true
       }
     })
   }

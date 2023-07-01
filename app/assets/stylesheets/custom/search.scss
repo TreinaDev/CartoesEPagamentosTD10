@@ -11,6 +11,12 @@
 }
 
 .search-icon {
-    color: white;
+    color: #828282;
     padding: 1rem;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        color: #fff;
+    }
 }
+
