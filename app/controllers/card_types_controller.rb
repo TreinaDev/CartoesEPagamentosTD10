@@ -37,6 +37,7 @@ class CardTypesController < ApplicationController
     @card_type = CardType.find(params[:id])
     @card_type.emission = false
     @card_type.save!
+    @card_type.company_card_types.each(&:inactive!)
 
     redirect_to @card_type, notice: I18n.t('notices.card_type_disabled')
   end
