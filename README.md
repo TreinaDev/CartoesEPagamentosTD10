@@ -81,9 +81,9 @@ As seeds irão popular a aplicação com dados já prontos para facilitar a inte
 
     |Nome|Pontos|Status de Emissão|
     |----|------|-----------------|
-    |Gold|100|Ativo|
-    |Platinum|200|Ativo|
-    |Black|300|Inativo|
+    |Gold|1900|Ativo|
+    |Platinum|2500|Ativo|
+    |Black|3000|Inativo|
 3. Cartões Pré Cadastrados:
 
     |Id|CPF|Status|

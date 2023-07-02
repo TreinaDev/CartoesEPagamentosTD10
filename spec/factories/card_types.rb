@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :card_type do
     name { 'Premium' }
-    start_points { 100 }
+    start_points { 1500 }
     emission { true }
 
     after :build do |card_type|

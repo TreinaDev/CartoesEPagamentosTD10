@@ -44,7 +44,7 @@ describe 'API para desativação de cartão' do
       expect(json_response['number']).to eq '12345678912345678912'
       expect(json_response['cpf']).to eq '12193448000158'
       expect(json_response['status']).to eq 'inactive'
-      expect(json_response['points']).to eq 100
+      expect(json_response['points']).to eq 1500
       expect(json_response['name']).to eq 'Premium'
     end
   end

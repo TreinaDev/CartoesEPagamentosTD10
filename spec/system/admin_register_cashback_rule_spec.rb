@@ -29,7 +29,7 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     within '#cashback' do
       click_on 'Nova regra de cashback'
     end
-    fill_in 'Valor mínimo', with: 300
+    fill_in 'Valor mínimo', with: 500
     fill_in 'Porcentagem de retorno', with: 9.99
     fill_in 'Quantidade de dias', with: 10
     click_on 'Criar regra'
