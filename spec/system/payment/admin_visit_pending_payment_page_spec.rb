@@ -39,13 +39,13 @@ describe 'Administrador entra na tela de pagamentos pendentes' do
 
       within '#pre-approved-payments' do
         expect(page).to have_content "Pedido #{payment.order_number}"
-        expect(page).to have_content "Número do cartão\n#{payment.card_number}"
-        expect(page).to have_content "CPF do cliente\n#{payment.format_cpf(payment.cpf)}"
-        expect(page).to have_content "Valor total\nR$ #{payment.format_money(payment.total_value)}"
-        expect(page).to have_content "Valor do desconto\nR$ #{payment.format_money(payment.descount_amount)}"
-        expect(page).to have_content "Valor final\nR$ #{payment.format_money(payment.final_value)}"
-        expect(page).to have_content "Saldo atual\n#{payment.check_balance(payment.card_number)} pontos"
-        expect(page).to have_content "Saldo após a compra\n#{payment.get_final_balance(payment)} pontos"
+        expect(page).to have_content "Número do cartão #{payment.formatted_card_number}"
+        expect(page).to have_content "CPF do cliente #{payment.format_cpf(payment.cpf)}"
+        expect(page).to have_content "Valor total R$ #{payment.format_money(payment.total_value)}"
+        expect(page).to have_content "Valor do desconto R$ #{payment.format_money(payment.descount_amount)}"
+        expect(page).to have_content "Valor final R$ #{payment.format_money(payment.final_value)}"
+        expect(page).to have_content "Saldo atual #{payment.check_balance(payment.card_number)} pontos"
+        expect(page).to have_content "Saldo após a compra #{payment.get_final_balance(payment)} pontos"
         expect(page).to have_button 'Aprovar pagamento'
         expect(page).to have_button 'Reprovar pagamento'
       end

@@ -12,6 +12,10 @@ class Payment < ApplicationRecord
   before_validation :generate_code, on: :create
   after_create :pre_approve
 
+  def formatted_card_number
+    card_number.gsub(/(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '\1 \2 \3 \4 \5')
+  end
+
   def format_cpf(cpf)
     cpf.gsub(/\A(\d{3})(\d{3})(\d{3})(\d{2})\Z/, '\\1.\\2.\\3-\\4')
   end

@@ -1,36 +1,41 @@
-<nav aria-label="breadcrumb" >
-  <ol class="breadcrumb" >
-    <li class="breadcrumb-item fw-bold"><%= link_to t('.home'), root_path %></li>
-    <li class="breadcrumb-item active" aria-current="page"><%= t('.card_types') %></li>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.card_types') %></li>
   </ol>
 </nav>
 
-<section class='d-md-flex p-2'>
-    <div id='emission-enabled-card-types' class='container'>
-        <h1 class='title-style'><%= t('.types_enabled_for_issuance') %>:</h1>
-        <% if @cards_emission_enabled.empty? %>
-            <span><%= t('.no_card_type_with_issuance_enabled') %></span>
-        <% else %>
-            <%@cards_emission_enabled.each do |type|%>
-                <div class='row align-items-center my-2'>
-                    <%= link_to type.name, type, :class => 'col' %>
-                    <%= image_tag type.icon, alt: "Ícone cartão #{type.name}", :class => 'col', width: 25, height: 25 %>
-                </div>
-             <%end%>
-         <% end %>
+<section class='emissions'>
+  <div id='emission-enabled-card-types'>
+    <h1 class='title-style'><%= t('.types_enabled_for_issuance') %></h1>
+
+    <% if @cards_emission_enabled.empty? %>
+      <span><%= t('.no_card_type_with_issuance_enabled') %></span>
+    <% else %>
+      <div class='card-type-list'>
+        <% @cards_emission_enabled.each do |type|%>
+          <%= link_to type, class: 'index-card-type' do %>
+            <%= image_tag type.icon, alt: t('.card_type_icon', name: type.name), class: 'card-icon' %>
+            <span class='card-type-name'><%= t('.card', name: type.name) %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
-  <div id='emission-disabled-card-types' class='container'>
-        <h1 class='title-style'><%= t('.types_disabled_for_issuance') %>:</h1>
-        <% if @cards_emission_disabled.empty? %>
-            <span><%= t('.no_card_type_with_issuance_disabled') %></span>
-        <% else %>
-            <%@cards_emission_disabled.each do |type|%>
-                <div class='row align-items-center'>
-                    <%= link_to type.name, type , :class => 'col'%>
-                    <%= image_tag type.icon, alt: "Ícone cartão #{type.name}", :class => 'col', width: 25, height: 25%>
-                </div>
-            <%end%>
+  <div id='emission-disabled-card-types'>
+    <h1 class='title-style'><%= t('.types_disabled_for_issuance') %></h1>
+    <% if @cards_emission_disabled.empty? %>
+      <span><%= t('.no_card_type_with_issuance_disabled') %></span>
+    <% else %>
+      <div class='card-type-list'>
+        <% @cards_emission_disabled.each do |type|%>
+          <%= link_to type, class: 'index-card-type' do %>
+            <%= image_tag type.icon, alt: t('.card_type_icon', name: type.name), class: 'card-icon' %>
+            <span class='card-type-name'><%= t('.card', name: type.name) %></span>
+          <% end %>
         <% end %>
-    </div>
+      </div>
+    <% end %>
+  </div>
 </section>

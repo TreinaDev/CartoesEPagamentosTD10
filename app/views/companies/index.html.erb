@@ -1,20 +1,18 @@
 <nav aria-label="breadcrumb" >
   <ol class="breadcrumb" >
-    <li class="breadcrumb-item fw-bold"><%= link_to 'Inicio', root_path %></li>
-    <li class="breadcrumb-item active" aria-current="page">Empresas</li>
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.companies') %></li>
   </ol>
 </nav>
 
-<h1 class='my-4 d-flex justify-content-between align-items-center fs-2'><%= t('.provide_card_types') %></h1>
+<h1 class='title-style'><%= t('.provide_card_types') %></h1>
 
 <section class='d-flex flex-column gap-3'>
   <% if @companies.present? %>
     <% @companies.each do |company| %>
-      <%= link_to company_path(company.id), id: company.id, class: 'company-card text-decoration-none' do %>
-        <div class='py-3 px-4 card d-flex flex-row justify-content-between align-items-center bg-black text-white fw-semibold'>
-          <span class='fs-4'><%= company.brand_name %></span>
-          <span class='fst-italic'><%= t('.registration_number') %>: <%= company.registration_number %></span>
-        </div>
+      <%= link_to company_path(company.id), id: company.id, class: 'company-card' do %>
+        <span class='company-name'><%= company.brand_name %></span>
+        <span class='company-registration-number'><%= t('.registration_number') %>: <%= cnpj_formatter(company.registration_number) %></span>
       <% end %>
     <% end %> 
   <% else %>

@@ -1,6 +1,7 @@
 pt-BR:
   notices:
     card_type_created: Novo tipo de cartão criado com sucesso
+    card_type_updated: Tipo de cartão atualizado com sucesso
     card_type_disabled: Emissão do cartão desabilitada com sucesso
     card_type_enabled: Emissão do cartão habilitada com sucesso
     company_card_type_created: Cartão vinculado a empresa com sucesso.

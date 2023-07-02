@@ -66,6 +66,33 @@ describe 'Admin visita tela de uma empresa' do
     expect(page).to have_button 'Vincular a empresa'
   end
 
+  it 'e não existem tipos de cartão com emissão habilitada' do
+    admin = FactoryBot.create(:admin)
+    company = Company.new(id: 1, brand_name: 'Samsung', registration_number: '71.223.406/0001-81', active: true)
+    FactoryBot.create(:card_type, emission: false)
+    card_type2 = FactoryBot.create(:card_type, name: 'Black', start_points: 1500, emission: false)
+    card_type2.icon.attach(
+      io: Rails.root.join('spec/support/images/black.svg').open,
+      filename: 'black.svg',
+      content_type: 'image/svg+xml'
+    )
+
+    allow(Company).to receive(:all).and_return([company])
+    allow(Company).to receive(:find).and_return(company)
+
+    login_as admin
+    visit root_path
+    within '#cards' do
+      click_on 'Disponibilizar tipos de cartões'
+    end
+    click_on 'Samsung'
+
+    expect(page).to have_content 'Nenhum tipo de cartão com emissão habilitada'
+    expect(page).not_to have_content 'Premium'
+    expect(page).not_to have_content 'Black'
+    expect(page).not_to have_button 'Vincular a empresa'
+  end
+
   it 'e endpoint está fora do ar' do
     admin = FactoryBot.create(:admin)
     allow(Faraday).to receive(:get).with('http://localhost:3000/api/v1/companies/1').and_raise(CompanyConnectionError)

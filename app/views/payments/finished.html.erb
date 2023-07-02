@@ -1,18 +1,18 @@
-<nav aria-label="breadcrumb" >
-  <ol class="breadcrumb" >
-    <li class="breadcrumb-item fw-bold"><%= link_to t('.home'), root_path %></li>
-    <li class="breadcrumb-item active" aria-current="page"><%= t('.finished') %></li>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.finished_payments') %></li>
   </ol>
 </nav>
 
 <h1 class="title-style"><%= t('.finished_payments') %></h1>
 
 <section class='container-grid'>
-    <% if @finished_payments.empty? %>
-        <span><%= t('.no_finished_payments') %></span>
-    <% else %>
-        <%@finished_payments.each do |payment|%>
-            <%= render partial: 'payment_info', locals: {payment: payment}%>
-        <%end%>
+  <% if @finished_payments.empty? %>
+    <span><%= t('.no_finished_payments') %></span>
+  <% else %>
+    <% @finished_payments.each do |payment| %>
+      <%= render partial: 'payment_info', locals: { payment: payment }%>
     <% end %>
+  <% end %>
 </section>

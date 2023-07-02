@@ -1,11 +1,9 @@
 pt-BR:
   payments:
     pending: 
-      pending: Pendentes
-      home: Início
       pre_approved: Pré Aprovados
       pre_reproved: Pré Reprovados
-      waiting: Pagamentos Aguardando Finalização
+      waiting: Pagamentos pendentes
       no_pre_approved_payments: Nenhum pagamento aguardando aprovação
       no_pre_reproved_payments: Nenhum pagamento aguardando reprovação
     payment_info:
@@ -25,5 +23,4 @@ pt-BR:
     finished:
       finished: Finalizados
       finished_payments: Pagamentos finalizados
-      home: Início
       no_finished_payments: Nenhum pagamento finalizado

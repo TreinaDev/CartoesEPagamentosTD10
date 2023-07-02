@@ -23,7 +23,7 @@ class Api::V1::RechargesController < Api::V1::ApiController
 
   def create_deposit(card, points)
     deposit = Deposit.create(amount: points, description: 'Recarga feita pela empresa', card:)
-    Extract.create(date: deposit.created_at, operation_type: 'Depósito', value: deposit.amount,
+    Extract.create(date: deposit.created_at, operation_type: 'recarga', value: deposit.amount,
                    description: "Recarga #{deposit.deposit_code}", card_number: card.number)
   end
 
