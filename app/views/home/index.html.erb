@@ -1,2 +1,52 @@
-<h1>Boas vindas</h1>
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.home') %></li>
+  </ol>
+</nav>
 
+<h1 class='title-style'><%= t('.welcome_message', name: current_admin.name) %></h1>
+
+<div id='home-menu'>
+  <section id='card-menu'>
+    <h2 class='subtitle-style'><%= t('.card') %></h2>
+  
+    <%= link_to new_card_type_path, class: 'menu-item' do %>
+      <%= image_tag 'card-plus.svg' %>
+      <%= t('.new_card_type') %>
+    <% end %>
+    <%= link_to card_types_path, class: 'menu-item' do %>
+      <%= image_tag 'card-list.svg' %>
+      <%= t('.card_types') %>
+    <% end %>
+    <%= link_to companies_path, class: 'menu-item' do %>
+      <%= image_tag 'card-default.svg' %>
+      <%= t('.company_card_type') %>
+    <% end %>
+  </section>
+  
+  <section id='cashback-menu'>
+    <h2 class='subtitle-style'><%= t('.cashback') %></h2>
+  
+    <%= link_to new_cashback_rule_path, class: 'menu-item' do %>
+      <%= image_tag 'cashback-plus.svg' %>
+      <%= t('.new_cashback') %>
+    <% end %>
+    <%= link_to cashback_rules_path, class: 'menu-item' do %>
+      <%= image_tag 'cashback-list.svg' %>
+      <%= t('.cashbacks') %>
+    <% end %>
+  </section>
+  
+  <section id='payments-menu'>
+    <h2 class='subtitle-style'><%= t('.payments') %></h2>
+  
+    <%= link_to pending_payments_path, class: 'menu-item' do %>
+      <%= image_tag 'money-arrows.svg' %>
+      <%= t('.pending') %>
+    <% end %>
+    <%= link_to finished_payments_path, class: 'menu-item' do %>
+      <%= image_tag 'money-default.svg' %>
+      <%= t('.finished') %>
+    <% end %>
+  </section>
+</div>

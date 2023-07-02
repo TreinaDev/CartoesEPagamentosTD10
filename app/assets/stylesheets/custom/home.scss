@@ -1,0 +1,27 @@
+#home-menu {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+#home-menu > section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 1rem;
+}
+
+.menu-item {
+  padding: 1rem 2rem;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #000000;
+  border-radius: 8px;
+  color: white;
+  transition: all .3s ease-in-out;
+}
+.menu-item:hover {
+  transform: scale(1.01);
+}
