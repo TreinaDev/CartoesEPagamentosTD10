@@ -53,6 +53,7 @@ describe 'Administrador entra na tela de pagamentos finalizados' do
     FactoryBot.create(:error_message, code: '005', description: 'Administrador não aprovou a compra')
     admin = FactoryBot.create(:admin)
     card = FactoryBot.create(:card, cpf: '22253043001')
+    card.update!(points: 1500)
     payment = FactoryBot.create(:payment, cpf: '19261109004', card_number: card.number)
     payment.rejected!
     ErrorsAssociation.create(payment_id: payment.id, error_message_id: 5)
@@ -82,6 +83,7 @@ describe 'Administrador entra na tela de pagamentos finalizados' do
     FactoryBot.create(:error_message, code: '005', description: 'Administrador não aprovou a compra')
     admin = FactoryBot.create(:admin)
     card = FactoryBot.create(:card, cpf: '22253043001')
+    card.update!(points: 1500)
     payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number)
     payment.rejected!
     ErrorsAssociation.create(payment_id: payment.id, error_message_id: 5)
