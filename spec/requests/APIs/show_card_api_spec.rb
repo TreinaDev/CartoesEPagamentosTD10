@@ -30,6 +30,7 @@ describe 'API de consulta de cartão' do
       expect(json_response.is_a?(Array)).to eq(false)
       expect(json_response['id']).to eq card.id
       expect(json_response['cpf']).to eq card.cpf
+      expect(json_response['icon']).to eq url_for(card.company_card_type.card_type.icon)
       expect(json_response['number']).to eq card.number
       expect(json_response['points']).to eq card.points
       expect(json_response['status']).to eq card.status
