@@ -1,0 +1,14 @@
+pt-BR:
+  home:
+    index:
+      welcome_message: Olá, %{name}.
+      card: Cartão
+      new_card_type: Novo tipo de cartão
+      card_types: Tipos de cartões
+      company_card_type: Disponibilizar tipos de cartões
+      cashback: Cashback
+      new_cashback: Nova regra de cashback
+      cashbacks: Regras de cashback
+      payments: Pagamentos
+      pending: Pendente
+      finished: Finalizado
