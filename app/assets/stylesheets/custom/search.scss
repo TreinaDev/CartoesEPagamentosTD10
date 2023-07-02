@@ -8,13 +8,14 @@
     top: 0; right: 0;
     background-color: transparent;
     border: none;
+    height: 48px;
 }
 
 .search-icon {
     color: #828282;
-    padding: 1rem;
+    padding-inline: 1rem;
     transition: all .3s ease-in-out;
-
+    
     &:hover {
         color: #fff;
     }
