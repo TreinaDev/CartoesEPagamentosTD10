@@ -8,9 +8,9 @@
 <%= render partial: 'shared/search_bar', locals: {i18n_path: 'payments.pending.waiting', especific_search_path: search_pending_payments_path,
                                                   placeholder: 'Pesquisar pelo número do pedido ou cpf'}%>
 
-<section class='d-md-flex p-2'>
-    <div id='pre-approved-payments' class='container m-2'>
-        <h2 class='title-style'><%= t('.pre_approved') %>:</h2>
+<section id="payments">
+    <div id='pre-approved-payments'>
+        <h2 class='subtitle-style'><%= t('.pre_approved') %></h2>
         <% if @pre_approved.empty? %>
             <span><%= t('.no_pre_approved_payments') %></span>
         <% else %>
@@ -20,8 +20,8 @@
         <% end %>
   </div>
 
-  <div id='pre-reproved-payments' class='container m-2'>
-        <h2 class='title-style'><%= t('.pre_reproved') %>:</h2>
+  <div id='pre-reproved-payments'>
+        <h2 class='subtitle-style'><%= t('.pre_reproved') %></h2>
         <% if @pre_reproved.empty? %>
             <span><%= t('.no_pre_reproved_payments') %></span>
         <% else %>
