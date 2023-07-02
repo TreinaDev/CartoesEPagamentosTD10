@@ -6,7 +6,7 @@
 </nav>
 
 <%= render partial: 'shared/search_bar', locals: {i18n_path: 'payments.finished.finished_payments', especific_search_path: search_ended_payments_path,
-                                                  placeholder: 'Pesquisar pelo número do pedido ou cpf'}%>
+                                                  placeholder: 'Pesquisar pelo número do pedido ou cpf', search: search }%>
 
 <section class='container-grid'>
     <% if @finished_payments.empty? %>

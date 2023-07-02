@@ -32,6 +32,7 @@ describe 'Administrador busca por um pagamento finalizado' do
     input.set(payment.order_number)
     find('button.search-btn').click
 
+    expect(page).to have_content 'Busca'
     expect(page).to have_content "Pedido #{payment.order_number}"
     expect(page).not_to have_content "Pedido #{other_payment.order_number}"
   end
@@ -53,6 +54,7 @@ describe 'Administrador busca por um pagamento finalizado' do
     input.set(payment.order_number)
     find('button.search-btn').click
 
+    expect(page).to have_content 'Busca'
     expect(page).to have_content "Pedido #{payment.order_number}"
     expect(page).not_to have_content "Pedido #{other_payment.order_number}"
   end
@@ -77,6 +79,7 @@ describe 'Administrador busca por um pagamento finalizado' do
     input.set(payment.cpf)
     find('button.search-btn').click
 
+    expect(page).to have_content 'Busca'
     expect(page).to have_content "Pedido #{payment.order_number}"
     expect(page).not_to have_content "Pedido #{other_payment.order_number}"
   end
@@ -101,6 +104,7 @@ describe 'Administrador busca por um pagamento finalizado' do
     input.set(payment.cpf)
     find('button.search-btn').click
 
+    expect(page).to have_content 'Busca'
     expect(page).to have_content "Pedido #{payment.order_number}"
     expect(page).not_to have_content "Pedido #{other_payment.order_number}"
   end
@@ -122,6 +126,7 @@ describe 'Administrador busca por um pagamento finalizado' do
     input.set(payment.cpf)
     find('button.search-btn').click
 
+    expect(page).to have_content 'Busca'
     expect(page).to have_content "Pedido #{payment.order_number}"
     expect(page).to have_content "Pedido #{other_payment.order_number}"
   end

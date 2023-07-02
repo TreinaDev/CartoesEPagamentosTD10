@@ -6,7 +6,7 @@
 </nav>
 
 <%= render partial: 'shared/search_bar', locals: {i18n_path: 'companies.index.provide_card_types', especific_search_path: search_companies_path,
-                                                                 placeholder: 'Pesquisar pelo nome ou cnpj'}%>
+                                                                 placeholder: 'Pesquisar pelo nome ou cnpj', search: search }%>
 
 <section class='d-flex flex-column gap-3'>
   <% if @companies.present? %>

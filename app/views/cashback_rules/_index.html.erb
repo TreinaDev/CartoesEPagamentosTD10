@@ -1,0 +1,36 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.cashback_rules') %></li>
+  </ol>
+</nav>
+
+<%= render partial: 'shared/search_bar', locals: {i18n_path: 'cashback_rules.index.cashback_rules', especific_search_path: search_cashback_rules_path,
+                                                  placeholder: 'Valor mínimo, porcentagem ou validade', search: search}%>
+
+<% if @cashback_rules.present? %>
+  <div class="d-flex flex-column gap-3">
+    <% @cashback_rules.each do |rule| %>
+      <div class="cashback-card text-white">
+        <div class="cashback-attribute">
+          <span><%= t('.minimum_value') %></span>
+          <span class="attribute-value"><%= rule.minimum_amount_points %> <%= t('.points') %></span>
+        </div>
+        <div class="cashback-attribute">
+          <span><%= t('.return_percentage') %></span>
+          <span class="attribute-value"><%= number_to_percentage(rule.cashback_percentage, precision: rule.cashback_percentage.modulo(1).zero? ? 0 : 2) %></span>
+        </div>
+        <div class="cashback-attribute">
+          <span><%= t('.validity') %></span>
+          <span class="attribute-value"><%= rule.days_to_use %> <%= t('.days') %></span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <% if search %>
+    <p><%= t('.not_found') %></p>
+  <% else %>
+    <p><%= t('.no_cashback_rules_registered') %></p>
+  <% end %>
+<% end %>

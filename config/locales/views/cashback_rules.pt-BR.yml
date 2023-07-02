@@ -8,6 +8,7 @@ pt-BR:
       days: Dias
       return_percentage: Porcentagem de retorno
       no_cashback_rules_registered: Ainda não existem regras de cashback cadastradas
+      not_found: Não foi encontrada nenhuma regra de cashback de acordo com sua pesquisa
     new:
       new_cashback_rule: Nova regra de cashback
       verify_the_following_error: Verifique o erro abaixo

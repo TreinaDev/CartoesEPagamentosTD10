@@ -35,6 +35,7 @@ describe 'Administrador busca por uma empresa' do
     input.set('Samsung')
     find('button.search-btn').click
 
+    expect(page).to have_content 'Busca'
     expect(page).to have_content 'Samsung'
     expect(page).not_to have_content 'LG'
   end
@@ -55,6 +56,7 @@ describe 'Administrador busca por uma empresa' do
     input.set('71223406000181')
     find('button.search-btn').click
 
+    expect(page).to have_content 'Busca'
     expect(page).to have_content 'Samsung'
     expect(page).not_to have_content 'LG'
   end
@@ -76,6 +78,7 @@ describe 'Administrador busca por uma empresa' do
     input.set('0001')
     find('button.search-btn').click
 
+    expect(page).to have_content 'Busca'
     expect(page).to have_content 'Samsung'
     expect(page).to have_content 'LG'
   end
