@@ -27,7 +27,7 @@ class CardTypesController < ApplicationController
 
   def update
     @card_type = CardType.find(params[:id])
-    return redirect_to @card_type, notice: I18n.t('notices.card_type_created') if @card_type.update(card_type_params)
+    return redirect_to @card_type, notice: I18n.t('notices.card_type_updated') if @card_type.update(card_type_params)
 
     flash.now.alert = I18n.t('alerts.card_type_changes_not_saved')
     render :edit, status: :unprocessable_entity
@@ -37,6 +37,7 @@ class CardTypesController < ApplicationController
     @card_type = CardType.find(params[:id])
     @card_type.emission = false
     @card_type.save!
+    @card_type.company_card_types.each(&:inactive!)
 
     redirect_to @card_type, notice: I18n.t('notices.card_type_disabled')
   end

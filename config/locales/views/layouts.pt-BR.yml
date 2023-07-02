@@ -1,16 +1,18 @@
 pt-BR:
   layouts:
     application:
-      brand_name: TIME 3
+      cards_and_payments: 'Cartões e Pagamentos'
+    nav:
+      brand_name: 'PuntiPay'
       home: 'Início'
       provide_card_types: 'Disponibilizar tipos de cartões'
       card: 'Cartão'
       card_types: 'Tipos de cartões'
       new_card_type: 'Novo tipo de cartão'
       cashback: 'Cashback'
-      index_cashback_rules: 'Regras de cashback'
-      new_cashback_rule: 'Criar regra de cashback'
-      edit_cashback_rule: 'Editar regra de cashback'
+      cashback_rules: 'Regras de cashback'
+      new_cashback_rule: 'Nova regra de cashback'
       payment: 'Pagamentos'
       pending: 'Pendentes'
       finished: 'Finalizados'
+      logout: 'Sair'

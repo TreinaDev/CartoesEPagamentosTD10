@@ -12,11 +12,11 @@
 
   <% if company_card_type.active? %>
     <%= button_to t('.inactivate_card_type'), disable_company_card_type_path,
-        method: :patch, class: 'btn btn-danger',
+        method: :patch, class: 'btn btn-danger btn-company-card-type',
         params: params %>
   <% else %>
     <%= button_to t('.activate_card_type'), enable_company_card_type_path,
-        method: :patch, class: 'btn btn-primary',
+        method: :patch, class: 'btn btn-primary btn-company-card-type',
         params: params %>
   <% end %>
 </div>
@@ -36,5 +36,6 @@
   <%= f.hidden_field :cnpj, value: @company.registration_number %>
   <%= hidden_field_tag :company_id, @company.id %>
   
-  <%= f.submit t('.save_rule_and_tax'), class: 'btn btn-secondary' %>
+  <%= f.submit t('.save_rule_and_tax'), class: 'btn btn-secondary btn-company-card-type' %>
+
 <% end %>

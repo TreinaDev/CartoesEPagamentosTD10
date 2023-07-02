@@ -15,7 +15,7 @@ pt-BR:
         last_sign_in_at: Último acesso em
         last_sign_in_ip: Último IP de acesso
         locked_at: Bloqueado em
-        password: Senha
+        password: Senha 
         password_confirmation: Confirme sua senha
         remember_created_at: Lembrar criado em
         remember_me: Lembre-se de mim
@@ -111,6 +111,7 @@ pt-BR:
       update_needs_confirmation: Sua conta foi atualizada com sucesso, mas nós precisamos verificar o novo endereço de email. Por favor, verifique seu e-mail e clique no link de confirmação para finalizar confirmando o seu novo e-mail.
       updated: A sua conta foi atualizada com sucesso.
       updated_but_not_signed_in: Sua conta foi atualizada com sucesso, uma vez que sua senha foi alterada será necessário realizar o login novamente.
+
     sessions:
       already_signed_out: Logout efetuado com sucesso.
       new:
@@ -123,8 +124,10 @@ pt-BR:
         didn_t_receive_confirmation_instructions: Não recebeu instruções de confirmação?
         didn_t_receive_unlock_instructions: Não recebeu instruções de desbloqueio?
         forgot_your_password: Esqueceu sua senha?
+        have_an_account: Já possui uma conta?
         sign_in: Login
         sign_in_with_provider: Entrar com %{provider}
+        dont_have_an_account: Não possui uma conta ainda?
         sign_up: Inscrever-se
       minimum_password_length:
         one: "(Mínimo de %{count} caractere)"

@@ -22,5 +22,5 @@
   <%= f.hidden_field :cnpj, value: @company.registration_number %>
   <%= hidden_field_tag :company_id, @company.id %>
   
-  <%= f.submit t('.link_company'), class: 'btn btn-success' %>
+  <%= f.submit t('.link_company'), class: 'btn btn-success btn-company-card-type' %>
 <% end %>

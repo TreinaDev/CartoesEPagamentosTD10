@@ -7,11 +7,11 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     login_as admin
     visit root_path
     within '#cashback' do
-      click_on 'Criar regra de cashback'
+      click_on 'Nova regra de cashback'
     end
     fill_in 'Valor mínimo', with: 300
     fill_in 'Porcentagem de retorno', with: 10
-    fill_in 'Deve ser válido por quantos dias?', with: 10
+    fill_in 'Quantidade de dias', with: 10
     click_on 'Criar regra'
 
     expect(current_path).to eq cashback_rules_path
@@ -27,11 +27,11 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     login_as admin
     visit root_path
     within '#cashback' do
-      click_on 'Criar regra de cashback'
+      click_on 'Nova regra de cashback'
     end
     fill_in 'Valor mínimo', with: 300
     fill_in 'Porcentagem de retorno', with: 9.99
-    fill_in 'Deve ser válido por quantos dias?', with: 10
+    fill_in 'Quantidade de dias', with: 10
     click_on 'Criar regra'
 
     expect(page).to have_content 'A regra de cashback já existe'
@@ -44,11 +44,11 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     login_as admin
     visit root_path
     within '#cashback' do
-      click_on 'Criar regra de cashback'
+      click_on 'Nova regra de cashback'
     end
     fill_in 'Valor mínimo', with: -300
     fill_in 'Porcentagem de retorno', with: -10
-    fill_in 'Deve ser válido por quantos dias?', with: -10
+    fill_in 'Quantidade de dias', with: -10
     click_on 'Criar regra'
 
     expect(page).to have_content 'deve ser maior que 0'
@@ -61,11 +61,11 @@ describe 'Administrador tenta registar uma nova regra de cashback' do
     login_as admin
     visit root_path
     within '#cashback' do
-      click_on 'Criar regra de cashback'
+      click_on 'Nova regra de cashback'
     end
     fill_in 'Valor mínimo', with: ''
     fill_in 'Porcentagem de retorno', with: ''
-    fill_in 'Deve ser válido por quantos dias?', with: ''
+    fill_in 'Quantidade de dias', with: ''
     click_on 'Criar regra'
 
     expect(page).to have_content 'não é um número'

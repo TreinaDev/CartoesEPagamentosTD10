@@ -1,11 +1,3 @@
-@import './custom/bootstrap/bootstrap.scss';
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
-@import './card_types/style.scss';
-@import './cashback_rules/style.scss';
-@import './company_card_types/style.scss';
-@import './custom/global.scss';
-@import './custom/form.scss';
-@import './payment/style.scss';
-@import './custom/search.scss';
-@import './custom/slim-select.scss'
+@import './custom/style.scss';

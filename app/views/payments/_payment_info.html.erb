@@ -1,58 +1,83 @@
-<%=tag.div id: payment.order_number, class: 'p-2 bg-dark rounded mb-2' do%>
-    <div class='d-flex p-2 justify-content-between'>
-        <h3><%= t('.order') %> <%= payment.order_number %></h3>
-        <h3><%= I18n.localize(payment.payment_date) %></h3>
+<%= tag.div id: payment.order_number, class: 'payment-card' do %>
+  <div class='header'>
+    <div>
+      <h3 class='header-title'><%= t('.order') %> <%= payment.order_number %></h3>
+      <h3 class='header-title'><%= I18n.localize(payment.payment_date) %></h3>
     </div>
-    <%if payment.approved?%>
-        <h5 class='text-success px-2 py-1'><%= t('.approved') %></h5>
-    <%elsif payment.rejected?%>
-        <h5 class='text-danger px-2 py-1'><%= t('.reproved') %></h5>
-    <% end %>
 
-    <%if payment.pre_approved? || payment.approved?%>
-        <div class='d-flex px-2 py-1 justify-content-between'>
-            <h5><%= t('.card_number') %></h5>
-            <h5 class='text-secondary'><%= payment.card_number %></h5>
+    <% if payment.approved? %>
+      <h5 class='header-status text-success'><%= t('.approved') %></h5>
+    <% elsif payment.rejected? %>
+      <h5 class='header-status text-danger'><%= t('.reproved') %></h5>
+    <% end %>
+  </div>
+
+  
+  <% if payment.pre_approved? || payment.approved? %>
+    <div class='body'>
+      <div class='info-area'>
+        <span><%= t('.card_number') %></span>
+        <span class='card-text'><%= payment.formatted_card_number %></span>
+      </div>
+      <div class='info-area'>
+        <span><%= t('.client_cpf') %> </span>
+        <span class='card-text'><%= payment.format_cpf(payment.cpf) %></span>
+      </div>
+      <div class='info-area'>
+        <span><%= t('.total_value') %> </span>
+        <span class='card-text'>R$ <%= payment.format_money(payment.total_value) %></span>
+      </div>
+      <div class='info-area'>
+        <span><%= t('.discounts') %> </span>
+        <span class='card-text'>R$ <%= payment.format_money(payment.descount_amount) %></span>
+      </div>
+      <div class='info-area'>
+        <span><%= t('.final_value') %> </span>
+        <span class='card-text'>R$ <%= payment.format_money(payment.final_value) %></span>
+      </div>
+      <% if payment.pre_approved? %>
+        <div class='info-area'>
+          <span><%= t('.balance') %> </span>
+          <span class='card-text'><%= payment.check_balance(payment.card_number) %> <%= t('.points') %> </span>
         </div>
-        <div class='d-flex px-2 py-1 justify-content-between'>
-            <h5><%= t('.client_cpf') %> </h5>
-            <h5 class='text-secondary'><%= payment.format_cpf(payment.cpf) %></h5>
+        <div class='info-area'>
+          <span><%= t('.final_balance') %> </span>
+          <span class='card-text'><%= payment.get_final_balance(payment) %> <%= t('.points') %></span>
         </div>
-        <div class='d-flex px-2 py-1 justify-content-between'>
-            <h5><%= t('.total_value') %> </h5>
-            <h5 class='text-secondary'>R$ <%= payment.format_money(payment.total_value) %></h5>
+      
+        <div class='btn-area'>
+          <%= button_to approve_payment_path(payment.id),
+              method: :patch, id: dom_id(payment), form_class: 'w-50', class: 'btn btn-success btn-payment' do
+          %>
+            <i class="bi bi-bag-check-fill bag-icon"></i>
+            <%= t('.approve') %>
+          <% end %>
+          <%= button_to reprove_payment_path(payment.id),
+              method: :patch, id: dom_id(payment), form_class: 'w-50', class: 'btn btn-danger btn-payment' do
+          %>
+            <i class="bi bi-bag-x-fill bag-icon"></i>
+            <%= t('.reprove') %>
+          <% end %>
         </div>
-        <div class='d-flex px-2 py-1 justify-content-between'>
-            <h5><%= t('.discounts') %> </h5>
-            <h5 class='text-secondary'>R$ <%= payment.format_money(payment.descount_amount) %></h5>
+      <% end %>
+    </div>
+  <% elsif payment.pre_rejected? || payment.rejected? %>
+    <div class='errors-area'>
+      <% payment.errors_associations.each do |error|%>
+        <div class='d-flex align-items-center gap-2'>
+          <i class="bi bi-x text-danger"></i>
+          <%= error.error_message.description %>
         </div>
-        <div class='d-flex px-2 py-1 justify-content-between'>
-            <h5><%= t('.final_value') %> </h5>
-            <h5 class='text-secondary'>R$ <%= payment.format_money(payment.final_value) %></h5>
-        </div>
-        <%if payment.pre_approved?%>
-            <div class='d-flex px-2 py-1 justify-content-between'>
-                <h5><%= t('.balance') %> </h5>
-                <h5 class='text-secondary'><%= payment.check_balance(payment.card_number) %> <%= t('.points') %> </h5>
-            </div>
-            <div class='d-flex px-2 py-1 justify-content-between'>
-                <h5><%= t('.final_balance') %> </h5>
-                <h5 class='text-secondary'><%= payment.get_final_balance(payment) %> <%= t('.points') %></h5>
-            </div>
-            <div class='d-flex my-2 justify-content-evenly'>
-                <%= button_to t('.approve'), approve_payment_path(payment.id),
-                    method: :patch, id: dom_id(payment), class: 'btn btn-success' %>
-                <%= button_to t('.reprove'), reprove_payment_path(payment.id),
-                    method: :patch, id: dom_id(payment), class: 'btn btn-danger' %>
-            </div>
-        <%end%>
-    <%elsif payment.pre_rejected? || payment.rejected?%>
-        <% payment.errors_associations.each do |error|%>
-            <h5 class='text-secondary px-2 py-1'><%= error.error_message.description %></h5>
-        <%end%>
-        <%if payment.pre_rejected?%>
-            <%= button_to t('.reprove'), reprove_payment_path(payment.id),
-                method: :patch, class: 'btn btn-danger m-2' %>
-        <%end%>
-    <%end%>
-<%end%>
+      <% end %>
+    </div>
+    
+    <% if payment.pre_rejected? %>
+      <%= button_to reprove_payment_path(payment.id),
+          method: :patch, class: 'btn btn-danger btn-payment' do
+      %>
+        <i class="bi bi-bag-x-fill bag-icon"></i>
+        <%= t('.reprove') %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
