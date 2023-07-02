@@ -2,15 +2,16 @@
 .alert-notice { @extend .alert-primary; }
 
 .flash-authenticated-area {
-  margin-inline: 12px;
   position: absolute;
-  top: 65px; right: 0;
+  top: -8px; right: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  z-index: 999;
 }
 
 .flash-unauthenticated-area {
   margin: auto;
   max-width: 1236px;
+  z-index: 999;
 }
