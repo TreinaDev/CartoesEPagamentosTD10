@@ -84,9 +84,14 @@ class Api::V1::CardsController < Api::V1::ApiController
     {
       id: card.id, cpf: card.cpf,
       number: card.number, points: card.points,
+      icon: url_for_icon(card),
       status: card.status, name: card.company_card_type.card_type.name,
       conversion_tax: card.company_card_type.conversion_tax,
       cashback: cashback.present? ? cashback.amount : 0
     }
+  end
+
+  def url_for_icon(card)
+    url_for(card.company_card_type.card_type.icon)
   end
 end

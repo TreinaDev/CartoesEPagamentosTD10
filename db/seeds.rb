@@ -23,7 +23,7 @@ ErrorMessage.create!(
   description: 'Administrador não aprovou a compra'
 )
 
-card_type = CardType.new(name: 'Gold', start_points: 100, emission: true)
+card_type = CardType.new(name: 'Gold', start_points: 1900, emission: true)
 card_type.icon.attach(
   io: Rails.root.join('spec/support/images/gold.svg').open,
   filename: 'gold.svg',
@@ -31,7 +31,7 @@ card_type.icon.attach(
 )
 card_type.save
 
-card_type2 = CardType.new(name: 'Platinum', start_points: 200, emission: true)
+card_type2 = CardType.new(name: 'Platinum', start_points: 2500, emission: true)
 card_type2.icon.attach(
   io: Rails.root.join('spec/support/images/premium.svg').open,
   filename: 'premium.svg',
@@ -39,7 +39,7 @@ card_type2.icon.attach(
 )
 card_type2.save
 
-other_card_type = CardType.new(name: 'Black', start_points: 300, emission: false)
+other_card_type = CardType.new(name: 'Black', start_points: 3000, emission: false)
 other_card_type.icon.attach(
   io: Rails.root.join('spec/support/images/black.svg').open,
   filename: 'black.svg',

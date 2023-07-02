@@ -17,7 +17,7 @@ describe 'API de recarga de cartões' do
       context 'e caso os dados sejam válidos:' do
         it 'atualiza os pontos, gera um deposito, gera um extrato e retorna mensagem de sucesso' do
           company = FactoryBot.create(:company_card_type, conversion_tax: 10)
-          card = FactoryBot.create(:card, cpf: '66268563670', points: 100, company_card_type: company)
+          card = FactoryBot.create(:card, cpf: '66268563670', company_card_type: company)
           request = { recharge: [{ cpf: card.cpf, value: 15 }] }
           patch '/api/v1/cards/recharge', params: request
           card.reload
@@ -29,11 +29,11 @@ describe 'API de recarga de cartões' do
           json_response = response.parsed_body
           expect(json_response[0]['cpf']).to eq '66268563670'
           expect(json_response[0]['message']).to eq 'Recarga efetuada com sucesso'
-          expect(card.points).to eq 117
+          expect(card.points).to eq 1650
           expect(card_deposit.card).to eq card
           expect(card_extract.card_number).to eq card.number
-          expect(card_deposit.amount).to eq 17
-          expect(card_extract.value).to eq 17
+          expect(card_deposit.amount).to eq 150
+          expect(card_extract.value).to eq 150
         end
 
         it 'retorne um erro caso a atualização não tenha sucesso' do
@@ -66,7 +66,7 @@ describe 'API de recarga de cartões' do
           json_response = response.parsed_body
           expect(json_response[0]['cpf']).to eq '66268563670'
           expect(json_response[0]['errors']).to eq 'Cartão não encontrado ou inativo'
-          expect(card.points).to eq 100
+          expect(card.points).to eq 1500
           expect(card_deposit).to be_falsy
           expect(card_extract).to be_falsy
         end
@@ -91,8 +91,8 @@ describe 'API de recarga de cartões' do
           expect(json_response[0]['message']).to eq 'Recarga efetuada com sucesso'
           expect(json_response[1]['cpf']).to eq '50226428087'
           expect(json_response[1]['message']).to eq 'Recarga efetuada com sucesso'
-          expect(first_card.points).to eq 117
-          expect(second_card.points).to eq 128
+          expect(first_card.points).to eq 1650
+          expect(second_card.points).to eq 1750
         end
 
         it 'gera um deposito e um extrato para cada' do
@@ -110,12 +110,12 @@ describe 'API de recarga de cartões' do
 
           expect(first_card_deposit.card).to eq first_card
           expect(first_card_extract.card_number).to eq first_card.number
-          expect(first_card_deposit.amount).to eq 17
-          expect(first_card_extract.value).to eq 17
+          expect(first_card_deposit.amount).to eq 150
+          expect(first_card_extract.value).to eq 150
           expect(second_card_deposit.card).to eq second_card
           expect(second_card_extract.card_number).to eq second_card.number
-          expect(second_card_deposit.amount).to eq 28
-          expect(second_card_extract.value).to eq 28
+          expect(second_card_deposit.amount).to eq 250
+          expect(second_card_extract.value).to eq 250
         end
       end
 
@@ -136,8 +136,8 @@ describe 'API de recarga de cartões' do
           expect(json_response[0]['message']).to eq 'Recarga efetuada com sucesso'
           expect(json_response[1]['cpf']).to eq '50226428087'
           expect(json_response[1]['errors']).to eq 'Cartão não encontrado ou inativo'
-          expect(first_card.points).to eq 117
-          expect(second_card.points).to eq 100
+          expect(first_card.points).to eq 1650
+          expect(second_card.points).to eq 1500
         end
 
         it 'gera um deposito e um extrato para o cartão que foi recarregado' do

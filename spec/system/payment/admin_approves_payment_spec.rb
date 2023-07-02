@@ -5,7 +5,7 @@ describe 'Administrador entra na tela de pagamentos' do
     describe 'um pagamento pré aprovado' do
       it 'sem usar cashback pois não existe nenhum' do
         admin = FactoryBot.create(:admin)
-        card = FactoryBot.create(:card)
+        card = FactoryBot.create(:card, points: 1500)
         payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 5)
 
         login_as admin
@@ -27,9 +27,9 @@ describe 'Administrador entra na tela de pagamentos' do
       it 'usando cashback com sucesso' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
-        card = FactoryBot.create(:card, company_card_type:, points: 100)
+        card = FactoryBot.create(:card, company_card_type:, points: 1500)
 
         other_payment = FactoryBot.create(:payment, order_number: 465_452, cpf: card.cpf, card_number: card.number,
                                                     final_value: 100)
@@ -52,15 +52,15 @@ describe 'Administrador entra na tela de pagamentos' do
         end
 
         expect(Cashback.first.used).to eq(true)
-        expect(Card.first.points).to eq(45)
+        expect(Card.first.points).to eq(480)
       end
 
       it 'sem usar cashback pois o cashback que existia já expirou' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
-        card = FactoryBot.create(:card, company_card_type:, points: 100)
+        card = FactoryBot.create(:card, company_card_type:, points: 1500)
 
         other_payment = FactoryBot.create(:payment, order_number: 465_452, cpf: card.cpf, card_number: card.number,
                                                     final_value: 100)
@@ -82,15 +82,15 @@ describe 'Administrador entra na tela de pagamentos' do
           expect(page).not_to have_content "Pedido #{payment.order_number}"
         end
         expect(Cashback.first.used).to eq(false)
-        expect(Card.first.points).to eq(40)
+        expect(Card.first.points).to eq(475)
       end
 
       it 'e tenta aprovar outro, porém falha pois não há saldo suficiente no cartão' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
-        card = FactoryBot.create(:card, company_card_type:, points: 100)
+        card = FactoryBot.create(:card, company_card_type:, points: 1500)
 
         other_payment = FactoryBot.create(:payment, order_number: 465_452, cpf: card.cpf, card_number: card.number,
                                                     final_value: 50)
@@ -118,9 +118,9 @@ describe 'Administrador entra na tela de pagamentos' do
       it 'e tenta aprovar, porém houve erro durante a transação' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
-        card = FactoryBot.create(:card, company_card_type:, points: 100)
+        card = FactoryBot.create(:card, company_card_type:, points: 1500)
         payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
         allow(Extract).to receive(:create).and_raise(ActiveRecord::RecordInvalid)
 
@@ -139,9 +139,9 @@ describe 'Administrador entra na tela de pagamentos' do
       it 'e gera um cashback corretamente' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
-        card = FactoryBot.create(:card, company_card_type:)
+        card = FactoryBot.create(:card, company_card_type:, points: 1500)
         payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
 
         login_as admin
@@ -159,13 +159,13 @@ describe 'Administrador entra na tela de pagamentos' do
           expect(page).not_to have_content "Pedido #{payment.order_number}"
         end
 
-        expect(Cashback.all.first.amount).to eq(2)
+        expect(Cashback.all.first.amount).to eq(31)
       end
 
       it 'e não gera um cashback pois o valor em pontos da compra não satisfaz o mínimo' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
         card = FactoryBot.create(:card, company_card_type:)
         payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 10)
@@ -194,7 +194,7 @@ describe 'Administrador entra na tela de pagamentos' do
         FactoryBot.create(:error_message, code: '003', description: 'Cartão não pertence ao CPF informado')
         FactoryBot.create(:error_message, code: '004', description: 'Valor da compra é maior que o saldo do cartão')
         admin = FactoryBot.create(:admin)
-        card = FactoryBot.create(:card, cpf: '22253043001')
+        card = FactoryBot.create(:card, cpf: '22253043001', points: 1500)
         first_pay = FactoryBot.create(:payment, cpf: '22253043001', card_number: card.number, order_number: '1234567')
         second_pay = FactoryBot.create(:payment, cpf: '19261109004', card_number: card.number, order_number: '7845123')
 
@@ -222,7 +222,7 @@ describe 'Administrador entra na tela de pagamentos' do
 
       it 'e gera um extrato de pagamento' do
         admin = FactoryBot.create(:admin)
-        card = FactoryBot.create(:card)
+        card = FactoryBot.create(:card, points: 1500)
         payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 5)
 
         login_as admin
@@ -237,7 +237,7 @@ describe 'Administrador entra na tela de pagamentos' do
         extract = Extract.first
         expect(Extract.all.length).to eq 1
         expect(extract.date).to eq payment.payment_date
-        expect(extract.value).to eq 5
+        expect(extract.value).to eq 50
         expect(extract.card_number).to eq card.number
         expect(extract.description).to eq "Pedido #{payment.order_number}"
         expect(extract.operation_type).to eq 'débito'
@@ -246,10 +246,10 @@ describe 'Administrador entra na tela de pagamentos' do
       it 'e gera um extrato de cashback' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, cashback_percentage: 3, days_to_use: 10,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20)
         card = FactoryBot.create(:card, company_card_type:)
-        card.update!(points: 200)
+        card.update!(points: 2000)
         payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 100)
 
         login_as admin
@@ -266,7 +266,7 @@ describe 'Administrador entra na tela de pagamentos' do
         venc = card.company_card_type.cashback_rule.days_to_use
         expect(Extract.all.length).to eq 2
         expect(extract.date).to eq cashback.created_at
-        expect(extract.value).to eq 4
+        expect(extract.value).to eq 60
         expect(extract.card_number).to eq card.number
         expect(extract.description).to eq "Cashback #{payment.order_number} Válido por #{venc} dia(s)"
         expect(extract.operation_type).to eq 'crédito'
@@ -277,7 +277,7 @@ describe 'Administrador entra na tela de pagamentos' do
   context 'e reprova' do
     it 'um pagamento pre aprovado com sucesso' do
       admin = FactoryBot.create(:admin)
-      card = FactoryBot.create(:card)
+      card = FactoryBot.create(:card, points: 1500)
       payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 5)
 
       login_as admin
@@ -302,7 +302,7 @@ describe 'Administrador entra na tela de pagamentos' do
       FactoryBot.create(:error_message, code: '003', description: 'Cartão não pertence ao CPF informado')
       FactoryBot.create(:error_message, code: '004', description: 'Valor da compra é maior que o saldo do cartão')
       admin = FactoryBot.create(:admin)
-      card = FactoryBot.create(:card, cpf: '22253043001')
+      card = FactoryBot.create(:card, cpf: '22253043001', points: 1500)
       payment = FactoryBot.create(:payment, cpf: '19261109004', card_number: card.number)
 
       login_as admin
@@ -328,7 +328,7 @@ describe 'Administrador entra na tela de pagamentos' do
       FactoryBot.create(:error_message, code: '003', description: 'Cartão não pertence ao CPF informado')
       FactoryBot.create(:error_message, code: '004', description: 'Valor da compra é maior que o saldo do cartão')
       admin = FactoryBot.create(:admin)
-      card = FactoryBot.create(:card, cpf: '22253043001')
+      card = FactoryBot.create(:card, cpf: '22253043001', points: 1500)
       first_pay = FactoryBot.create(:payment, cpf: '22253043001', card_number: card.number, order_number: '1234567')
       second_pay = FactoryBot.create(:payment, cpf: '19261109004', card_number: card.number, order_number: '7845123')
 
