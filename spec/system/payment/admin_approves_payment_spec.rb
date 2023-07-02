@@ -27,7 +27,7 @@ describe 'Administrador entra na tela de pagamentos' do
       it 'usando cashback com sucesso' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
         card = FactoryBot.create(:card, company_card_type:, points: 1500)
 
@@ -58,7 +58,7 @@ describe 'Administrador entra na tela de pagamentos' do
       it 'sem usar cashback pois o cashback que existia já expirou' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
         card = FactoryBot.create(:card, company_card_type:, points: 1500)
 
@@ -88,7 +88,7 @@ describe 'Administrador entra na tela de pagamentos' do
       it 'e tenta aprovar outro, porém falha pois não há saldo suficiente no cartão' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
         card = FactoryBot.create(:card, company_card_type:, points: 1500)
 
@@ -118,7 +118,7 @@ describe 'Administrador entra na tela de pagamentos' do
       it 'e tenta aprovar, porém houve erro durante a transação' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
         card = FactoryBot.create(:card, company_card_type:, points: 1500)
         payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
@@ -139,7 +139,7 @@ describe 'Administrador entra na tela de pagamentos' do
       it 'e gera um cashback corretamente' do
         admin = FactoryBot.create(:admin)
         cashback_rule = FactoryBot.create(:cashback_rule, days_to_use: 10, cashback_percentage: 3,
-                                                          minimum_amount_points: 50)
+                                                          minimum_amount_points: 500)
         company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20.5)
         card = FactoryBot.create(:card, company_card_type:, points: 1500)
         payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 50)
