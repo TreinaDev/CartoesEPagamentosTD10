@@ -12,7 +12,7 @@ describe Company do
       expect(result.size).to eq 3
       expect(result[0].id).to eq 1
       expect(result[0].brand_name).to eq 'Samsung'
-      expect(result[0].registration_number).to eq '71.223.406/0001-81'
+      expect(result[0].registration_number).to eq '71223406000181'
       expect(result[0].active).to eq true
       expect(result[1].id).to eq 2
       expect(result[2].id).to eq 3

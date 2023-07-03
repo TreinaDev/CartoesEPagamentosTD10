@@ -1,4 +1,5 @@
 pt-BR:
+  search: Busca
   activerecord:
     errors:
       messages:

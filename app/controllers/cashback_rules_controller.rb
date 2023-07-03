@@ -15,6 +15,14 @@ class CashbackRulesController < ApplicationController
     render :new, status: :unprocessable_entity
   end
 
+  def search
+    search = params[:search]
+    @cashback_rules = CashbackRule.where(
+      '(minimum_amount_points LIKE ? OR cashback_percentage LIKE ? OR days_to_use LIKE ?)', "%#{search}%",
+      "%#{search}%", "%#{search}%"
+    )
+  end
+
   private
 
   def cashback_rules_params

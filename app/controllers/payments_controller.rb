@@ -32,6 +32,20 @@ class PaymentsController < ApplicationController
     redirect_to pending_payments_path, notice: I18n.t('notices.payment_rejected')
   end
 
+  def search_pending
+    search = params[:search]
+    @pre_approved = Payment.where('(order_number LIKE ? OR cpf LIKE ?) AND (status = 2)', "%#{search}%",
+                                  "%#{search}%")
+    @pre_reproved = Payment.where('(order_number LIKE ? OR cpf LIKE ?) AND (status = 4)', "%#{search}%",
+                                  "%#{search}%")
+  end
+
+  def search_ended
+    search = params[:search]
+    @finished_payments = Payment.where('(order_number LIKE ? OR cpf LIKE ?) AND (status = 3 OR status = 5)',
+                                       "%#{search}%", "%#{search}%")
+  end
+
   private
 
   def get_payment_card(payment)

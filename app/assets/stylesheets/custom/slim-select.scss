@@ -1,0 +1,58 @@
+.ss-main {
+    font-weight: normal;
+    color: #FFFFFF !important;
+    height: 48px;
+    border: none !important;
+    border-radius: 8px !important;
+    background-color: #18181B !important;
+    padding-inline: 1rem !important;
+    &:focus {
+        box-shadow: none !important;
+        outline: #FFFFFF solid 1px;
+    }
+    &.ss-open-below {
+        border-radius: 8px 8px 0 0 !important;
+        border: solid !important;
+        border-width: 1px 1px 0 1px !important;
+    }
+    &.ss-open-above {
+        border-radius: 0 0 8px 8px !important;
+        border: solid !important;
+        border-width: 0 1px 1px 1px !important;
+    }
+}
+
+.ss-search {
+    input {
+        background-color: #18181B !important;
+        color: #FFFFFF !important;
+    }
+}
+
+.ss-option {
+    font-weight: normal !important;
+    color: #FFFFFF !important;
+    font-weight: normal !important;
+}
+
+.ss-content {
+    background-color: #18181B !important;
+    border: solid !important;
+    border-radius: 0 0 8px 8px !important;
+    border-width: 0 1px 1px 1px !important;
+
+
+    &.ss-open-above {
+        border-radius: 8px 8px 0 0 !important;
+        border-width: 1px 1px 0 1px !important;
+    }
+}
+
+mark {
+    padding: 0 0.1875em !important;
+    color: #FFFFFF;
+}
+
+.ss-search-highlight {
+    background-color: #5897fb !important;
+}

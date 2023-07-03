@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   devise_for :admins
   root "home#index"
 
-  resources :companies, only: [:show, :index]
+  resources :companies, only: [:show, :index] do
+    get 'search', on: :collection
+  end
   resources :company_card_types, only: [:create, :update] do
     patch 'enable', on: :member
     patch 'disable', on: :member
@@ -14,13 +16,17 @@ Rails.application.routes.draw do
   end
 
   resources :payments, only: [] do
+    get 'search_pending', on: :collection
+    get 'search_ended', on: :collection
     patch 'approve', on: :member
     patch 'reprove', on: :member
     get 'pending', on: :collection
     get 'finished', on: :collection
   end
 
-  resources :cashback_rules, only: [:index, :new, :create, :edit, :update]
+  resources :cashback_rules, only: [:index, :new, :create, :edit, :update] do
+    get 'search', on: :collection
+  end
 
   namespace :api do
     namespace :v1 do

@@ -4,6 +4,12 @@ class CompaniesController < ApplicationController
     @companies = companies_data.filter { |c| c.active == true }
   end
 
+  def search
+    search = params[:search]
+    companies_data = Company.all(search)
+    @companies = companies_data.filter { |c| c.active == true }
+  end
+
   def show
     @company = Company.find(params[:id])
     redirect_to companies_path, notice: I18n.t('.companies.index.inactive_company') unless @company.active

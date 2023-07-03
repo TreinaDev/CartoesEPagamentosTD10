@@ -10,7 +10,7 @@
 <%= form_with url: company_card_types_path, scope: :company_card_type do |f| %>
   <div class='w-100'>
     <%= f.label :cashback_rule_id, t('.cashback_rule') %>
-    <%= f.collection_select :cashback_rule_id, @cashback_rules, :id, :description, prompt: t('.choose_cashback_rule') %>
+    <%= f.collection_select :cashback_rule_id, @cashback_rules, :id, :description, { include_blank: t('.choose_cashback_rule') }, {data: {controller: 'slim'}} %>
   </div>
 
   <div class='w-50'>

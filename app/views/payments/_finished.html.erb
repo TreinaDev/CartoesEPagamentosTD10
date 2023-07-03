@@ -1,0 +1,19 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.finished_payments') %></li>
+  </ol>
+</nav>
+
+<%= render partial: 'shared/search_bar', locals: {i18n_path: 'payments.finished.finished_payments', especific_search_path: search_ended_payments_path,
+                                                  placeholder: 'Pesquisar pelo número do pedido ou cpf', search: search }%>
+
+<section class='container-grid'>
+    <% if @finished_payments.empty? %>
+        <span><%= t('.no_finished_payments') %></span>
+    <% else %>
+        <%@finished_payments.each do |payment|%>
+            <%= render partial: 'payment_info', locals: {payment: payment}%>
+        <%end%>
+    <% end %>
+</section>

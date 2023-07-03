@@ -1,0 +1,39 @@
+.search-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.search-header > span {
+    padding: .3rem .5rem;
+    font-size: small;
+    color: #FFFFFF;
+    border-radius: 4px;
+    background-color: #0D6EFD;
+}
+
+.search-body {
+    position: relative;
+    width: 462px;
+}
+
+.search-btn {
+    position: absolute;
+    top: 0; right: 0;
+    background-color: transparent;
+    border: none;
+    height: 48px;
+}
+
+.search-icon {
+    color: #828282;
+    padding-inline: 1rem;
+    transition: all .3s ease-in-out;
+    
+    &:hover {
+        color: #fff;
+    }
+}
+

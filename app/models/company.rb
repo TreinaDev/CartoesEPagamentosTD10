@@ -8,14 +8,13 @@ class Company
     @active = active
   end
 
-  def self.all
-    companies = []
+  def self.all(search_query = nil)
     response = Faraday.get('http://localhost:3000/api/v1/companies')
+    companies = []
     if response.status == 200
       data = JSON.parse(response.body)
-      data.each { |d| companies << build_company(d) }
+      companies = build_companies(data, search_query)
     end
-
     companies
   rescue Faraday::ConnectionFailed
     raise CompanyConnectionError
@@ -33,12 +32,28 @@ class Company
     raise CompanyConnectionError
   end
 
+  def matches_search?(search_query)
+    return true if search_query.empty?
+
+    regex = /#{Regexp.escape(search_query)}/i
+    brand_name.match?(regex) || registration_number.match?(regex)
+  end
+
   class << self
     private
 
     def build_company(data)
       Company.new(id: data['id'], brand_name: data['brand_name'],
                   registration_number: data['registration_number'], active: data['active'])
+    end
+
+    def build_companies(data, search_query)
+      companies = []
+      data.each do |d|
+        company = build_company(d)
+        companies << company if search_query.nil? || company.matches_search?(search_query)
+      end
+      companies
     end
   end
 end

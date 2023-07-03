@@ -1,0 +1,22 @@
+<nav aria-label="breadcrumb" >
+  <ol class="breadcrumb" >
+    <li class="breadcrumb-item fw-bold"><%= link_to t('breadcrumb.home'), root_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= t('breadcrumb.companies') %></li>
+  </ol>
+</nav>
+
+<%= render partial: 'shared/search_bar', locals: {i18n_path: 'companies.index.provide_card_types', especific_search_path: search_companies_path,
+                                                                 placeholder: 'Pesquisar pelo nome ou cnpj', search: search }%>
+
+<section class='d-flex flex-column gap-3'>
+  <% if @companies.present? %>
+    <% @companies.each do |company| %>
+      <%= link_to company_path(company.id), id: company.id, class: 'company-card' do %>
+        <span class='company-name'><%= company.brand_name %></span>
+        <span class='company-registration-number'><%= t('.registration_number') %>: <%= cnpj_formatter(company.registration_number) %></span>
+      <% end %>
+    <% end %> 
+  <% else %>
+    <p><%= t('.not_found_message') %></p>
+  <% end %>
+</section>
