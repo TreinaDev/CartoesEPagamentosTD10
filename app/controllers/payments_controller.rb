@@ -7,7 +7,7 @@ class PaymentsController < ApplicationController
   end
 
   def finished
-    @finished_payments = Payment.where('status = 3 or status = 5')
+    @finished_payments = Payment.where('status = 3 or status = 5').order(updated_at: :desc)
   end
 
   def approve

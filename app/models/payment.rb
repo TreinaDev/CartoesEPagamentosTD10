@@ -45,7 +45,7 @@ class Payment < ApplicationRecord
       debit_points(card, cashback, final_value)
       Extract.create!(date: payment_date, operation_type: 'débito', value: final_value,
                       description: "Pedido #{order_number}", card_number: card.number)
-      next if card.company_card_type.cashback_rule.blank?
+      next true if card.company_card_type.cashback_rule.blank?
 
       Cashback.create_cashback_if_possible(final_value, card, self)
       true
