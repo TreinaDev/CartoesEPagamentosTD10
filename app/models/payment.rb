@@ -108,7 +108,6 @@ class Payment < ApplicationRecord
 
   def debit_points(card, cashback, final_value, payment)
     cashback.change_cashback_used(payment, card) if cashback.present?
-
     card.points -= final_value
     card.save!
     approved!

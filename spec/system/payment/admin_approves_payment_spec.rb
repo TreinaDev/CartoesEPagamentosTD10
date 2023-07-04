@@ -261,7 +261,7 @@ describe 'Administrador entra na tela de pagamentos' do
           click_on 'Aprovar pagamento'
         end
 
-        extract = Extract.last
+        extract = Extract.find(2)
         cashback = Cashback.first
         venc = card.company_card_type.cashback_rule.days_to_use
         expect(Extract.all.length).to eq 2
@@ -269,7 +269,39 @@ describe 'Administrador entra na tela de pagamentos' do
         expect(extract.value).to eq 60
         expect(extract.card_number).to eq card.number
         expect(extract.description).to eq "Cashback #{payment.order_number} Válido por #{venc} dia(s)"
-        expect(extract.operation_type).to eq 'crédito'
+        expect(extract.operation_type).to eq 'cashback_created'
+      end
+
+      it 'e gera um extrato de uso de cashback' do
+        admin = FactoryBot.create(:admin)
+        cashback_rule = FactoryBot.create(:cashback_rule, cashback_percentage: 3, days_to_use: 10,
+                                                          minimum_amount_points: 500)
+        company_card_type = FactoryBot.create(:company_card_type, cashback_rule:, conversion_tax: 20)
+        card = FactoryBot.create(:card, company_card_type:)
+        card.update!(points: 3000)
+        other_payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 100,
+                                                    status: 3)
+        FactoryBot.create(:cashback, amount: 60, card:, payment: other_payment, cashback_rule:)
+        payment = FactoryBot.create(:payment, cpf: card.cpf, card_number: card.number, final_value: 110,
+                                              order_number: 2)
+
+        login_as admin
+        visit root_path
+        within '#payment' do
+          click_on 'Pendentes'
+        end
+        within "##{payment.order_number}" do
+          click_on 'Aprovar pagamento'
+        end
+
+        ext = Extract.first
+        expect(Extract.all.length).to eq 3
+        expect(ext.date).to eq payment.updated_at
+        expect(ext.value).to eq 60
+
+        expect(ext.card_number).to eq card.number
+        expect(ext.description).to eq "Cashback #{other_payment.order_number} usado no pedido #{payment.order_number}"
+        expect(ext.operation_type).to eq 'cashback_used'
       end
     end
   end

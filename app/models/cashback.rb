@@ -25,7 +25,8 @@ class Cashback < ApplicationRecord
   end
 
   def generate_cashback_use_extract(payment, card)
-    Extract.create(date: created_at, operation_type: 'cashback_used', value: amount,
-                   description: "Cashback #{self.payment.order_number} usado no pedido #{payment.order_number}", card_number: card.number)
+    Extract.create(date: payment.updated_at, operation_type: 'cashback_used', value: amount,
+                   description: "Cashback #{self.payment.order_number} usado no pedido #{payment.order_number}",
+                   card_number: card.number)
   end
 end
