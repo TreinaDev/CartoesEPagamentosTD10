@@ -18,7 +18,7 @@ class Api::V1::ExtractsController < Api::V1::ApiController
         date: c.date,
         operation_type: c.operation_type,
         description: c.description,
-        value: (c.value).abs
+        value: c.value.abs
       }
     end
   end

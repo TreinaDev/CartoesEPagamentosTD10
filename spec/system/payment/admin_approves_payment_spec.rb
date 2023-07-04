@@ -269,7 +269,7 @@ describe 'Administrador entra na tela de pagamentos' do
         expect(extract.value).to eq 60
         expect(extract.card_number).to eq card.number
         expect(extract.description).to eq "Cashback #{payment.order_number} Válido por #{venc} dia(s)"
-        expect(extract.operation_type).to eq 'cashback_created'
+        expect(extract.operation_type).to eq 'cashback_criado'
       end
 
       it 'e gera um extrato de uso de cashback' do
@@ -301,7 +301,7 @@ describe 'Administrador entra na tela de pagamentos' do
 
         expect(ext.card_number).to eq card.number
         expect(ext.description).to eq "Cashback #{other_payment.order_number} usado no pedido #{payment.order_number}"
-        expect(ext.operation_type).to eq 'cashback_used'
+        expect(ext.operation_type).to eq 'cashback_usado'
       end
     end
   end
