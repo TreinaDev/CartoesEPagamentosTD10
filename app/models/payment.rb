@@ -42,7 +42,7 @@ class Payment < ApplicationRecord
 
   def process_payment_approval(card, cashback, final_value)
     ActiveRecord::Base.transaction do
-      debit_points(card, cashback, final_value)
+      debit_points(card, cashback, final_value, self)
       Extract.create!(date: payment_date, operation_type: 'débito', value: final_value,
                       description: "Pedido #{order_number}", card_number: card.number)
       next true if card.company_card_type.cashback_rule.blank?
@@ -106,8 +106,8 @@ class Payment < ApplicationRecord
     false if ErrorsAssociation.create(payment_id: id, error_message_id: 4)
   end
 
-  def debit_points(card, cashback, final_value)
-    cashback.change_cashback_used if cashback.present?
+  def debit_points(card, cashback, final_value, payment)
+    cashback.change_cashback_used(payment, card) if cashback.present?
 
     card.points -= final_value
     card.save!
